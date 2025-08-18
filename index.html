@@ -4,7 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Goosebox</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="assets/logo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/logo.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/logo.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/logo.png">
+  
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 国旗图标库 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" />
   <script>
     tailwind.config = {
       theme: {
@@ -31,29 +40,7 @@
     @keyframes float { 0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)} }
     .logo { height: 50px; width: auto; }
     .flogo { height: 80px; width: auto; }
-    /* 默认显示中文，隐藏英文 */
-    [lang="zh"] { display: inline; }
-    [lang="en"] { display: inline; }
   </style>
-
-  <!-- 多语言切换脚本（参考 index.html 的实现方式） -->
-  <script>
-		function switchLang(lang) {
-			document.querySelectorAll('[lang]').forEach(el => {
-				el.style.display = el.getAttribute('lang') === lang ? '' : 'none';
-			});
-			// 设置页面标题
-      if (lang === 'zh') {
-        document.title = 'Goosebox — 鹅场挂机养成';
-      } else {
-        document.title = 'Goosebox — Idle Goose Farm';
-      }
-		}
-		// 页面加载后默认语言为中文
-		window.addEventListener('DOMContentLoaded', () => {
-			switchLang('zh');
-		});
-  </script>
 </head>
 <body class="bg-wood-50 text-stone-700">
 
@@ -66,30 +53,27 @@
           <img alt="Goosebox Logo" class="logo" loading="lazy" src="assets/logo.png"/>
           <div class="leading-tight">
             <div class="font-extrabold text-lg">Goosebox</div>
-            <div class="text-white/80 text-xs">
-              <span lang="zh">鹅场挂机养成 · Idle Goose</span>
-              <span lang="en">Idle Goose Farm · Casual Game</span>
-            </div>
+            <div class="text-white/80 text-xs" id="subtitle"></div>
           </div>
         </div>
 
         <!-- 桌面端导航 -->
         <nav class="hidden md:flex items-center gap-6 text-white/90">
-          <a href="#home" class="hover:text-white">
-            <span lang="zh">主页</span><span lang="en">Home</span>
-          </a>
-          <a href="#mechanics" class="hover:text-white">
-            <span lang="zh">亮点</span><span lang="en">Highlights</span>
-          </a>
-          <a href="#download" class="hover:text-white">
-            <span lang="zh">下载</span><span lang="en">Download</span>
-          </a>
-          <a href="#faq" class="hover:text-white">
-            <span lang="zh">FAQ</span><span lang="en">FAQ</span>
-          </a>
-          <!-- 语言切换 -->
-          <a href="#" onclick="switchLang('en')" class="hover:text-white" lang="zh">English</a>
-          <a href="#" onclick="switchLang('zh')" class="hover:text-white" lang="en">中文</a>
+          <a href="#home" class="hover:text-white" data-lang="nav.home"></a>
+          <a href="#mechanics" class="hover:text-white" data-lang="nav.highlights"></a>
+          <a href="#download" class="hover:text-white" data-lang="nav.download"></a>
+          <a href="#faq" class="hover:text-white" data-lang="nav.faq"></a>
+          
+                     <!-- 语言选择器 -->
+           <div class="relative group">
+             <button class="flex items-center gap-2 hover:text-white transition-colors duration-200" id="currentLang">
+               <span id="currentLangFlag" class="fi fi-cn text-lg"></span>
+               <span id="currentLangName">中文</span>
+             </button>
+             <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 bg-white rounded-ui shadow-ui border border-wood-200 py-2 min-w-[180px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top scale-95 group-hover:scale-100">
+               <div id="languageOptions"></div>
+             </div>
+           </div>
         </nav>
       </div>
     </div>
@@ -100,23 +84,10 @@
     <div class="max-w-6xl mx-auto px-4 py-12 md:py-16">
       <div class="grid md:grid-cols-2 gap-8 items-center">
         <div>
-          <h1 class="text-3xl md:text-4xl font-extrabold text-wood-900 leading-tight">
-            <span lang="zh">鹅场挂机 · 宝箱掉落 · 合成进阶</span>
-            <span lang="en">Idle Goose · Chest Drops · Merge & Progress</span>
-          </h1>
-          <p class="mt-4 text-stone-700">
-            <span lang="zh">
-              放置与点触结合，让 <b>Goosebox</b> 自动“产蛋”。开箱与任务积累碎片，合成稀有道具，赚取 <b>DIAMOND</b> 与 <b>Pharos</b>。
-            </span>
-            <span lang="en">
-              Tap-and-idle gameplay—let <b>Goosebox</b> auto “lay eggs”. Open chests and complete quests to gather shards, merge rare items, and earn <b>DIAMOND</b> & <b>Pharos</b>.
-            </span>
-          </p>
+          <h1 class="text-3xl md:text-4xl font-extrabold text-wood-900 leading-tight" id="heroTitle"></h1>
+          <p class="mt-4 text-stone-700" id="heroDescription"></p>
           <div class="mt-8 flex flex-col sm:flex-row gap-3">
-            <a href="https://goosebox-dapp.netlify.app" class="px-6 py-3 rounded-ui bg-hay-400 text-wood-900 font-bold shadow-ui hover:bg-hay-300">
-              <span lang="zh">立即开始</span>
-              <span lang="en">Play Now</span>
-            </a>
+            <a href="https://goosebox-dapp.netlify.app" class="px-6 py-3 rounded-ui bg-hay-400 text-wood-900 font-bold shadow-ui hover:bg-hay-300" id="playNowBtn"></a>
           </div>
         </div>
 
@@ -136,56 +107,36 @@
         <article class="rounded-[18px] bg-white border border-wood-200 p-6 shadow-ui">
           <div class="flex items-center gap-2">
             <span class="w-8 h-8 rounded-full bg-wood-100 text-wood-700 font-extrabold flex items-center justify-center">A</span>
-            <h3 class="font-extrabold text-lg text-wood-900">
-              <span lang="zh">挂机养鹅</span><span lang="en">Idle Goose</span>
-            </h3>
+            <h3 class="font-extrabold text-lg text-wood-900" data-lang="highlights.idle.title"></h3>
           </div>
-          <p class="mt-3 text-stone-700">
-            <span lang="zh">放置自动产蛋，轻松领取 <b>DIAMOND</b> / <b>Pharos</b> 奖励。</span>
-            <span lang="en">Automated egg production; easily claim <b>DIAMOND</b> / <b>Pharos</b> rewards.</span>
-          </p>
+          <p class="mt-3 text-stone-700" data-lang="highlights.idle.description"></p>
         </article>
 
         <!-- B 升级鹅舍 -->
         <article class="rounded-[18px] bg-white border border-wood-200 p-6 shadow-ui">
           <div class="flex items-center gap-2">
             <span class="w-8 h-8 rounded-full bg-wood-100 text-wood-700 font-extrabold flex items-center justify-center">B</span>
-            <h3 class="font-extrabold text-lg text-wood-900">
-              <span lang="zh">升级鹅舍</span><span lang="en">Upgrade Goosehouse</span>
-            </h3>
+            <h3 class="font-extrabold text-lg text-wood-900" data-lang="highlights.upgrade.title"></h3>
           </div>
-          <p class="mt-3 text-stone-700">
-            <span lang="zh">消耗 DIAMOND 提升产线与设施，解锁新鹅与更多外观。</span>
-            <span lang="en">Spend DIAMONDs to boost lines and facilities; unlock new geese and cosmetics.</span>
-          </p>
+          <p class="mt-3 text-stone-700" data-lang="highlights.upgrade.description"></p>
         </article>
 
         <!-- C 任务 & 社区 -->
         <article class="rounded-[18px] bg-white border border-wood-200 p-6 shadow-ui">
           <div class="flex items-center gap-2">
             <span class="w-8 h-8 rounded-full bg-wood-100 text-wood-700 font-extrabold flex items-center justify-center">C</span>
-            <h3 class="font-extrabold text-lg text-wood-900">
-              <span lang="zh">任务 & 社区</span><span lang="en">Quests & Community</span>
-            </h3>
+            <h3 class="font-extrabold text-lg text-wood-900" data-lang="highlights.community.title"></h3>
           </div>
-          <p class="mt-3 text-stone-700">
-            <span lang="zh">完成任务、参与社区互动，获得额外加速与资源奖励。</span>
-            <span lang="en">Complete tasks & join the community to get extra boosts and resources.</span>
-          </p>
+          <p class="mt-3 text-stone-700" data-lang="highlights.community.description"></p>
         </article>
 
         <!-- D 早期加成 -->
         <article class="rounded-[18px] bg-white border border-wood-200 p-6 shadow-ui">
           <div class="flex items-center gap-2">
             <span class="w-8 h-8 rounded-full bg-wood-100 text-wood-700 font-extrabold flex items-center justify-center">D</span>
-            <h3 class="font-extrabold text-lg text-wood-900">
-              <span lang="zh">早期加成</span><span lang="en">Early Perks</span>
-            </h3>
+            <h3 class="font-extrabold text-lg text-wood-900" data-lang="highlights.early.title"></h3>
           </div>
-          <p class="mt-3 text-stone-700">
-            <span lang="zh">为后续版本做准备，早期玩家可获取专属奖励与纪念徽章。</span>
-            <span lang="en">Prepare for future versions—early players get exclusive rewards & badges.</span>
-          </p>
+          <p class="mt-3 text-stone-700" data-lang="highlights.early.description"></p>
         </article>
       </div>
     </div>
@@ -195,85 +146,25 @@
   <section id="download" class="py-12">
     <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-6 items-center">
       <div>
-        <h2 class="text-2xl font-extrabold text-wood-900">
-          <span lang="zh">下载 & 快速上手</span>
-          <span lang="en">Download & Get Started</span>
-        </h2>
-        <p class="text-stone-600 mt-2">
-          <span lang="zh">三步起养，轻松挂机。</span>
-          <span lang="en">Start in three steps. Easy idle play.</span>
-        </p>
-        <ol class="mt-3 list-decimal ml-5 text-stone-700 space-y-1">
-          <li><span lang="zh">打开 <b>Web 版本</b> 进入 Goosebox</span><span lang="en">Open the <b>Web version</b> to enter Goosebox</span></li>
-          <li><span lang="zh">登录/注册并完成新手任务</span><span lang="en">Sign up / log in and finish the tutorial quests</span></li>
-          <li><span lang="zh">升级鹅舍与产线，开启冲刺</span><span lang="en">Upgrade goosehouse and lines to sprint forward</span></li>
-        </ol>
+        <h2 class="text-2xl font-extrabold text-wood-900" id="downloadTitle"></h2>
+        <p class="text-stone-600 mt-2" id="downloadSubtitle"></p>
+        <ol class="mt-3 list-decimal ml-5 text-stone-700 space-y-1" id="downloadSteps"></ol>
         <div class="mt-5">
           <a href="https://goosebox-dapp.netlify.app"
-             class="inline-flex items-center px-6 py-3 rounded-[18px] bg-hay-400 text-wood-900 font-bold shadow-ui hover:bg-hay-300">
-            <span lang="zh">进入 Web 版本</span>
-            <span lang="en">Open Web Version</span>
-          </a>
+             class="inline-flex items-center px-6 py-3 rounded-[18px] bg-hay-400 text-wood-900 font-bold shadow-ui hover:bg-hay-300" id="downloadBtn"></a>
         </div>
       </div>
 
       <div class="rounded-[18px] bg-white border border-wood-200 p-6 shadow-ui">
-        <div class="text-sm text-stone-500">
-          <span lang="zh">小贴士</span><span lang="en">Tips</span>
-        </div>
-        <p class="mt-1 text-stone-700">
-          <span lang="zh">完成每日任务可额外掉落 Pharos 碎片；参与社区活动可获得加速奖励。</span>
-          <span lang="en">Daily quests may drop extra Pharos shards; community events grant speed boosts.</span>
-        </p>
+        <div class="text-sm text-stone-500" id="tipsTitle"></div>
+        <p class="mt-1 text-stone-700" id="tipsContent"></p>
       </div>
     </div>
   </section>
 
   <!-- FAQ -->
   <section id="faq" class="py-12 bg-wood-50">
-    <div class="max-w-4xl mx-auto px-4 space-y-4">
-      <details class="rounded-ui bg-white border border-wood-200 p-4 shadow-ui group">
-        <summary class="cursor-pointer font-semibold flex items-center justify-between">
-          <span>
-            <span lang="zh">离线收益怎么领？</span>
-            <span lang="en">How to claim offline earnings?</span>
-          </span>
-          <span class="text-stone-400 group-open:rotate-180 transition">⌄</span>
-        </summary>
-        <div class="mt-3 text-stone-700">
-          <span lang="zh">回到游戏首页点击“领取”，即可一次性收取离线期间的产蛋累计。</span>
-          <span lang="en">Return to the home screen and tap “Claim” to collect all eggs produced while offline.</span>
-        </div>
-      </details>
-
-      <details class="rounded-ui bg-white border border-wood-200 p-4 shadow-ui group">
-        <summary class="cursor-pointer font-semibold flex items-center justify-between">
-          <span>
-            <span lang="zh">如何获得更多 DIAMOND/Pharos？</span>
-            <span lang="en">How to get more DIAMOND/Pharos?</span>
-          </span>
-          <span class="text-stone-400 group-open:rotate-180 transition">⌄</span>
-        </summary>
-        <div class="mt-3 text-stone-700">
-          <span lang="zh">做任务、参与活动、推广助力与开箱；稀有宝箱概率出大量代币与限定装饰。</span>
-          <span lang="en">Complete quests, join events, referrals, and open chests; rare chests may drop lots of tokens and exclusives.</span>
-        </div>
-      </details>
-
-      <details class="rounded-ui bg-white border border-wood-200 p-4 shadow-ui group">
-        <summary class="cursor-pointer font-semibold flex items-center justify-between">
-          <span>
-            <span lang="zh">推广奖励规则？</span>
-            <span lang="en">Referral rewards?</span>
-          </span>
-          <span class="text-stone-400 group-open:rotate-180 transition">⌄</span>
-        </summary>
-        <div class="mt-3 text-stone-700">
-          <span lang="zh">邀请即得宝箱；关系绑定后可持续获得下线活跃返利。</span>
-          <span lang="en">Inviting grants a chest; once bound, you’ll continuously earn kickbacks from your downline’s activity.</span>
-        </div>
-      </details>
-    </div>
+    <div class="max-w-4xl mx-auto px-4 space-y-4" id="faqContainer"></div>
   </section>
 
   <footer class="bg-white border-t border-wood-200">
@@ -300,12 +191,145 @@
         </a>
       </div>
 
-      <p class="text-stone-400">
-        <span lang="zh">© 2025 Goosebox</span>
-        <span lang="en">© 2025 Goosebox</span>
-      </p>
+      <p class="text-stone-400">© 2025 Goosebox</p>
     </div>
   </footer>
+
+  <!-- 加载语言包 -->
+  <script src="js/languages.js"></script>
+  
+  <!-- 语言管理脚本 -->
+  <script>
+    let currentLang = defaultLanguage;
+
+    // 初始化语言
+    function initLanguage() {
+      // 从localStorage获取保存的语言
+      const savedLang = localStorage.getItem('goosebox_lang');
+      if (savedLang && languageConfig[savedLang]) {
+        currentLang = savedLang;
+      }
+      updateLanguage(currentLang);
+      renderLanguageSelector();
+    }
+
+    // 更新页面语言
+    function updateLanguage(lang) {
+      const langData = getLanguageData(lang);
+      
+      // 更新页面标题
+      document.title = langData.title;
+      
+      // 更新所有带有data-lang属性的元素
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        const key = el.getAttribute('data-lang');
+        const value = getNestedValue(langData, key);
+        if (value) {
+          if (el.tagName === 'INPUT' && el.type === 'placeholder') {
+            el.placeholder = value;
+          } else {
+            el.textContent = value;
+          }
+        }
+      });
+
+      // 更新特殊元素
+      document.getElementById('subtitle').textContent = langData.subtitle;
+      document.getElementById('heroTitle').textContent = langData.hero.title;
+      document.getElementById('heroDescription').innerHTML = langData.hero.description;
+      document.getElementById('playNowBtn').textContent = langData.hero.playNow;
+      document.getElementById('downloadTitle').textContent = langData.download.title;
+      document.getElementById('downloadSubtitle').textContent = langData.download.subtitle;
+      document.getElementById('downloadBtn').textContent = langData.download.button;
+      document.getElementById('tipsTitle').textContent = langData.download.tips.title;
+      document.getElementById('tipsContent').textContent = langData.download.tips.content;
+
+      // 更新下载步骤
+      const stepsContainer = document.getElementById('downloadSteps');
+      stepsContainer.innerHTML = langData.download.steps.map(step => `<li>${step}</li>`).join('');
+
+      // 更新FAQ
+      const faqContainer = document.getElementById('faqContainer');
+      faqContainer.innerHTML = `
+        <details class="rounded-ui bg-white border border-wood-200 p-4 shadow-ui group">
+          <summary class="cursor-pointer font-semibold flex items-center justify-between">
+            <span>${langData.faq.offline.question}</span>
+            <span class="text-stone-400 group-open:rotate-180 transition">⌄</span>
+          </summary>
+          <div class="mt-3 text-stone-700">${langData.faq.offline.answer}</div>
+        </details>
+        <details class="rounded-ui bg-white border border-wood-200 p-4 shadow-ui group">
+          <summary class="cursor-pointer font-semibold flex items-center justify-between">
+            <span>${langData.faq.tokens.question}</span>
+            <span class="text-stone-400 group-open:rotate-180 transition">⌄</span>
+          </summary>
+          <div class="mt-3 text-stone-700">${langData.faq.tokens.answer}</div>
+        </details>
+        <details class="rounded-ui bg-white border border-wood-200 p-4 shadow-ui group">
+          <summary class="cursor-pointer font-semibold flex items-center justify-between">
+            <span>${langData.faq.referral.question}</span>
+            <span class="text-stone-400 group-open:rotate-180 transition">⌄</span>
+          </summary>
+          <div class="mt-3 text-stone-700">${langData.faq.referral.answer}</div>
+        </details>
+      `;
+
+      // 更新当前语言显示
+      const flagElement = document.getElementById('currentLangFlag');
+      const nameElement = document.getElementById('currentLangName');
+      
+      if (flagElement && nameElement) {
+        const flagCode = languageConfig[lang].flag;
+        const name = languageConfig[lang].name;
+        
+        // 更新国旗类名
+        flagElement.className = `fi fi-${flagCode}`;
+        nameElement.textContent = name;
+      }
+    }
+
+    // 渲染语言选择器
+    function renderLanguageSelector() {
+      const container = document.getElementById('languageOptions');
+      container.innerHTML = Object.entries(languageConfig).map(([code, lang]) => `
+        <button class="w-full text-left px-4 py-2 hover:bg-wood-50 text-wood-900 transition-colors duration-150 ${code === currentLang ? 'bg-wood-100 text-wood-900 font-medium' : 'hover:text-wood-700'} flex items-center gap-3 rounded-md" 
+                onclick="switchLanguage('${code}')">
+          <span class="fi fi-${lang.flag} text-lg flex-shrink-0"></span>
+          <span class="truncate">${lang.name}</span>
+          ${code === currentLang ? '<span class="ml-auto text-wood-500 text-sm">✓</span>' : ''}
+        </button>
+      `).join('');
+    }
+
+    // 切换语言函数
+    function switchLanguage(lang) {
+      if (languageConfig[lang]) {
+        currentLang = lang;
+        localStorage.setItem('goosebox_lang', lang);
+        updateLanguage(lang);
+        renderLanguageSelector();
+        
+        // 添加切换反馈
+        const button = document.getElementById('currentLang');
+        button.classList.add('scale-95');
+        setTimeout(() => button.classList.remove('scale-95'), 150);
+      }
+    }
+
+    // 键盘导航支持
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        // ESC键关闭下拉菜单
+        const dropdown = document.querySelector('.group');
+        if (dropdown) {
+          dropdown.classList.remove('group-hover:opacity-100', 'group-hover:visible', 'group-hover:scale-100');
+        }
+      }
+    });
+
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', initLanguage);
+  </script>
 
 </body>
 </html>
