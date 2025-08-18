@@ -61,7 +61,7 @@
         <nav class="hidden md:flex items-center gap-6 text-white/90">
           <a href="#home" class="hover:text-white" data-lang="nav.home"></a>
           <a href="#mechanics" class="hover:text-white" data-lang="nav.highlights"></a>
-          <a href="#download" class="hover:text-white" data-lang="nav.download"></a>
+          <a href="#play" class="hover:text-white" data-lang="nav.play"></a>
           <a href="#faq" class="hover:text-white" data-lang="nav.faq"></a>
           
                      <!-- 语言选择器 -->
@@ -142,16 +142,16 @@
     </div>
   </section>
 
-  <!-- 下载 -->
-  <section id="download" class="py-12">
+  <!-- 开始游戏 -->
+  <section id="play" class="py-12">
     <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-6 items-center">
       <div>
-        <h2 class="text-2xl font-extrabold text-wood-900" id="downloadTitle"></h2>
-        <p class="text-stone-600 mt-2" id="downloadSubtitle"></p>
-        <ol class="mt-3 list-decimal ml-5 text-stone-700 space-y-1" id="downloadSteps"></ol>
+        <h2 class="text-2xl font-extrabold text-wood-900" id="playTitle"></h2>
+        <p class="text-stone-600 mt-2" id="playSubtitle"></p>
+        <ol class="mt-3 list-decimal ml-5 text-stone-700 space-y-1" id="playSteps"></ol>
         <div class="mt-5">
           <a href="https://goosebox-dapp.netlify.app"
-             class="inline-flex items-center px-6 py-3 rounded-[18px] bg-hay-400 text-wood-900 font-bold shadow-ui hover:bg-hay-300" id="downloadBtn"></a>
+             class="inline-flex items-center px-6 py-3 rounded-[18px] bg-hay-400 text-wood-900 font-bold shadow-ui hover:bg-hay-300" id="playBtn"></a>
         </div>
       </div>
 
@@ -238,15 +238,15 @@
       document.getElementById('heroTitle').textContent = langData.hero.title;
       document.getElementById('heroDescription').innerHTML = langData.hero.description;
       document.getElementById('playNowBtn').textContent = langData.hero.playNow;
-      document.getElementById('downloadTitle').textContent = langData.download.title;
-      document.getElementById('downloadSubtitle').textContent = langData.download.subtitle;
-      document.getElementById('downloadBtn').textContent = langData.download.button;
-      document.getElementById('tipsTitle').textContent = langData.download.tips.title;
-      document.getElementById('tipsContent').textContent = langData.download.tips.content;
+      document.getElementById('playTitle').textContent = langData.play.title;
+      document.getElementById('playSubtitle').textContent = langData.play.subtitle;
+      document.getElementById('playBtn').textContent = langData.play.button;
+      document.getElementById('tipsTitle').textContent = langData.play.tips.title;
+      document.getElementById('tipsContent').textContent = langData.play.tips.content;
 
-      // 更新下载步骤
-      const stepsContainer = document.getElementById('downloadSteps');
-      stepsContainer.innerHTML = langData.download.steps.map(step => `<li>${step}</li>`).join('');
+      // 更新游戏步骤
+      const stepsContainer = document.getElementById('playSteps');
+      stepsContainer.innerHTML = langData.play.steps.map(step => `<li>${step}</li>`).join('');
 
       // 更新FAQ
       const faqContainer = document.getElementById('faqContainer');

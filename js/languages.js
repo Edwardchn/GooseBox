@@ -6,7 +6,7 @@ const languagePacks = {
     nav: {
       home: '主页',
       highlights: '亮点',
-      download: '下载',
+      play: '开始游戏',
       faq: 'FAQ'
     },
     hero: {
@@ -32,15 +32,15 @@ const languagePacks = {
         description: '为后续版本做准备，早期玩家可获取专属奖励与纪念徽章。'
       }
     },
-    download: {
-      title: '下载 & 快速上手',
+    play: {
+      title: '开始游戏 & 快速上手',
       subtitle: '三步起养，轻松挂机。',
       steps: [
         '打开 <b>Web 版本</b> 进入 Goosebox',
         '登录/注册并完成新手任务',
         '升级鹅舍与产线，开启冲刺'
       ],
-      button: '进入 Web 版本',
+      button: '开始游戏',
       tips: {
         title: '小贴士',
         content: '完成每日任务可额外掉落 Pharos 碎片；参与社区活动可获得加速奖励。'
@@ -68,7 +68,7 @@ const languagePacks = {
     nav: {
       home: 'Home',
       highlights: 'Highlights',
-      download: 'Download',
+      play: 'Start Playing',
       faq: 'FAQ'
     },
     hero: {
@@ -94,15 +94,15 @@ const languagePacks = {
         description: 'Prepare for future versions—early players get exclusive rewards & badges.'
       }
     },
-    download: {
-      title: 'Download & Get Started',
+    play: {
+      title: 'Start Playing & Get Started',
       subtitle: 'Start in three steps. Easy idle play.',
       steps: [
         'Open the <b>Web version</b> to enter Goosebox',
         'Sign up / log in and finish the tutorial quests',
         'Upgrade goosehouse and lines to sprint forward'
       ],
-      button: 'Open Web Version',
+      button: 'Start Playing',
       tips: {
         title: 'Tips',
         content: 'Daily quests may drop extra Pharos shards; community events grant speed boosts.'
@@ -130,7 +130,7 @@ const languagePacks = {
     nav: {
       home: 'Главная',
       highlights: 'Особенности',
-      download: 'Скачать',
+      play: 'Начать играть',
       faq: 'FAQ'
     },
     hero: {
@@ -156,15 +156,15 @@ const languagePacks = {
         description: 'Подготовьтесь к будущим версиям—ранние игроки получают эксклюзивные награды и значки.'
       }
     },
-    download: {
-      title: 'Скачать и начать',
+    play: {
+      title: 'Начать играть',
       subtitle: 'Начните в три шага. Легкая игра с ожиданием.',
       steps: [
         'Откройте <b>веб-версию</b> для входа в Goosebox',
         'Зарегистрируйтесь / войдите и завершите обучающие квесты',
         'Улучшите гусятник и линии для продвижения вперед'
       ],
-      button: 'Открыть веб-версию',
+      button: 'Начать играть',
       tips: {
         title: 'Советы',
         content: 'Ежедневные квесты могут выпадать дополнительные осколки Pharos; общественные мероприятия дают ускорения.'
@@ -192,7 +192,7 @@ const languagePacks = {
     nav: {
       home: 'Trang chủ',
       highlights: 'Điểm nổi bật',
-      download: 'Tải xuống',
+      play: 'Bắt đầu chơi',
       faq: 'FAQ'
     },
     hero: {
@@ -218,15 +218,15 @@ const languagePacks = {
         description: 'Chuẩn bị cho phiên bản tương lai—người chơi sớm nhận phần thưởng và huy hiệu độc quyền.'
       }
     },
-    download: {
-      title: 'Tải xuống & Bắt đầu',
+    play: {
+      title: 'Bắt đầu chơi',
       subtitle: 'Bắt đầu trong ba bước. Chơi chờ dễ dàng.',
       steps: [
         'Mở <b>phiên bản Web</b> để vào Goosebox',
         'Đăng ký / đăng nhập và hoàn thành nhiệm vụ hướng dẫn',
         'Nâng cấp chuồng ngỗng và dây chuyền để tiến lên'
       ],
-      button: 'Mở phiên bản Web',
+      button: 'Bắt đầu chơi',
       tips: {
         title: 'Mẹo',
         content: 'Nhiệm vụ hàng ngày có thể rơi thêm mảnh Pharos; sự kiện cộng đồng cho tăng tốc.'
@@ -254,7 +254,7 @@ const languagePacks = {
     nav: {
       home: 'Головна',
       highlights: 'Особливості',
-      download: 'Завантажити',
+      play: 'Почати грати',
       faq: 'FAQ'
     },
     hero: {
@@ -280,15 +280,15 @@ const languagePacks = {
         description: 'Підготуйтесь до майбутніх версій—ранні гравці отримують ексклюзивні нагороди та значки.'
       }
     },
-    download: {
-      title: 'Завантажити та почати',
+    play: {
+      title: 'Почати грати',
       subtitle: 'Почніть у три кроки. Легка гра з очікуванням.',
       steps: [
         'Відкрийте <b>веб-версію</b> для входу в Goosebox',
         'Зареєструйтесь / увійдіть та завершіть навчальні квести',
         'Покращіть гусятник та лінії для просування вперед'
       ],
-      button: 'Відкрити веб-версію',
+      button: 'Почати грати',
       tips: {
         title: 'Поради',
         content: 'Щоденні квести можуть випадати додаткові уламки Pharos; громадські заходи дають прискорення.'
@@ -316,7 +316,7 @@ const languagePacks = {
     nav: {
       home: 'Beranda',
       highlights: 'Sorotan',
-      download: 'Unduh',
+      play: 'Mulai Bermain',
       faq: 'FAQ'
     },
     hero: {
@@ -342,15 +342,15 @@ const languagePacks = {
         description: 'Persiapkan untuk versi masa depan—pemain awal dapatkan hadiah dan lencana eksklusif.'
       }
     },
-    download: {
-      title: 'Unduh & Mulai',
+    play: {
+      title: 'Mulai Bermain',
       subtitle: 'Mulai dalam tiga langkah. Permainan tunggu yang mudah.',
       steps: [
         'Buka <b>versi Web</b> untuk masuk ke Goosebox',
         'Daftar / masuk dan selesaikan quest tutorial',
         'Tingkatkan kandang angsa dan jalur untuk maju'
       ],
-      button: 'Buka Versi Web',
+      button: 'Mulai Bermain',
       tips: {
         title: 'Tips',
         content: 'Quest harian mungkin menjatuhkan pecahan Pharos ekstra; acara komunitas berikan boost kecepatan.'
