@@ -383,7 +383,7 @@ const languageConfig = {
   id: { name: 'Bahasa Indonesia', flag: 'id' }
 };
 
-const defaultLanguage = 'zh';
+const defaultLanguage = 'en';
 
 // 工具函数
 function getLanguageData(lang) {
