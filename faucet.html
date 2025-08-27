@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHRS 水龙头 - Goosebox</title>
+    
+    <link rel="icon" type="image/x-icon" href="assets/logo_beta.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" />
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        wood:  { 50:'#f6efe9',100:'#eadfd3',200:'#d8c1a8',300:'#c8a37e',400:'#b8875a',500:'#9b6f48',600:'#7c583a',700:'#654830',800:'#523a26',900:'#3e2c1d'},
+                        hay:   { 50:'#fff8e6',100:'#ffefc2',200:'#ffe38f',300:'#ffd24d',400:'#fbbf24',500:'#f59e0b'},
+                        field: { 50:'#f4fde8',100:'#e3fac5',200:'#c6f18c',300:'#a2e251',400:'#7ace24',500:'#5cab17'},
+                        stone: { 300:'#d1d5db',400:'#9ca3af',700:'#374151'}
+                    },
+                    boxShadow: { ui:'0 8px 20px rgba(0,0,0,.12)' },
+                    borderRadius: { ui:'18px' }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .grain {
+            background:
+                radial-gradient(1000px 400px at 80% -20%, rgba(255,255,255,.25), rgba(255,255,255,0)),
+                linear-gradient(180deg, #f7e7d5 0%, #fff6e8 40%, #f9efe3 100%);
+        }
+        .float { animation: float 4s ease-in-out infinite; }
+        @keyframes float { 0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)} }
+        .logo { height: 50px; width: auto; }
+    </style>
+</head>
+<body class="bg-wood-50 text-stone-700">
+
+    <header class="sticky top-0 z-50">
+        <div class="bg-wood-400 shadow-ui text-white">
+            <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <img alt="Goosebox Logo" class="logo" loading="lazy" src="assets/logo_beta.png"/>
+                    <div class="leading-tight">
+                        <div class="font-extrabold text-lg">Goosebox</div>
+                        <div class="text-white/80 text-xs">PHRS 水龙头</div>
+                    </div>
+                </div>
+
+                <nav class="hidden md:flex items-center gap-6 text-white/90">
+                    <a href="index.html" class="hover:text-white">返回主页</a>
+                    
+                    <button id="open-connect-modal" class="px-4 py-2 rounded-ui bg-hay-400 text-wood-900 font-bold hover:bg-hay-300 transition-colors duration-200">
+                        连接钱包
+                    </button>
+                    
+                    <div class="relative group">
+                        <button class="flex items-center gap-2 hover:text-white transition-colors duration-200" id="currentLang">
+                            <span id="currentLangFlag" class="fi fi-cn text-lg"></span>
+                            <span id="currentLangName">中文</span>
+                        </button>
+                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 bg-white rounded-ui shadow-ui border border-wood-200 py-2 min-w-[180px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top scale-95 group-hover:scale-100">
+                            <div id="languageOptions"></div>
+                        </div>
+                    </div>
+                </nav>
+                
+                <div class="md:hidden flex items-center gap-2">
+                    <button id="open-connect-modal-mobile" class="px-3 py-2 rounded-ui bg-hay-400 text-wood-900 font-bold text-sm hover:bg-hay-300 transition-colors duration-200">
+                        钱包
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="grain">
+        <div class="max-w-6xl mx-auto px-4 py-12 md:py-16">
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-wood-900 leading-tight" id="heroTitle">PHRS 水龙头</h1>
+                    <p class="mt-4 text-stone-700" id="heroDescription">每日免费领取 0.1 PHRS 测试代币，体验 Goosebox 生态系统</p>
+                    <div class="mt-6 p-4 bg-white/80 rounded-ui border border-wood-200">
+                        <div class="text-sm text-stone-600 mb-2">网络信息</div>
+                        <div class="text-stone-700">
+                            <div><strong>网络:</strong> Pharos Testnet (Chain ID: 688688)</div>
+                            <div><strong>每日限额:</strong> 0.1 PHRS</div>
+                            <div><strong>冷却期:</strong> 24小时</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="float">
+                    <img src="assets/goosebox_ranch.png" alt="Goosebox Ranch" class="w-full" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12">
+        <div class="max-w-4xl mx-auto px-4">
+            
+            <div class="rounded-ui bg-white border border-wood-200 p-6 shadow-ui mb-6">
+                <h3 class="text-xl font-bold text-wood-900 mb-4">1. 钱包连接状态</h3>
+                <div id="walletStatus" class="text-stone-600 mb-4">AppKit 钱包已集成，连接后将自动开始认证流程</div>
+                <div class="text-sm text-stone-500 mt-2">💡 断开连接时将自动清除所有认证状态</div>
+                <div class="text-sm text-stone-500 mt-2">🚀 认证流程（获取签名、登录、用户信息）将自动完成</div>
+            </div>
+
+
+
+            <div class="rounded-ui bg-white border border-wood-200 p-6 shadow-ui mb-6">
+                <h3 class="text-xl font-bold text-wood-900 mb-4">2. Twitter OAuth 集成</h3>
+                <div class="flex gap-2 mb-4">
+                    <button id="checkTwitterStatus" disabled class="px-4 py-2 rounded-ui bg-wood-300 text-wood-900 font-medium hover:bg-wood-200 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                        检查 Twitter 状态
+                    </button>
+                    <button id="connectTwitter" disabled class="px-4 py-2 rounded-ui bg-blue-400 text-white font-medium hover:bg-blue-300 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                        连接 Twitter
+                    </button>
+                    <button id="disconnectTwitter" disabled style="display:none;" class="px-4 py-2 rounded-ui bg-red-400 text-white font-medium hover:bg-red-300 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                        断开 Twitter
+                </button>
+                </div>
+                <div id="twitterStatus" class="text-stone-600"></div>
+            </div>
+
+
+
+            <div class="rounded-ui bg-white border border-wood-200 p-6 shadow-ui mb-6">
+                <h3 class="text-xl font-bold text-wood-900 mb-4">3. 领取 PHRS 代币</h3>
+                
+                <div class="mb-4 p-4 bg-field-50 border border-field-200 rounded-lg">
+                    <div class="text-sm text-stone-600 mb-2">领取说明</div>
+                    <ul class="text-sm text-stone-700 space-y-1">
+                        <li>• 每个钱包地址每24小时只能领取一次</li>
+                        <li>• 每次领取 0.1 PHRS 测试代币</li>
+                        <li>• 需要完成签名登录和 reCAPTCHA 验证</li>
+                        <li>• 建议绑定 Twitter 账户以获得更好的服务</li>
+                        <li>• 使用 AppKit 钱包连接</li>
+                        <li>• 确保在 Pharos Testnet 网络上</li>
+                    </ul>
+                </div>
+
+                <div id="faucet-recaptcha-container" class="mb-4">
+                    <div class="g-recaptcha" data-sitekey="6LchwbIrAAAAAEkI8iLHCgWV13kSiQhj9Wov_1he" data-callback="onFaucetRecaptchaSuccess" data-expired-callback="onFaucetRecaptchaExpired"></div>
+                </div>
+
+                <div class="text-sm text-stone-500 mb-2">登录成功后自动检查状态</div>
+                <div class="flex gap-2 mb-4">
+                    <button id="checkFaucetStatus" disabled class="px-4 py-2 rounded-ui bg-wood-300 text-wood-900 font-medium hover:bg-wood-200 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                        手动检查状态
+                    </button>
+                <button id="claimTokens" disabled class="px-6 py-3 rounded-ui bg-hay-400 text-wood-900 font-bold shadow-ui hover:bg-hay-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200">
+                    <span id="claimButtonText">领取代币</span>
+                    <span id="claimCountdown" class="hidden"></span>
+                </button>
+                </div>
+
+                <div id="faucetStatus" class="mt-4"></div>
+            </div>
+
+            <div class="rounded-ui bg-white border border-wood-200 p-6 shadow-ui">
+                <h3 class="text-xl font-bold text-wood-900 mb-4">4. 领取历史</h3>
+                <div id="faucetHistory" class="text-stone-600">请先完成认证流程查看领取历史</div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="bg-white border-t border-wood-200 mt-12">
+        <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col items-center gap-4">
+            <div class="flex items-center gap-4">
+                <a href="https://x.com/GooseBoxGame" target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center gap-2 px-4 py-2 rounded-[14px] bg-wood-100 border border-wood-200 text-wood-900 shadow-ui hover:bg-wood-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1227" class="w-5 h-5" fill="currentColor">
+                        <path d="M714 519l452-519H1002L652 408 357 0H0l469 638L0 1227h198l375-431 311 431h357L714 519zM593 742l-86-118-308 353h180l214-235zm263 170L742 694l-84 92 220 305h170L856 912zM326 142l610 910h-171L261 142h65z"/>
+                    </svg>
+                    <span>X</span>
+                </a>
+                <a href="https://t.me/GooseBoxTG" target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center gap-2 px-4 py-2 rounded-[14px] bg-wood-100 border border-wood-200 text-wood-900 shadow-ui hover:bg-wood-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" class="w-5 h-5" fill="currentColor">
+                        <path d="M120 0a120 120 0 10120 120A120 120 0 00120 0zm58.1 75.5L147 179.8c-2 9.2-7.5 11.4-15.2 7.1l-42-31  -20.2 19.4c-2.2 2.2-4 4-8.2 4l2.9-41.2 74.9-67.5c3.3-2.9-.7-4.6-5.1-1.7l-92.5 58.2-39.8-12.4c-8.6-2.7-8.8-8.6 1.8-12.7l155.8-60.1c7.2-2.6 13.5 1.7 11.1 12.1z"/>
+                    </svg>
+                    <span>Telegram</span>
+                </a>
+            </div>
+            <p class="text-stone-400">© 2025 Goosebox</p>
+        </div>
+    </footer>
+
+    <script src="js/languages.js"></script>
+    
+    <script type="module" src="/src/main.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"
+            onerror="loadBackupEthers()"></script>
+    <script>
+        function loadBackupEthers() {
+            console.log('主 CDN 失败，尝试备用 CDN...');
+            const script = document.createElement('script');
+            script.src = 'https://unpkg.com/ethers@5.7.2/dist/ethers.umd.min.js';
+            script.onerror = function() {
+                console.error('所有 ethers.js CDN 都失败了');
+                alert('ethers.js 加载失败，请检查网络连接或刷新页面重试');
+            };
+            document.head.appendChild(script);
+        }
+    </script>
+    
+    <script>
+        // 全局状态
+        let walletAddress = null;
+        let currentNonce = null;
+        let currentMessage = null;
+        let authToken = null;
+        let faucetRecaptchaToken = null;
+        let countdownTimer = null;
+        let currentCooldownTime = 0;
+
+        const API_BASE = 'https://api.gbox.game/api/faucet-auth';
+
+        const NETWORK_CONFIG = {
+            chainId: 688688,
+            chainIdHex: '0xA8230',
+            networkName: 'Pharos Testnet',
+            rpcUrl: 'https://testnet.dplabs-internal.com',
+            blockExplorerUrl: 'https://testnet.pharosscan.xyz',
+            currencySymbol: 'PHRS',
+            currencyDecimals: 18
+        };
+
+        const FAUCET_CONTRACT_ADDRESS = '0x14395C2E7beB6D32020E84f8849C06564c92ad40';
+        const CHAIN_ID = NETWORK_CONFIG.chainId;
+
+        const FAUCET_ABI = [
+            {
+                "inputs": [
+                    {"internalType": "uint256", "name": "amount", "type": "uint256"},
+                    {"internalType": "bytes32", "name": "nonce", "type": "bytes32"},
+                    {"internalType": "uint256", "name": "timestamp", "type": "uint256"},
+                    {"internalType": "string", "name": "ip", "type": "string"},
+                    {"internalType": "string", "name": "twitterId", "type": "string"},
+                    {"internalType": "bytes", "name": "signature", "type": "bytes"}
+                ],
+                "name": "claimTokens",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            }
+        ];
+
+        let currentLang = 'zh';
+
+        function initLanguage() {
+            const savedLang = localStorage.getItem('goosebox_lang');
+            const config = getLanguageConfig();
+            if (savedLang && config[savedLang]) {
+                currentLang = savedLang;
+            }
+            updateLanguage(currentLang);
+            renderLanguageSelector();
+        }
+
+        function updateLanguage(lang) {
+            const langData = getLanguageData(lang);
+            
+            document.title = langData.title;
+            
+            
+            document.getElementById('heroTitle').textContent = langData.hero.title;
+            document.getElementById('heroDescription').textContent = langData.hero.description;
+            
+            
+            const flagElement = document.getElementById('currentLangFlag');
+            const nameElement = document.getElementById('currentLangName');
+            
+            if (flagElement && nameElement) {
+                const config = getLanguageConfig();
+                const flagCode = config[lang].flag;
+                const name = config[lang].name;
+                flagElement.className = `fi fi-${flagCode}`;
+                nameElement.textContent = name;
+            }
+        }
+
+        
+        function renderLanguageSelector() {
+            const container = document.getElementById('languageOptions');
+            const config = getLanguageConfig();
+            container.innerHTML = Object.entries(config).map(([code, lang]) => `
+                <button class="w-full text-left px-4 py-2 hover:bg-wood-50 text-wood-900 transition-colors duration-150 ${code === currentLang ? 'bg-wood-100 text-wood-900 font-medium' : 'hover:text-wood-700'} flex items-center gap-3 rounded-md" 
+                        onclick="switchLanguage('${code}')">
+                    <span class="fi fi-${lang.flag} text-lg flex-shrink-0"></span>
+                    <span class="truncate">${lang.name}</span>
+                    ${code === currentLang ? '<span class="ml-auto text-wood-700 text-sm">✓</span>' : ''}
+                </button>
+            `).join('');
+        }
+
+        
+        function switchLanguage(lang) {
+            const config = getLanguageConfig();
+            if (config[lang]) {
+                currentLang = lang;
+                localStorage.setItem('goosebox_lang', lang);
+                updateLanguage(lang);
+                renderLanguageSelector();
+            }
+        }
+
+        
+        function getLanguageData(lang) {
+            const languagePacks = {
+                zh: {
+                    title: 'PHRS 水龙头 - Goosebox',
+                    hero: {
+                        title: 'PHRS 水龙头',
+                        description: '每日免费领取 0.1 PHRS 测试代币，体验 Goosebox 生态系统'
+                    }
+                },
+                en: {
+                    title: 'PHRS Faucet - Goosebox',
+                    hero: {
+                        title: 'PHRS Faucet',
+                        description: 'Claim 0.1 PHRS test tokens daily and experience the Goosebox ecosystem'
+                    }
+                }
+            };
+            return languagePacks[lang] || languagePacks['zh'];
+        }
+
+        
+        function getLanguageConfig() {
+            if (typeof languageConfig !== 'undefined') {
+                return languageConfig;
+            }
+            
+            return {
+                zh: { name: '中文', flag: 'cn' },
+                en: { name: 'English', flag: 'us' }
+            };
+        }
+
+        
+        function onFaucetRecaptchaSuccess(token) {
+            faucetRecaptchaToken = token;
+            console.log('水龙头 reCAPTCHA 验证成功');
+            checkClaimButtonState();
+        }
+
+        function onFaucetRecaptchaExpired() {
+            faucetRecaptchaToken = null;
+            console.log('水龙头 reCAPTCHA 已过期，请重新验证');
+            document.getElementById('claimTokens').disabled = true;
+        }
+
+        
+        function checkClaimButtonState() {
+            const hasAuth = authToken;
+            const hasRecaptcha = faucetRecaptchaToken;
+            const noCooldown = currentCooldownTime <= 0;
+
+            
+            if (noCooldown) {
+                document.getElementById('claimTokens').disabled = !(hasAuth && hasRecaptcha);
+            } else {
+                
+                document.getElementById('claimTokens').disabled = true;
+            }
+        }
+
+        
+        function checkEthersLoaded() {
+            return new Promise((resolve, reject) => {
+                if (typeof ethers !== 'undefined') {
+                    resolve(true);
+                    return;
+                }
+
+
+                let attempts = 0;
+                const maxAttempts = 50;
+
+                const checkInterval = setInterval(() => {
+                    attempts++;
+
+                    if (typeof ethers !== 'undefined') {
+                        clearInterval(checkInterval);
+                        resolve(true);
+                    } else if (attempts >= maxAttempts) {
+                        clearInterval(checkInterval);
+                        reject(new Error('ethers.js 加载超时，请刷新页面重试'));
+                    }
+                }, 100);
+            });
+        }
+
+
+
+
+        function showStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            const statusClass = {
+                'info': 'p-4 border rounded-lg bg-blue-50 border-blue-200 text-blue-800',
+                'success': 'p-4 border rounded-lg bg-green-50 border-green-200 text-green-800',
+                'error': 'p-4 border rounded-lg bg-red-50 border-red-200 text-red-800',
+                'warning': 'p-4 border rounded-lg bg-yellow-50 border-yellow-200 text-yellow-800'
+            };
+            
+            element.innerHTML = `<div class="${statusClass[type]}">${message}</div>`;
+        }
+
+        function formatAddress(address) {
+            return `<span class="font-mono bg-gray-100 px-2 py-1 rounded text-sm">${address.slice(0, 6)}...${address.slice(-4)}</span>`;
+        }
+
+
+
+
+        function formatCountdown(seconds) {
+            if (seconds <= 0) return '';
+
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+
+            if (hours > 0) {
+                return `${hours}小时${minutes}分钟`;
+            } else if (minutes > 0) {
+                return `${minutes}分${secs}秒`;
+            } else {
+                return `${secs}秒`;
+            }
+        }
+
+
+        function startCountdown(remainingSeconds) {
+
+            if (countdownTimer) {
+                clearInterval(countdownTimer);
+            }
+
+            currentCooldownTime = remainingSeconds;
+
+            if (remainingSeconds <= 0) {
+
+                enableClaimButton();
+                return;
+            }
+
+
+            disableClaimButton();
+            updateCountdownDisplay();
+
+            countdownTimer = setInterval(() => {
+                currentCooldownTime--;
+
+                if (currentCooldownTime <= 0) {
+                    clearInterval(countdownTimer);
+                    enableClaimButton();
+                } else {
+                    updateCountdownDisplay();
+                }
+            }, 1000);
+        }
+
+
+        function updateCountdownDisplay() {
+            const countdownElement = document.getElementById('claimCountdown');
+            const buttonTextElement = document.getElementById('claimButtonText');
+
+            if (currentCooldownTime > 0) {
+                buttonTextElement.style.display = 'none';
+                countdownElement.style.display = 'inline';
+                countdownElement.textContent = `冷却中 (${formatCountdown(currentCooldownTime)})`;
+            } else {
+                buttonTextElement.style.display = 'inline';
+                countdownElement.style.display = 'none';
+            }
+        }
+
+
+        function enableClaimButton() {
+            const button = document.getElementById('claimTokens');
+            const buttonTextElement = document.getElementById('claimButtonText');
+            const countdownElement = document.getElementById('claimCountdown');
+
+            button.disabled = false;
+            buttonTextElement.style.display = 'inline';
+            buttonTextElement.textContent = '领取代币';
+            countdownElement.style.display = 'none';
+
+
+            checkClaimButtonState();
+        }
+
+
+        function disableClaimButton() {
+            const button = document.getElementById('claimTokens');
+            button.disabled = true;
+        }
+
+
+
+
+
+
+
+
+
+
+        document.getElementById('checkTwitterStatus').addEventListener('click', async () => {
+            try {
+                showStatus('twitterStatus', '正在检查 Twitter 连接状态...', 'info');
+
+                const response = await fetch(`${API_BASE}/twitter/status`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.message || data.error);
+                }
+
+                const { connected, faucetUser, twitter } = data.data;
+
+                if (connected && twitter) {
+                    showStatus('twitterStatus',
+                        `Twitter 已连接!<br><br>` +
+                        `<div class="bg-gray-50 p-3 rounded">` +
+                        `<strong>Twitter 信息:</strong><br>` +
+                        `用户名: @${twitter.username}<br>` +
+                        `显示名: ${twitter.name}<br>` +
+                        `验证状态: ${twitter.verified ? '已验证' : '未验证'}<br>` +
+                        `关注者: ${twitter.publicMetrics?.followers_count || 0}<br>` +
+                        `连接时间: ${new Date(twitter.connectedAt).toLocaleString()}` +
+                        `</div>`,
+                        'success'
+                    );
+
+                    document.getElementById('connectTwitter').style.display = 'none';
+                    document.getElementById('disconnectTwitter').style.display = 'inline-block';
+                    document.getElementById('disconnectTwitter').disabled = false;
+                } else {
+                    showStatus('twitterStatus',
+                        `Twitter 未连接<br><br>` +
+                        `<div class="bg-gray-50 p-3 rounded">` +
+                        `<strong>水龙头用户:</strong><br>` +
+                        `钱包: ${formatAddress(faucetUser.walletAddress)}<br>` +
+                        `用户名: ${faucetUser.username}` +
+                        `</div>`,
+                        'info'
+                    );
+
+                    document.getElementById('connectTwitter').style.display = 'inline-block';
+                    document.getElementById('disconnectTwitter').style.display = 'none';
+                }
+
+            } catch (error) {
+                showStatus('twitterStatus', `检查 Twitter 状态失败: ${error.message}`, 'error');
+            }
+        });
+
+        document.getElementById('connectTwitter').addEventListener('click', async () => {
+            try {
+                showStatus('twitterStatus', '正在启动 Twitter 授权...', 'info');
+                window.location.href = `${API_BASE}/twitter`;
+            } catch (error) {
+                showStatus('twitterStatus', `启动 Twitter 授权失败: ${error.message}`, 'error');
+            }
+        });
+
+        document.getElementById('disconnectTwitter').addEventListener('click', async () => {
+            try {
+                showStatus('twitterStatus', '正在断开 Twitter 连接...', 'info');
+
+                const response = await fetch(`${API_BASE}/twitter/disconnect`, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.message || data.error);
+                }
+
+                showStatus('twitterStatus',
+                    `Twitter 连接已断开!<br><br>` +
+                    `<div class="bg-gray-50 p-3 rounded">` +
+                    `<strong>水龙头用户:</strong><br>` +
+                    `钱包: ${formatAddress(data.data.faucetUser.walletAddress)}<br>` +
+                    `用户名: ${data.data.faucetUser.username}` +
+                    `</div>`,
+                    'success'
+                );
+
+                document.getElementById('connectTwitter').style.display = 'inline-block';
+                document.getElementById('disconnectTwitter').style.display = 'none';
+                
+            } catch (error) {
+                showStatus('twitterStatus', `断开 Twitter 连接失败: ${error.message}`, 'error');
+            }
+        });
+
+
+
+        document.getElementById('checkFaucetStatus').addEventListener('click', async () => {
+            try {
+                showStatus('faucetStatus', '正在检查水龙头状态...', 'info');
+
+                const token = localStorage.getItem('faucetAuthToken') || authToken;
+                if (!token) {
+                    throw new Error('请先登录');
+                }
+
+                const response = await fetch(`${API_BASE}/claim/status`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.message || data.error);
+                }
+
+                const { canClaim, user, ip, twitter, rateLimit } = data.data;
+
+                let statusHtml = `<div class="bg-gray-50 p-3 rounded">`;
+                statusHtml += `<strong>领取状态:</strong> ${canClaim ? '可以领取' : '暂时无法领取'}<br><br>`;
+
+                statusHtml += `<strong>用户状态:</strong><br>`;
+                statusHtml += `地址: ${user.address.slice(0,6)}...${user.address.slice(-4)}<br>`;
+                statusHtml += `可领取: ${user.canClaim ? '是' : '否'}<br>`;
+                if (user.remainingTime) {
+                    statusHtml += `冷却剩余: ${Math.floor(user.remainingTime / 3600)}小时${Math.floor((user.remainingTime % 3600) / 60)}分钟<br>`;
+                }
+
+                statusHtml += `<br><strong>IP 状态:</strong><br>`;
+                statusHtml += `地址: ${ip.address}<br>`;
+                statusHtml += `可领取: ${ip.canClaim ? '是' : '否'}<br>`;
+                if (ip.remainingTime) {
+                    statusHtml += `冷却剩余: ${Math.floor(ip.remainingTime / 3600)}小时${Math.floor((ip.remainingTime % 3600) / 60)}分钟<br>`;
+                }
+
+                statusHtml += `<br><strong>Twitter 状态:</strong><br>`;
+                statusHtml += `绑定状态: ${twitter.isBound ? '已绑定' : '未绑定'}<br>`;
+                if (twitter.username) {
+                    statusHtml += `用户名: @${twitter.username}<br>`;
+                }
+                if (twitter.isBound) {
+                    statusHtml += `可领取: ${twitter.canClaim ? '是' : '否'}<br>`;
+                    if (twitter.remainingTime) {
+                        statusHtml += `冷却剩余: ${Math.floor(twitter.remainingTime / 3600)}小时${Math.floor((twitter.remainingTime % 3600) / 60)}分钟<br>`;
+                    }
+                }
+
+                statusHtml += `<br><strong>速率限制:</strong><br>`;
+                statusHtml += `允许请求: ${rateLimit.allowed ? '是' : '否'}<br>`;
+                statusHtml += `剩余次数: ${rateLimit.remaining}<br>`;
+                statusHtml += `</div>`;
+
+                showStatus('faucetStatus', statusHtml, canClaim ? 'success' : 'error');
+
+                let maxCooldownTime = 0;
+                if (user.remainingTime && user.remainingTime > 0) {
+                    maxCooldownTime = Math.max(maxCooldownTime, user.remainingTime);
+                }
+                if (ip.remainingTime && ip.remainingTime > 0) {
+                    maxCooldownTime = Math.max(maxCooldownTime, ip.remainingTime);
+                }
+                if (twitter.remainingTime && twitter.remainingTime > 0) {
+                    maxCooldownTime = Math.max(maxCooldownTime, twitter.remainingTime);
+                }
+
+                startCountdown(maxCooldownTime);
+
+            } catch (error) {
+                showStatus('faucetStatus', `检查水龙头状态失败: ${error.message}`, 'error');
+            }
+        });
+
+        document.getElementById('claimTokens').addEventListener('click', async () => {
+            try {
+                if (!faucetRecaptchaToken) {
+                    showStatus('faucetStatus', '请先完成 reCAPTCHA 验证', 'error');
+                return;
+            }
+
+                if (typeof window.ethereum === 'undefined') {
+                    showStatus('faucetStatus', '请连接 AppKit 钱包', 'error');
+                return;
+            }
+
+                showStatus('faucetStatus', '正在获取签名...', 'info');
+
+                const token = localStorage.getItem('faucetAuthToken') || authToken;
+                if (!token) {
+                    throw new Error('请先登录');
+                }
+
+                const response = await fetch(`${API_BASE}/claim/signature`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        recaptchaToken: faucetRecaptchaToken
+                    })
+                });
+
+                const data = await response.json();
+
+                console.log('获取签名响应:', data);
+
+                if (!data.success) {
+                    let errorDetails = {
+                        message: data.message || data.error,
+                        fullResponse: data
+                    };
+
+                    const error = new Error(data.message || data.error);
+                    error.details = errorDetails;
+                    throw error;
+                }
+
+                const { signature, params, domain, twitter, rateLimit } = data.data;
+
+                showStatus('faucetStatus',
+                    `签名获取成功，正在调用合约...<br><br>` +
+                    `<div class="bg-gray-50 p-3 rounded">` +
+                    `<strong>领取信息:</strong><br>` +
+                    `金额: ${parseFloat(params.amount) / 1e18} PHRS<br>` +
+                    `Twitter: @${twitter.username}<br>` +
+                    `剩余请求: ${rateLimit.remaining}<br>` +
+                    `</div>`,
+                    'info'
+                );
+
+                await callFaucetContract(signature, params);
+
+                if (typeof grecaptcha !== 'undefined') {
+                    grecaptcha.reset();
+                    faucetRecaptchaToken = null;
+                    checkClaimButtonState();
+                }
+
+            } catch (error) {
+                console.error('获取签名完整错误信息:', error);
+
+                let errorMessage = `获取签名失败: ${error.message}`;
+
+                if (error.message.includes('IP address can claim again')) {
+                    fetch('https://api.ipify.org?format=json')
+                        .then(response => response.json())
+                        .then(data => {
+                            const currentIP = data.ip;
+
+                            let debugInfo = '';
+                            if (error.details && error.details.fullResponse) {
+                                debugInfo = `<br><br><strong>调试信息:</strong><br>` +
+                                           `<div class="bg-gray-100 p-2 rounded text-xs" style="max-height: 200px; overflow-y: auto;">` +
+                                           `${JSON.stringify(error.details.fullResponse, null, 2)}` +
+                                           `</div>`;
+                            }
+
+                            showStatus('faucetStatus',
+                                `获取签名失败: ${error.message}<br><br>` +
+                                `<div class="bg-gray-50 p-3 rounded">` +
+                                `<strong>当前IP地址:</strong> ${currentIP}<br>` +
+                                `<strong>状态:</strong> 冷却期中，请等待冷却时间结束<br>` +
+                                `<strong>建议:</strong> 如果这是新IP，请联系管理员检查服务器配置` +
+                                `</div>` +
+                                debugInfo,
+                                'error'
+                            );
+                        })
+                        .catch(ipError => {
+                            showStatus('faucetStatus', errorMessage, 'error');
+                        });
+                } else {
+                    let debugInfo = '';
+                    if (error.details && error.details.fullResponse) {
+                        debugInfo = `<br><br><strong>调试信息:</strong><br>` +
+                                   `<div class="bg-gray-100 p-2 rounded text-xs" style="max-height: 200px; overflow-y: auto;">` +
+                                   `${JSON.stringify(error.details.fullResponse, null, 2)}` +
+                                   `</div>`;
+                    }
+
+                    showStatus('faucetStatus', errorMessage + debugInfo, 'error');
+                }
+
+                if (typeof grecaptcha !== 'undefined') {
+                    grecaptcha.reset();
+                    faucetRecaptchaToken = null;
+                    checkClaimButtonState();
+                }
+            }
+        });
+
+        async function callFaucetContract(signature, params) {
+            try {
+                showStatus('faucetStatus', '检查依赖库...', 'info');
+                await checkEthersLoaded();
+
+
+
+                const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                if (accounts.length === 0) {
+                    throw new Error('请先连接 AppKit 钱包');
+                }
+
+                const userAccount = accounts[0];
+                if (userAccount.toLowerCase() !== params.user.toLowerCase()) {
+                    throw new Error('当前钱包地址与签名地址不匹配');
+                }
+
+                showStatus('faucetStatus', '正在调用合约...', 'info');
+
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const signer = provider.getSigner();
+                const contract = new ethers.Contract(FAUCET_CONTRACT_ADDRESS, FAUCET_ABI, signer);
+
+                const tx = await contract.claimTokens(
+                    params.amount,
+                    params.nonce,
+                    params.timestamp,
+                    params.ip,
+                    params.twitterId,
+                    signature
+                );
+
+                    showStatus('faucetStatus', 
+                    `交易已提交，等待确认...<br><br>` +
+                    `<div class="bg-gray-50 p-3 rounded">` +
+                    `交易哈希: <div class="bg-gray-100 p-2 mt-1 rounded text-sm font-mono break-all">${tx.hash}</div>` +
+                    `</div>`,
+                    'info'
+                );
+
+                const receipt = await tx.wait();
+
+                showStatus('faucetStatus', '通知服务器合约执行成功...', 'info');
+
+                try {
+                    const confirmResponse = await fetch(`${API_BASE}/claim/confirm`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${authToken}`
+                        },
+                        credentials: 'include',
+                        body: JSON.stringify({
+                            nonce: params.nonce,
+                            txHash: receipt.transactionHash,
+                            success: true
+                        })
+                    });
+
+                    const confirmData = await confirmResponse.json();
+
+                    if (confirmData.success) {
+                        console.log('服务器确认成功:', confirmData);
+
+                        showStatus('faucetStatus',
+                            `代币领取成功！<br><br>` +
+                            `<div class="bg-gray-50 p-3 rounded">` +
+                            `<strong>交易信息:</strong><br>` +
+                            `交易哈希: <div class="bg-gray-100 p-2 mt-1 rounded text-sm font-mono break-all">${receipt.transactionHash}</div><br>` +
+                            `区块号: ${receipt.blockNumber}<br>` +
+                            `Gas 使用: ${receipt.gasUsed.toString()}<br>` +
+                            `领取金额: 0.1 PHRS<br><br>` +
+                            `<strong>领取成功！</strong><br>` +
+                            `<strong>24小时冷却期已开始</strong>` +
+                            `</div>`,
+                            'success'
+                        );
+
+                    startCountdown(86400);
+                    
+                    } else {
+                        console.warn('服务器确认失败:', confirmData);
+                        showStatus('faucetStatus',
+                            `代币领取成功，但服务器确认失败<br><br>` +
+                            `<div class="bg-gray-50 p-3 rounded">` +
+                            `交易哈希: <div class="bg-gray-100 p-2 mt-1 rounded text-sm font-mono break-all">${receipt.transactionHash}</div><br>` +
+                            `错误: ${confirmData.error || confirmData.message}<br><br>` +
+                            `<strong>注意:</strong> 代币已成功领取，但冷却期可能未正确设置` +
+                            `</div>`,
+                            'warning'
+                        );
+                    }
+                } catch (confirmError) {
+                    console.error('确认接口调用失败:', confirmError);
+                    showStatus('faucetStatus',
+                        `代币领取成功，但服务器通知失败<br><br>` +
+                        `<div class="bg-gray-50 p-3 rounded">` +
+                        `交易哈希: <div class="bg-gray-100 p-2 mt-1 rounded text-sm font-mono break-all">${receipt.transactionHash}</div><br>` +
+                        `确认错误: ${confirmError.message}<br><br>` +
+                        `<strong>注意:</strong> 代币已成功领取，但冷却期可能未正确设置` +
+                        `</div>`,
+                        'warning'
+                    );
+                }
+                    
+                    if (typeof grecaptcha !== 'undefined') {
+                        grecaptcha.reset();
+                        faucetRecaptchaToken = null;
+                        checkClaimButtonState();
+                    }
+                
+            } catch (error) {
+                console.error('合约调用失败:', error);
+
+                let errorMessage = error.message;
+                let shouldNotifyServer = false;
+                let txHash = null;
+
+                if (error.code === 4001) {
+                    errorMessage = '用户取消了交易';
+                } else if (error.message.includes('insufficient funds')) {
+                    errorMessage = '账户余额不足支付 Gas 费用';
+                } else if (error.message.includes('CooldownNotMet')) {
+                    errorMessage = '冷却期未满，请24小时后再试';
+                } else if (error.message.includes('InvalidSignature')) {
+                    errorMessage = '签名验证失败';
+                } else if (error.message.includes('NonceAlreadyUsed')) {
+                    errorMessage = '签名已被使用';
+                }
+
+                if (error.transaction && error.transaction.hash) {
+                    shouldNotifyServer = true;
+                    txHash = error.transaction.hash;
+                    errorMessage += `<br>交易哈希: ${txHash}`;
+                }
+
+                showStatus('faucetStatus', `合约调用失败: ${errorMessage}`, 'error');
+
+                if (shouldNotifyServer && txHash) {
+                    try {
+                        const confirmResponse = await fetch(`${API_BASE}/claim/confirm`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${authToken}`
+                            },
+                            credentials: 'include',
+                            body: JSON.stringify({
+                                nonce: params.nonce,
+                                txHash: txHash,
+                                success: false
+                            })
+                        });
+
+                        const confirmData = await confirmResponse.json();
+                        console.log('服务器已确认交易失败:', confirmData);
+                    } catch (confirmError) {
+                        console.error('通知服务器交易失败时出错:', confirmError);
+                    }
+                }
+
+                throw error;
+            }
+        }
+
+        async function handleTwitterCallback() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const state = urlParams.get('state');
+            const code = urlParams.get('code');
+            const error = urlParams.get('error');
+            const message = urlParams.get('message');
+
+            if (error) {
+                showStatus('twitterStatus', `Twitter 授权失败: ${decodeURIComponent(message || error)}`, 'error');
+                window.history.replaceState({}, document.title, window.location.pathname);
+                return;
+            }
+
+            if (state && code) {
+                showStatus('twitterStatus', '正在绑定 Twitter 账户...', 'info');
+
+                try {
+                    const currentToken = localStorage.getItem('faucetAuthToken') || authToken;
+
+                    if (!currentToken) {
+                        throw new Error('未找到认证 Token，请先登录');
+                    }
+
+                    console.log('使用 JWT Token 进行 Twitter 绑定:', currentToken.substring(0, 20) + '...');
+
+                    const response = await fetch(`${API_BASE}/twitter/bind`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${currentToken}`
+                        },
+                        credentials: 'include',
+                        body: JSON.stringify({ state, code })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        const twitter = data.data.twitter;
+                        showStatus('twitterStatus',
+                            `Twitter 账户绑定成功!<br><br>` +
+                            `<div class="bg-gray-50 p-3 rounded">` +
+                            `<strong>Twitter 信息:</strong><br>` +
+                            `用户名: @${twitter.username}<br>` +
+                            `显示名: ${twitter.name}<br>` +
+                            `验证状态: ${twitter.verified ? '已验证' : '未验证'}<br>` +
+                            `关注者: ${twitter.publicMetrics?.followers_count || 0}<br>` +
+                            `绑定时间: ${new Date(twitter.connectedAt).toLocaleString()}` +
+                            `</div>`,
+                            'success'
+                        );
+
+                        document.getElementById('connectTwitter').style.display = 'none';
+                        document.getElementById('disconnectTwitter').style.display = 'inline-block';
+                        document.getElementById('disconnectTwitter').disabled = false;
+                    } else {
+                        throw new Error(data.message || data.error);
+                    }
+
+                } catch (error) {
+                    showStatus('twitterStatus', `Twitter 账户绑定失败: ${error.message}`, 'error');
+                }
+
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+
+        async function checkLocalAuth() {
+            const savedToken = localStorage.getItem('faucetAuthToken');
+            const savedUser = localStorage.getItem('faucetUser');
+
+            if (savedToken && savedUser) {
+                try {
+                    authToken = savedToken;
+                    const user = JSON.parse(savedUser);
+
+                    if (isTokenExpired(savedToken)) {
+                        console.log('本地Token已过期，清除存储');
+                        localStorage.removeItem('faucetAuthToken');
+                        localStorage.removeItem('faucetUser');
+                        return false;
+                    }
+
+                    walletAddress = user.walletAddress;
+                    console.log('💾 从本地存储恢复状态:', {
+                        Token: '存在',
+                        钱包地址: walletAddress,
+                        用户ID: user.id
+                    });
+
+                    document.getElementById('checkTwitterStatus').disabled = false;
+                    document.getElementById('connectTwitter').disabled = false;
+                    document.getElementById('checkFaucetStatus').disabled = false;
+
+                    console.log('从本地存储恢复了认证状态，等待钱包连接验证');
+
+                    showStatus('walletStatus',
+                        `从本地存储恢复登录状态<br><br>` +
+                        `<div class="bg-gray-50 p-3 rounded">` +
+                        `<strong>用户信息:</strong><br>` +
+                        `ID: ${user.id}<br>` +
+                        `钱包: ${formatAddress(user.walletAddress)}<br>` +
+                        `用户名: ${user.username}<br>` +
+                        `状态: ${user.isActive ? '活跃' : '非活跃'}` +
+                        `</div>` +
+                        `<strong>JWT Token:</strong><div class="bg-gray-100 p-2 mt-2 rounded text-xs font-mono break-all">${authToken}</div><br><br>` +
+                        `🔄 等待 AppKit 钱包连接以验证状态...`,
+                        'success'
+                    );
+
+                    return true;
+                } catch (error) {
+                    console.error('解析本地存储的用户信息失败:', error);
+                    localStorage.removeItem('faucetAuthToken');
+                    localStorage.removeItem('faucetUser');
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        function clearLocalAuth() {
+            localStorage.removeItem('faucetAuthToken');
+            localStorage.removeItem('faucetUser');
+            authToken = null;
+            console.log('已清除本地认证状态');
+        }
+
+        function isTokenExpired(token) {
+            try {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                const currentTime = Math.floor(Date.now() / 1000);
+
+                if (payload.exp && payload.exp < currentTime) {
+                    return true;
+                }
+                
+                return false;
+            } catch (error) {
+                console.error('检查Token过期时间失败:', error);
+                return true;
+            }
+        }
+        
+        function autoClearAuth() {
+            try {
+                clearLocalAuth();
+                
+                 document.getElementById('checkTwitterStatus').disabled = true;
+                 document.getElementById('connectTwitter').disabled = true;
+                 document.getElementById('disconnectTwitter').disabled = true;
+                 document.getElementById('checkFaucetStatus').disabled = true;
+                 document.getElementById('claimTokens').disabled = true;
+                
+                 showStatus('walletStatus', 'AppKit 钱包已断开连接，认证状态已自动清除', 'info');
+                 showStatus('twitterStatus', '', 'info');
+                 showStatus('faucetStatus', '', 'info');
+                
+                currentNonce = null;
+                currentMessage = null;
+                faucetRecaptchaToken = null;
+                
+                if (countdownTimer) {
+                    clearInterval(countdownTimer);
+                    countdownTimer = null;
+                }
+                currentCooldownTime = 0;
+                
+                const buttonTextElement = document.getElementById('claimButtonText');
+                const countdownElement = document.getElementById('claimCountdown');
+                if (buttonTextElement) buttonTextElement.style.display = 'inline';
+                if (countdownElement) countdownElement.style.display = 'none';
+                
+                console.log('钱包断开连接，认证状态已自动清除');
+                
+            } catch (error) {
+                console.error('自动清除认证状态失败:', error);
+            }
+        }
+
+        async function autoStartAuthFlow() {
+                         try {
+                
+                 showStatus('walletStatus', '自动获取 nonce...', 'info');
+                 
+                 const response = await fetch(`${API_BASE}/nonce`, {
+                     method: 'POST',
+                     headers: {
+                         'Content-Type': 'application/json'
+                     },
+                     credentials: 'include',
+                     body: JSON.stringify({ walletAddress })
+                 });
+
+                 const data = await response.json();
+
+                 if (!data.success) {
+                     throw new Error(data.message || data.error);
+                 }
+
+                 currentNonce = data.data.nonce;
+                 currentMessage = data.data.message;
+
+                 showStatus('walletStatus', `Nonce 获取成功: ${currentNonce}<br><br><strong>签名消息:</strong><div class="bg-gray-100 p-2 mt-2 rounded text-sm font-mono">${currentMessage}</div>`, 'success');
+                 
+               
+                 showStatus('walletStatus', '自动请求签名...', 'info');
+                 
+                
+                 const signature = await window.ethereum.request({
+                     method: 'personal_sign',
+                     params: [currentMessage, walletAddress]
+                 });
+
+                 showStatus('walletStatus', '签名成功，正在自动登录...', 'info');
+
+              
+                const loginResponse = await fetch(`${API_BASE}/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        walletAddress,
+                        signature,
+                        message: currentMessage
+                    })
+                });
+
+                const loginData = await loginResponse.json();
+
+                if (!loginData.success) {
+                    throw new Error(loginData.message || loginData.error);
+                }
+
+                authToken = loginData.data.token;
+                const user = loginData.data.user;
+                const isNewUser = loginData.data.isNewUser;
+
+              
+                localStorage.setItem('faucetAuthToken', authToken);
+                localStorage.setItem('faucetUser', JSON.stringify(user));
+                console.log('✅ JWT Token 已保存到本地存储');
+
+                                 showStatus('walletStatus',
+                     `自动${isNewUser ? '注册并登录' : '登录'}成功!<br><br>` +
+                     `<div class="bg-gray-50 p-3 rounded">` +
+                     `<strong>用户信息:</strong><br>` +
+                     `ID: ${user.id}<br>` +
+                     `钱包: ${formatAddress(user.walletAddress)}<br>` +
+                     `用户名: ${user.username}<br>` +
+                     `状态: ${user.isActive ? '活跃' : '非活跃'}<br>` +
+                     `创建时间: ${new Date(user.createdAt).toLocaleString()}` +
+                     `</div>` +
+                     `<strong>JWT Token:</strong><div class="bg-gray-100 p-2 mt-2 rounded text-xs font-mono break-all">${authToken}</div>`,
+                     'success'
+                 );
+
+
+                 document.getElementById('checkTwitterStatus').disabled = false;
+                 document.getElementById('connectTwitter').disabled = false;
+                 document.getElementById('checkFaucetStatus').disabled = false;
+                 checkClaimButtonState();
+                
+                
+                setTimeout(() => {
+                    autoCheckFaucetStatus();
+                }, 1000);
+
+            } catch (error) {
+                console.error('自动认证流程失败:', error);
+                
+                                 if (error.message.includes('User rejected')) {
+                     showStatus('walletStatus', '用户取消了签名，请重新连接钱包', 'warning');
+                 } else {
+                     showStatus('walletStatus', `自动认证失败: ${error.message}，请重新连接钱包重试`, 'error');
+                 }
+            }
+        }
+
+        
+        async function autoCheckFaucetStatus() {
+            try {
+                showStatus('faucetStatus', '自动检查水龙头状态...', 'info');
+
+                const token = localStorage.getItem('faucetAuthToken') || authToken;
+                if (!token) {
+                    throw new Error('请先登录');
+                }
+
+                const response = await fetch(`${API_BASE}/claim/status`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.message || data.error);
+                }
+
+                const { canClaim, user, ip, twitter, rateLimit } = data.data;
+
+                let statusHtml = `<div class="bg-gray-50 p-3 rounded">`;
+                statusHtml += `<strong>领取状态:</strong> ${canClaim ? '可以领取' : '暂时无法领取'}<br><br>`;
+
+                statusHtml += `<strong>用户状态:</strong><br>`;
+                statusHtml += `地址: ${user.address.slice(0,6)}...${user.address.slice(-4)}<br>`;
+                statusHtml += `可领取: ${user.canClaim ? '是' : '否'}<br>`;
+                if (user.remainingTime) {
+                    statusHtml += `冷却剩余: ${Math.floor(user.remainingTime / 3600)}小时${Math.floor((user.remainingTime % 3600) / 60)}分钟<br>`;
+                }
+
+                statusHtml += `<br><strong>IP 状态:</strong><br>`;
+                statusHtml += `地址: ${ip.address}<br>`;
+                statusHtml += `可领取: ${ip.canClaim ? '是' : '否'}<br>`;
+                if (ip.remainingTime) {
+                    statusHtml += `冷却剩余: ${Math.floor(ip.remainingTime / 3600)}小时${Math.floor((ip.remainingTime % 3600) / 60)}分钟<br>`;
+                }
+
+                statusHtml += `<br><strong>Twitter 状态:</strong><br>`;
+                statusHtml += `绑定状态: ${twitter.isBound ? '已绑定' : '未绑定'}<br>`;
+                if (twitter.username) {
+                    statusHtml += `用户名: @${twitter.username}<br>`;
+                }
+                if (twitter.isBound) {
+                    statusHtml += `可领取: ${twitter.canClaim ? '是' : '否'}<br>`;
+                    if (twitter.remainingTime) {
+                        statusHtml += `冷却剩余: ${Math.floor(twitter.remainingTime / 3600)}小时${Math.floor((twitter.remainingTime % 3600) / 60)}分钟<br>`;
+                    }
+                }
+
+                statusHtml += `<br><strong>速率限制:</strong><br>`;
+                statusHtml += `允许请求: ${rateLimit.allowed ? '是' : '否'}<br>`;
+                statusHtml += `剩余次数: ${rateLimit.remaining}<br>`;
+                statusHtml += `</div>`;
+
+                showStatus('faucetStatus', statusHtml, canClaim ? 'success' : 'error');
+
+              
+                let maxCooldownTime = 0;
+                if (user.remainingTime && user.remainingTime > 0) {
+                    maxCooldownTime = Math.max(maxCooldownTime, user.remainingTime);
+                }
+                if (ip.remainingTime && ip.remainingTime > 0) {
+                    maxCooldownTime = Math.max(maxCooldownTime, ip.remainingTime);
+                }
+                if (twitter.remainingTime && twitter.remainingTime > 0) {
+                    maxCooldownTime = Math.max(maxCooldownTime, twitter.remainingTime);
+                }
+
+               
+                startCountdown(maxCooldownTime);
+
+            } catch (error) {
+                showStatus('faucetStatus', `自动检查水龙头状态失败: ${error.message}`, 'error');
+            }
+        }
+
+     
+        async function onWalletConnected(address) {
+            console.log('🔌 钱包连接事件:', {
+                连接地址: address,
+                当前认证Token: authToken ? '存在' : '不存在',
+                当前钱包地址: walletAddress || '未设置',
+                地址匹配: walletAddress === address
+            });
+            
+
+            if (authToken && walletAddress === address) {
+                console.log('🔍 验证现有Token是否仍然有效...');
+                
+                try {
+                    console.log('🔍 使用 /me API 验证Token有效性...');
+                    const response = await fetch(`${API_BASE}/me`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${authToken}`
+                        },
+                        credentials: 'include'
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success && data.data && data.data.user) {
+                        const user = data.data.user;
+                        console.log('✅ Token验证成功，用户信息:', user);
+                        
+                        if (user.walletAddress.toLowerCase() === address.toLowerCase()) {
+                            showStatus('walletStatus', `AppKit 钱包已连接: ${formatAddress(address)} (认证状态有效，无需重新签名)`, 'success');
+                            checkClaimButtonState();
+                            
+                            setTimeout(async () => {
+                                try {
+                                    await autoCheckFaucetStatus();
+                                } catch (error) {
+                                    console.log('自动检查水龙头状态失败:', error.message);
+                                }
+                            }, 1000);
+                            
+                            return;
+                        } else {
+                            console.log('❌ 钱包地址不匹配，清除认证状态');
+                            console.log('存储的钱包地址:', user.walletAddress);
+                            console.log('连接的钱包地址:', address);
+                            clearLocalAuth();
+                        }
+                    } else {
+                        console.log('❌ Token验证失败:', data.message || data.error);
+                        clearLocalAuth();
+                    }
+                } catch (verifyError) {
+                    console.log('Token验证请求失败:', verifyError.message);
+                    clearLocalAuth();
+                }
+            }
+            
+            walletAddress = address;
+            console.log('🔄 开始新的认证流程，因为:', authToken ? 'Token无效或钱包地址不匹配' : 'Token不存在');
+            
+            showStatus('walletStatus', `AppKit 钱包已连接: ${formatAddress(address)}`, 'success');
+            checkClaimButtonState();
+            
+            autoStartAuthFlow();
+        }
+
+        function onWalletDisconnected() {
+            walletAddress = null;
+            showStatus('walletStatus', 'AppKit 钱包已断开连接', 'info');
+            checkClaimButtonState();
+            
+            autoClearAuth();
+        }
+
+        window.addEventListener('load', async () => {
+            initLanguage();
+            
+            try {
+                await checkEthersLoaded();
+                console.log('ethers.js 加载成功');
+            } catch (error) {
+                console.error('ethers.js 加载失败:', error.message);
+                showStatus('faucetStatus', '依赖库加载失败，请刷新页面', 'error');
+            }
+
+            const authRestored = await checkLocalAuth();
+            
+            if (authRestored) {
+                showStatus('walletStatus', '✅ 认证状态已从本地存储恢复，无需重新签名！<br><br>💡 页面重新加载后会自动恢复登录状态，无需重新连接钱包和签名<br><br>🔄 等待 AppKit 钱包连接以验证状态...', 'success');
+            } else {
+                showStatus('walletStatus', 'AppKit 钱包已集成，等待钱包连接...<br><br>💡 首次连接后，页面重新加载将自动恢复登录状态', 'info');
+            }
+
+            handleTwitterCallback();
+
+        });
+
+    
+    </script>
+
+</body>
+</html>

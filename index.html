@@ -64,17 +64,27 @@
           <a href="#play" class="hover:text-white" data-lang="nav.play"></a>
           <a href="#faq" class="hover:text-white" data-lang="nav.faq"></a>
           
-                     <!-- 语言选择器 -->
-           <div class="relative group">
-             <button class="flex items-center gap-2 hover:text-white transition-colors duration-200" id="currentLang">
-               <span id="currentLangFlag" class="fi fi-cn text-lg"></span>
-               <span id="currentLangName">中文</span>
-             </button>
-             <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 bg-white rounded-ui shadow-ui border border-wood-200 py-2 min-w-[180px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top scale-95 group-hover:scale-100">
-               <div id="languageOptions"></div>
-             </div>
-           </div>
+          <!-- 钱包连接按钮 -->
+          <button id="open-connect-modal" class="px-4 py-2 rounded-ui bg-hay-400 text-wood-900 font-bold hover:bg-hay-300 transition-colors duration-200" data-lang="nav.wallet">
+          </button>
+          
+          <!-- 语言选择器 -->
+          <div class="relative group">
+            <button class="flex items-center gap-2 hover:text-white transition-colors duration-200" id="currentLang">
+              <span id="currentLangFlag" class="fi fi-cn text-lg"></span>
+              <span id="currentLangName">中文</span>
+            </button>
+            <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 bg-white rounded-ui shadow-ui border border-wood-200 py-2 min-w-[180px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top scale-95 group-hover:scale-100">
+              <div id="languageOptions"></div>
+            </div>
+          </div>
         </nav>
+        
+        <!-- 移动端钱包按钮 -->
+        <div class="md:hidden flex items-center gap-2">
+          <button id="open-connect-modal-mobile" class="px-3 py-2 rounded-ui bg-hay-400 text-wood-900 font-bold text-sm hover:bg-hay-300 transition-colors duration-200" data-lang="nav.wallet">
+          </button>
+        </div>
       </div>
     </div>
   </header>
@@ -88,6 +98,9 @@
           <p class="mt-4 text-stone-700" id="heroDescription"></p>
           <div class="mt-8 flex flex-col sm:flex-row gap-3">
             <a href="https://dapp.gbox.game" class="px-6 py-3 rounded-ui bg-hay-400 text-wood-900 font-bold shadow-ui hover:bg-hay-300" id="playNowBtn"></a>
+            <a href="faucet.html" class="px-6 py-3 rounded-ui bg-wood-300 text-wood-900 font-bold shadow-ui hover:bg-wood-200">
+              PHRS 水龙头
+            </a>
           </div>
         </div>
 
@@ -195,16 +208,13 @@
     </div>
   </footer>
 
-  <!-- 加载语言包 -->
   <script src="js/languages.js"></script>
+  <script type="module" src="/src/main.js"></script>
   
-  <!-- 语言管理脚本 -->
   <script>
     let currentLang = defaultLanguage;
 
-    // 初始化语言
     function initLanguage() {
-      // 从localStorage获取保存的语言
       const savedLang = localStorage.getItem('goosebox_lang');
       if (savedLang && languageConfig[savedLang]) {
         currentLang = savedLang;
@@ -213,14 +223,11 @@
       renderLanguageSelector();
     }
 
-    // 更新页面语言
     function updateLanguage(lang) {
       const langData = getLanguageData(lang);
       
-      // 更新页面标题
       document.title = langData.title;
       
-      // 更新所有带有data-lang属性的元素
       document.querySelectorAll('[data-lang]').forEach(el => {
         const key = el.getAttribute('data-lang');
         const value = getNestedValue(langData, key);
@@ -233,7 +240,6 @@
         }
       });
 
-      // 更新特殊元素
       document.getElementById('subtitle').textContent = langData.subtitle;
       document.getElementById('heroTitle').textContent = langData.hero.title;
       document.getElementById('heroDescription').innerHTML = langData.hero.description;
@@ -244,11 +250,9 @@
       document.getElementById('tipsTitle').textContent = langData.play.tips.title;
       document.getElementById('tipsContent').textContent = langData.play.tips.content;
 
-      // 更新游戏步骤
       const stepsContainer = document.getElementById('playSteps');
       stepsContainer.innerHTML = langData.play.steps.map(step => `<li>${step}</li>`).join('');
 
-      // 更新FAQ
       const faqContainer = document.getElementById('faqContainer');
       faqContainer.innerHTML = `
         <details class="rounded-ui bg-white border border-wood-200 p-4 shadow-ui group">
@@ -274,7 +278,6 @@
         </details>
       `;
 
-      // 更新当前语言显示
       const flagElement = document.getElementById('currentLangFlag');
       const nameElement = document.getElementById('currentLangName');
       
@@ -282,13 +285,11 @@
         const flagCode = languageConfig[lang].flag;
         const name = languageConfig[lang].name;
         
-        // 更新国旗类名
         flagElement.className = `fi fi-${flagCode}`;
         nameElement.textContent = name;
       }
     }
 
-    // 渲染语言选择器
     function renderLanguageSelector() {
       const container = document.getElementById('languageOptions');
       container.innerHTML = Object.entries(languageConfig).map(([code, lang]) => `
@@ -301,7 +302,6 @@
       `).join('');
     }
 
-    // 切换语言函数
     function switchLanguage(lang) {
       if (languageConfig[lang]) {
         currentLang = lang;
@@ -309,17 +309,14 @@
         updateLanguage(lang);
         renderLanguageSelector();
         
-        // 添加切换反馈
         const button = document.getElementById('currentLang');
         button.classList.add('scale-95');
         setTimeout(() => button.classList.remove('scale-95'), 150);
       }
     }
 
-    // 键盘导航支持
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
-        // ESC键关闭下拉菜单
         const dropdown = document.querySelector('.group');
         if (dropdown) {
           dropdown.classList.remove('group-hover:opacity-100', 'group-hover:visible', 'group-hover:scale-100');
@@ -327,7 +324,6 @@
       }
     });
 
-    // 页面加载完成后初始化
     document.addEventListener('DOMContentLoaded', initLanguage);
   </script>
 

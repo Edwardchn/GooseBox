@@ -7,7 +7,9 @@ const languagePacks = {
       home: '主页',
       highlights: '亮点',
       play: '开始游戏',
-      faq: 'FAQ'
+      faq: 'FAQ',
+      wallet: '连接钱包',
+      network: '网络'
     },
     hero: {
       title: '鹅场挂机 · 宝箱掉落 · 合成进阶',
@@ -69,7 +71,9 @@ const languagePacks = {
       home: 'Home',
       highlights: 'Highlights',
       play: 'Start Playing',
-      faq: 'FAQ'
+      faq: 'FAQ',
+      wallet: 'Connect Wallet',
+      network: 'Network'
     },
     hero: {
       title: 'Idle Goose · Chest Drops · Merge & Progress',
