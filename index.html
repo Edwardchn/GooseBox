@@ -64,10 +64,6 @@
           <a href="#play" class="hover:text-white" data-lang="nav.play"></a>
           <a href="#faq" class="hover:text-white" data-lang="nav.faq"></a>
           
-          <!-- 钱包连接按钮 -->
-          <button id="open-connect-modal" class="px-4 py-2 rounded-ui bg-hay-400 text-wood-900 font-bold hover:bg-hay-300 transition-colors duration-200" data-lang="nav.wallet">
-          </button>
-          
           <!-- 语言选择器 -->
           <div class="relative group">
             <button class="flex items-center gap-2 hover:text-white transition-colors duration-200" id="currentLang">
@@ -78,7 +74,12 @@
               <div id="languageOptions"></div>
             </div>
           </div>
+          
+          <button id="open-connect-modal" class="px-4 py-2 rounded-ui bg-hay-400 text-wood-900 font-bold hover:bg-hay-300 transition-colors duration-200" data-lang="nav.wallet">
+          </button>
+
         </nav>
+        
         
         <!-- 移动端钱包按钮 -->
         <div class="md:hidden flex items-center gap-2">
@@ -210,6 +211,21 @@
 
   <script src="js/languages.js"></script>
   <script type="module" src="/src/main.js"></script>
+
+  <script>
+    (function checkTwitterCallback() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const state = urlParams.get('state');
+      const code = urlParams.get('code');
+      
+      if (state && code) {
+        console.log('🔄 检测到 Twitter 回调参数，重定向到 faucet.html...');
+        const newUrl = `/faucet.html${window.location.search}`;
+        window.location.href = newUrl;
+        return;
+      }
+    })();
+  </script>
   
   <script>
     let currentLang = defaultLanguage;

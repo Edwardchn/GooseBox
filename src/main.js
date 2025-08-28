@@ -45,7 +45,7 @@ const modal = createAppKit({
   metadata: {
     name: 'Goosebox Game',
     description: 'Goosebox - 挂机养鹅游戏',
-    url: 'http://localhost:5173',
+    url: 'http://localhost:5173/faucet.html',
     icons: ['https://avatars.githubusercontent.com/u/179229932?s=200&v=4']
   },
   themeVariables: {
