@@ -9,6 +9,7 @@ const languagePacks = {
       play: '开始游戏',
       faq: 'FAQ',
       wallet: '连接钱包',
+      disconnect: '断开连接',
       network: '网络'
     },
     hero: {
@@ -184,6 +185,8 @@ const languagePacks = {
       messages: {
         checkingTwitterStatus: '🔍 正在检查 Twitter 连接状态...',
         autoReloginDetected: '🔑 检测到需要重新登录，正在自动执行登录流程...',
+        preparingTwitterConnection: '🔄 准备连接 Twitter...',
+        reAuthenticating: '🔑 重新认证中，请稍候...',
         gettingNonce: '🔑 获取签名随机数...',
         requestingSignature: '✍️ 请求钱包签名...',
         verifyingSignature: '🔐 正在验证签名并登录...',
@@ -219,6 +222,7 @@ const languagePacks = {
         waitingWalletConnection: '等待钱包连接...',
         userCancelledTransaction: '用户取消了签名',
         authFailed: '认证失败，请重新连接钱包',
+        authRateLimit: '⏰ 认证请求过于频繁，请稍后再试',
         accountSwitchDetected: '🔄 检测到账户切换',
         newAccountAuthenticating: '🔄 新账户认证中',
         twitterAlreadyConnected: '✅ Twitter 已经连接!',
@@ -281,6 +285,7 @@ const languagePacks = {
       play: 'Start Playing',
       faq: 'FAQ',
       wallet: 'Connect Wallet',
+      disconnect: 'Disconnect',
       network: 'Network'
     },
     hero: {
@@ -456,6 +461,8 @@ const languagePacks = {
       messages: {
         checkingTwitterStatus: '🔍 Checking Twitter connection status...',
         autoReloginDetected: '🔑 Re-login required detected, automatically executing login process...',
+        preparingTwitterConnection: '🔄 Preparing Twitter connection...',
+        reAuthenticating: '🔑 Re-authenticating, please wait...',
         gettingNonce: '🔑 Getting signature nonce...',
         requestingSignature: '✍️ Requesting wallet signature...',
         verifyingSignature: '🔐 Verifying signature and logging in...',
@@ -491,6 +498,7 @@ const languagePacks = {
         waitingWalletConnection: 'Waiting for wallet connection...',
         userCancelledTransaction: 'User cancelled signature',
         authFailed: 'Authentication failed, please reconnect wallet',
+        authRateLimit: '⏰ Authentication requests too frequent, please try again later',
         accountSwitchDetected: '🔄 Account switch detected',
         newAccountAuthenticating: '🔄 Authenticating new account',
         twitterAlreadyConnected: '✅ Twitter is already connected!',

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppKit Demo - Goosebox</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+        
+        .container {
+            background-color: #2a2a2a;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #f59e0b;
+            margin-bottom: 30px;
+        }
+        
+        .wallet-info {
+            background-color: #3a3a3a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            background-color: #f59e0b;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #d97706;
+        }
+        
+        button:disabled {
+            background-color: #6b7280;
+            cursor: not-allowed;
+        }
+        
+        .result-section {
+            background-color: #3a3a3a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .result-content {
+            background-color: #1a1a1a;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        
+        @media (max-width: 600px) {
+            .button-group {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🦢 Goosebox AppKit Demo</h1>
+        
+        <div class="wallet-info">
+            <h3>钱包信息</h3>
+            <div id="wallet-address">地址: 未连接</div>
+            <div id="wallet-network">网络: 未知</div>
+        </div>
+        
+        <div class="button-group">
+            <button id="open-connect-modal">连接钱包</button>
+            <button id="open-connect-modal-mobile" style="display: none;">连接钱包 (移动端)</button>
+            <button id="disconnect" style="display: none;">断开连接</button>
+        </div>
+        
+        <div class="button-group">
+            <button id="switch-network" style="display: none;">切换网络</button>
+            <button id="sign-message" style="display: none;">签名消息</button>
+            <button id="send-tx" style="display: none;">发送交易</button>
+            <button id="get-balance" style="display: none;">获取余额</button>
+        </div>
+        
+        <div id="signatureSection" class="result-section">
+            <h4>签名结果:</h4>
+            <div id="signatureState" class="result-content"></div>
+        </div>
+        
+        <div id="txSection" class="result-section">
+            <h4>交易结果:</h4>
+            <div id="txState" class="result-content"></div>
+        </div>
+        
+        <div id="balanceSection" class="result-section">
+            <h4>余额查询:</h4>
+            <div id="balanceState" class="result-content"></div>
+        </div>
+    </div>
+    
+    <script type="module" src="./src/main.js"></script>
+</body>
+</html>

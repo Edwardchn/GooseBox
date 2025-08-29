@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppKit 集成测试 - Goosebox</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .status-box {
+            @apply p-4 border rounded-lg mb-4;
+        }
+        .status-info { @apply bg-blue-50 border-blue-200 text-blue-800; }
+        .status-success { @apply bg-green-50 border-green-200 text-green-800; }
+        .status-error { @apply bg-red-50 border-red-200 text-red-800; }
+        .status-warning { @apply bg-yellow-50 border-yellow-200 text-yellow-800; }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8 text-center">AppKit 集成测试页面</h1>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">1. AppKit 初始化状态</h2>
+            <div id="appkit-status" class="status-box status-info">正在检查 AppKit 状态...</div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button id="open-connect-modal" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                    连接钱包
+                </button>
+                <button id="disconnect" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600" style="display: none;">
+                    断开连接
+                </button>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">2. 钱包连接状态</h2>
+            <div id="wallet-status" class="status-box status-info">等待钱包连接...</div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <strong>连接状态:</strong> <span id="connection-status">未连接</span>
+                </div>
+                <div>
+                    <strong>钱包地址:</strong> <span id="wallet-address">-</span>
+                </div>
+                <div>
+                    <strong>网络ID:</strong> <span id="network-id">-</span>
+                </div>
+                <div>
+                    <strong>Provider:</strong> <span id="provider-status">-</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">3. 钱包操作测试</h2>
+            <div id="operation-status" class="status-box status-info">请先连接钱包</div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button id="sign-message" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600" disabled>
+                    签名消息
+                </button>
+                <button id="get-balance" class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600" disabled>
+                    获取余额
+                </button>
+                <button id="switch-network" class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600" disabled>
+                    切换网络
+                </button>
+            </div>
+            
+            <div id="operation-result" class="mt-4 p-4 bg-gray-50 rounded-lg hidden">
+                <h4 class="font-semibold mb-2">操作结果:</h4>
+                <pre id="result-content" class="text-sm overflow-auto"></pre>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-semibold mb-4">4. 调试信息</h2>
+            <div class="bg-gray-50 rounded-lg p-4">
+                <h4 class="font-semibold mb-2">AppKit Store 状态:</h4>
+                <pre id="store-debug" class="text-xs overflow-auto"></pre>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { appKit, getProvider } from './src/config/appKit.js';
+        import { store } from './src/store/appkitStore.js';
+        import { signMessage, getBalance } from './src/services/wallet.js';
+        import { initializeSubscribers } from './src/utils/subscribers.js';
+        
+        // 设置全局引用
+        window.appKit = appKit;
+        window.getProvider = getProvider;
+        window.store = store;
+        
+        // 状态更新函数
+        function updateStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.className = `status-box status-${type}`;
+                element.innerHTML = message;
+            }
+        }
+        
+        function updateWalletInfo() {
+            const isConnected = appKit.getIsConnectedState();
+            const accountState = store.accountState;
+            const networkState = store.networkState;
+            const provider = getProvider();
+            
+            document.getElementById('connection-status').textContent = isConnected ? '已连接' : '未连接';
+            document.getElementById('wallet-address').textContent = accountState.address || '-';
+            document.getElementById('network-id').textContent = networkState.chainId || '-';
+            document.getElementById('provider-status').textContent = provider ? '可用' : '不可用';
+            
+            // 更新按钮状态
+            const connectBtn = document.getElementById('open-connect-modal');
+            const disconnectBtn = document.getElementById('disconnect');
+            const operationBtns = document.querySelectorAll('#sign-message, #get-balance, #switch-network');
+            
+            if (isConnected) {
+                connectBtn.style.display = 'none';
+                disconnectBtn.style.display = 'block';
+                operationBtns.forEach(btn => btn.disabled = false);
+                updateStatus('wallet-status', `✅ 钱包已连接: ${accountState.address}`, 'success');
+                updateStatus('operation-status', '可以进行钱包操作', 'success');
+            } else {
+                connectBtn.style.display = 'block';
+                disconnectBtn.style.display = 'none';
+                operationBtns.forEach(btn => btn.disabled = true);
+                updateStatus('wallet-status', '⏳ 等待钱包连接', 'info');
+                updateStatus('operation-status', '请先连接钱包', 'info');
+            }
+            
+            // 更新调试信息
+            document.getElementById('store-debug').textContent = JSON.stringify({
+                accountState: store.accountState,
+                networkState: store.networkState,
+                eip155Provider: !!store.eip155Provider
+            }, null, 2);
+        }
+        
+        // 初始化
+        try {
+            updateStatus('appkit-status', '✅ AppKit 已成功初始化', 'success');
+            
+            // 设置事件监听器
+            initializeSubscribers(appKit);
+            
+            // 钱包连接回调
+            window.onWalletConnected = (address) => {
+                console.log('钱包连接回调:', address);
+                updateWalletInfo();
+            };
+            
+            window.onWalletDisconnected = () => {
+                console.log('钱包断开回调');
+                updateWalletInfo();
+            };
+            
+            // 按钮事件
+            document.getElementById('open-connect-modal').addEventListener('click', () => {
+                appKit.open();
+            });
+            
+            document.getElementById('disconnect').addEventListener('click', () => {
+                appKit.disconnect();
+            });
+            
+            document.getElementById('sign-message').addEventListener('click', async () => {
+                try {
+                    updateStatus('operation-status', '正在签名...', 'info');
+                    const signature = await signMessage(store.eip155Provider, store.accountState.address);
+                    document.getElementById('operation-result').classList.remove('hidden');
+                    document.getElementById('result-content').textContent = `签名成功:\n${signature}`;
+                    updateStatus('operation-status', '签名成功', 'success');
+                } catch (error) {
+                    updateStatus('operation-status', `签名失败: ${error.message}`, 'error');
+                }
+            });
+            
+            document.getElementById('get-balance').addEventListener('click', async () => {
+                try {
+                    updateStatus('operation-status', '获取余额中...', 'info');
+                    const balance = await getBalance(store.eip155Provider, store.accountState.address);
+                    document.getElementById('operation-result').classList.remove('hidden');
+                    document.getElementById('result-content').textContent = `余额: ${balance} ETH`;
+                    updateStatus('operation-status', '余额获取成功', 'success');
+                } catch (error) {
+                    updateStatus('operation-status', `获取余额失败: ${error.message}`, 'error');
+                }
+            });
+            
+            document.getElementById('switch-network').addEventListener('click', () => {
+                try {
+                    const currentChainId = store.networkState?.chainId;
+                    // 这里可以添加网络切换逻辑
+                    updateStatus('operation-status', `当前网络: ${currentChainId}`, 'info');
+                } catch (error) {
+                    updateStatus('operation-status', `网络切换失败: ${error.message}`, 'error');
+                }
+            });
+            
+            // 定期更新状态
+            setInterval(updateWalletInfo, 1000);
+            updateWalletInfo();
+            
+        } catch (error) {
+            updateStatus('appkit-status', `❌ AppKit 初始化失败: ${error.message}`, 'error');
+            console.error('AppKit 初始化错误:', error);
+        }
+    </script>
+</body>
+</html>

@@ -1,104 +1,87 @@
-import { createAppKit } from '@reown/appkit'
-import { EthersAdapter } from '@reown/appkit-adapter-ethers'
-import { defineChain } from '@reown/appkit/networks';
+import { appKit, pharosNetwork, getProvider } from './config/appKit.js'
+import { store, updateStore } from './store/appkitStore.js'
+import { updateTheme, updateButtonVisibility } from './utils/dom.js'
+import { signMessage, sendTx, getBalance } from './services/wallet.js'
+import { initializeSubscribers } from './utils/subscribers.js'
+import { mainnet } from '@reown/appkit/networks'
 
-const pharosNetwork = defineChain({
-  id: 688688,
-  name: 'Pharos Testnet',
-  nativeCurrency: {
-    decimals: 18,
-    name: 'Pharos',
-    symbol: 'PHRS',
-  },
-  rpcUrls: {
-    default: {
-      http: ['https://testnet.dplabs-internal.com'],
-    },
-    public: {
-      http: ['https://testnet.dplabs-internal.com'],
-    },
-  },
-  blockExplorers: {
-    default: { name: 'PharosScan', url: 'https://testnet.pharosscan.xyz' },
+// 初始化订阅者
+initializeSubscribers(appKit)
+
+// 初始检查
+updateButtonVisibility(appKit.getIsConnectedState());
+
+// 如果已经连接，尝试获取 provider
+if (appKit.getIsConnectedState()) {
+  const provider = getProvider()
+  updateStore('eip155Provider', provider)
+}
+
+// 按钮事件监听器
+document.getElementById('open-connect-modal')?.addEventListener(
+  'click', () => appKit.open()
+)
+
+document.getElementById('open-connect-modal-mobile')?.addEventListener(
+  'click', () => appKit.open()
+)
+
+document.getElementById('disconnect')?.addEventListener(
+  'click', () => {
+    appKit.disconnect()
   }
-})
-const projectId = "dcb2a535e5a41384e7f7536ee4624eb2"
-const networks = [pharosNetwork]
+)
 
-const ethersAdapter = new EthersAdapter()
-
-const modal = createAppKit({
-  adapters: [ethersAdapter],
-  defaultNetwork: networks[0],
-  networks,
-  projectId,
-  themeMode: 'dark',
-  metadata: {
-    name: 'Goosebox Game',
-    description: 'Goosebox Game Faucet',
-    url: window.location.origin,
-    icons: ['https://avatars.githubusercontent.com/u/179229932?s=200&v=4']
-  },
-  themeVariables: {
-    '--w3m-accent': '#f59e0b',
+document.getElementById('switch-network')?.addEventListener(
+  'click', () => {
+    const currentChainId = store.networkState?.chainId
+    appKit.switchNetwork(currentChainId === pharosNetwork.id ? mainnet : pharosNetwork)
   }
-})
+)
 
-document.addEventListener('DOMContentLoaded', function() {
-  const openConnectModalBtn = document.getElementById('open-connect-modal')
-  const openConnectModalMobileBtn = document.getElementById('open-connect-modal-mobile')
+document.getElementById('sign-message')?.addEventListener(
+  'click', async () => {
+    try {
+      const signature = await signMessage(store.eip155Provider, store.accountState.address)
 
-  if (openConnectModalBtn) {
-    openConnectModalBtn.addEventListener('click', () => modal.open())
+      document.getElementById('signatureState').innerHTML = signature
+      document.getElementById('signatureSection').style.display = ''
+    } catch (error) {
+      console.error('签名失败:', error)
+      alert('签名失败: ' + error.message)
+    }
   }
+)
 
-  if (openConnectModalMobileBtn) {
-    openConnectModalMobileBtn.addEventListener('click', () => modal.open())
+document.getElementById('send-tx')?.addEventListener(
+  'click', async () => {
+    try {
+      console.log(store.eip155Provider, store.accountState.address)
+      const tx = await sendTx(store.eip155Provider, store.accountState.address)
+      console.log('Tx:', tx)
+
+      document.getElementById('txState').innerHTML = JSON.stringify(tx, null, 2)
+      document.getElementById('txSection').style.display = ''
+    } catch (error) {
+      console.error('发送交易失败:', error)
+      alert('发送交易失败: ' + error.message)
+    }
   }
+)
 
-  // setTimeout(checkWalletConnection, 1000);
-})
-
-let lastWalletAddress = null;
-async function checkWalletConnection() {
-  try {
-    if (typeof window.ethereum !== 'undefined') {
-      const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-      const currentAddress = accounts.length > 0 ? accounts[0] : null;
+document.getElementById('get-balance')?.addEventListener(
+  'click', async () => {
+    try {
+      const balance = await getBalance(store.eip155Provider, store.accountState.address)
       
-      if (currentAddress !== lastWalletAddress) {
-        lastWalletAddress = currentAddress;
-        
-        if (currentAddress) {
-          if (window.onWalletConnected) {
-            window.onWalletConnected(currentAddress);
-          }
-        } else {
-          if (window.onWalletDisconnected) {
-            window.onWalletDisconnected();
-          }
-        }
-      }
+      document.getElementById('balanceState').innerHTML = balance + ' ETH'
+      document.getElementById('balanceSection').style.display = ''
+    } catch (error) {
+      console.error('获取余额失败:', error)
+      alert('获取余额失败: ' + error.message)
     }
-  } catch (error) {
-    console.error('Check wallet connection status failed:', error);
   }
-}
+)
 
-if (typeof window.ethereum !== 'undefined') {
-  window.ethereum.on('accountsChanged', (accounts) => {
-    if (accounts.length > 0) {
-      if (window.onWalletConnected) {
-        window.onWalletConnected(accounts[0]);
-      }
-    } else {
-      if (window.onWalletDisconnected) {
-        window.onWalletDisconnected();
-      }
-    }
-  });
-
-  window.ethereum.on('chainChanged', () => {
-    setTimeout(checkWalletConnection, 100);
-  });
-}
+// 设置初始主题
+updateTheme(store.themeState.themeMode)
