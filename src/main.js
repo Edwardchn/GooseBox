@@ -4,8 +4,6 @@ import { defineChain } from '@reown/appkit/networks';
 
 const pharosNetwork = defineChain({
   id: 688688,
-  caipNetworkId: 'eip155:688688',
-  chainNamespace: 'eip155',
   name: 'Pharos Testnet',
   nativeCurrency: {
     decimals: 18,
@@ -15,16 +13,16 @@ const pharosNetwork = defineChain({
   rpcUrls: {
     default: {
       http: ['https://testnet.dplabs-internal.com'],
-      webSocket: ['wss://testnet.dplabs-internal.com'],
+    },
+    public: {
+      http: ['https://testnet.dplabs-internal.com'],
     },
   },
   blockExplorers: {
-    default: { name: 'Explorer', url: 'https://testnet.pharosscan.xyz' },
-  },
-  contracts: {
+    default: { name: 'PharosScan', url: 'https://testnet.pharosscan.xyz' },
   }
 })
-const projectId = "b56e18d47c72ab683b10814fe9495694"
+const projectId = "dcb2a535e5a41384e7f7536ee4624eb2"
 const networks = [pharosNetwork]
 
 const ethersAdapter = new EthersAdapter()
@@ -33,19 +31,12 @@ const modal = createAppKit({
   adapters: [ethersAdapter],
   defaultNetwork: networks[0],
   networks,
-  chainImages: {
-    688688: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAMAAAC7IEhfAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAACcUExURUdwTAAHuQAHugAIuRoevwkJur2/7QAHuQAHuQAHuQAHuQALuQAHugAHuQAHuVBQ0AAGuQAHuQAFuRUavgAHua2v6aOl5ry/7aCj5a2v6f///wAHuQsSvGBk1IeK3/j4/QQLutLT8y81xxQavyAmwqao57S263B02IyP4MbI8H6C3OPk99/g9p6h5e/v+0xRzlZa0T9Fy5ea4+bn+Zg/veAAAAAxdFJOUwDYv6YiDf2B5/OVF7XQjQZWczJo+uDB0pvJ//////////////////////////////6imI1FAAABpklEQVQ4y32V65pDMBCGUedSPe0pokopVdTh/u9trdLOJLHfL4n3yZhvJkOSkNTdSpEtS1ZWO1Va1NpwfSDZWAsxzbB8Rpah8dzW9AUytyxn+AvaIMxbse9pOz85MDzm4qCKCHktHVHcy6PQazJKEH373kvJSyDElJFmcmDUBQm0SeMSTknY97eGilJfQ5/zkJBQPz0Y8qhyDibVCF4ER7rMXpyOYBIUsEJDv/DFiLMiLYeM4N5e2jFUElTllDrcNlBRLkF6fxuJQEdSwOpEoBDoSvISGGWo3yRLBN6rhjWIB8M+ypMzZwUK3ZF6qEx5zYOYJU2UTDMaU15PQcxW28U9e87qBdBhDaencAw9gHFxo8BwroRJPpzYNt2f9RSUEGXzVNvp4dMmCpqCabNzm0dv01+gjRt3qHWNqkhh485HDt9OWFFw4Hi56KPqiUATaE3T6jB/O6toqs9hvtifIuqWJSjwqI9lyvcVD8xGHVJ6BntMQTPS+5qg8BrgTrQ9ZkB+1wLKtw78yFV/uElytMVTXN2g8Wza//wY9objDrTpOsYev/kFnXyGowLL8V8AAAAASUVORK5CYII='
-  },
   projectId,
   themeMode: 'dark',
-  features: {
-    email: false,
-    socials: []
-  },
   metadata: {
     name: 'Goosebox Game',
-    description: 'Goosebox - 挂机养鹅游戏',
-    url: 'http://localhost:5173/faucet.html',
+    description: 'Goosebox Game Faucet',
+    url: window.location.origin,
     icons: ['https://avatars.githubusercontent.com/u/179229932?s=200&v=4']
   },
   themeVariables: {
@@ -65,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
     openConnectModalMobileBtn.addEventListener('click', () => modal.open())
   }
 
-  setTimeout(checkWalletConnection, 1000);
+  // setTimeout(checkWalletConnection, 1000);
 })
 
 let lastWalletAddress = null;

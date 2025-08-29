@@ -227,6 +227,7 @@ const languagePacks = {
         waitingForAuth: '等待新账户认证完成后检查Twitter状态...',
         waitingForFaucetAuth: '等待新账户认证完成后检查水龙头状态...',
         authRequired: '❌ 请先完成钱包连接和签名认证！',
+        autoLoginRequired: '🔑 检测到需要登录，正在自动执行登录流程...',
         dependencyLoadFailed: '依赖库加载失败，请刷新页面',
         twitterServiceCheck: '先检查Twitter服务是否可用',
         reconnectInstructions: '连接 Twitter 需要重新签名来验证身份。',
@@ -498,6 +499,7 @@ const languagePacks = {
         waitingForAuth: 'Waiting for new account authentication to complete before checking Twitter status...',
         waitingForFaucetAuth: 'Waiting for new account authentication to complete before checking faucet status...',
         authRequired: '❌ Please complete wallet connection and signature authentication first!',
+        autoLoginRequired: '🔑 Login required detected, automatically executing login process...',
         dependencyLoadFailed: 'Dependency loading failed, please refresh the page',
         twitterServiceCheck: 'Check if Twitter service is available first',
         reconnectInstructions: 'Connecting Twitter requires re-signing to verify identity.',
@@ -689,6 +691,7 @@ const languagePacks = {
         waitingForAuth: 'Ожидание завершения аутентификации нового аккаунта перед проверкой статуса Twitter...',
         waitingForFaucetAuth: 'Ожидание завершения аутентификации нового аккаунта перед проверкой статуса крана...',
         authRequired: '❌ Сначала завершите подключение кошелька и аутентификацию подписи!',
+        autoLoginRequired: '🔑 Обнаружена необходимость входа, автоматически выполняется процесс входа...',
         dependencyLoadFailed: 'Не удалось загрузить зависимости, обновите страницу',
         twitterServiceCheck: 'Сначала проверьте доступность сервиса Twitter',
         reconnectInstructions: 'Для подключения Twitter требуется повторная подпись для проверки личности.',
@@ -1043,7 +1046,9 @@ const languagePacks = {
         authFailed: 'Otentikasi gagal, silakan hubungkan ulang dompet',
         accountSwitchDetected: '🔄 Terdeteksi pergantian akun',
         newAccountAuthenticating: '🔄 Mengotentikasi akun baru',
-        dependencyLoadFailed: 'Gagal memuat dependensi, silakan muat ulang halaman'
+        dependencyLoadFailed: 'Gagal memuat dependensi, silakan muat ulang halaman',
+        authRequired: '❌ Harap selesaikan koneksi dompet dan autentikasi tanda tangan terlebih dahulu!',
+        autoLoginRequired: '🔑 Login diperlukan terdeteksi, secara otomatis menjalankan proses login...'
       }
     }
   }

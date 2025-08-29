@@ -117,7 +117,7 @@
             <!-- Twitter 状态显示（独立于 Twitter OAuth 部分） -->
             <div id="twitterStatusSection" class="rounded-ui bg-white border border-wood-200 p-6 shadow-ui mb-6" style="display: none;">
                 <h3 class="text-xl font-bold text-wood-900 mb-4" data-lang="faucet.sections.twitterStatus">2. X 账户状态</h3>
-                <div id="twitterStatus" class="text-stone-600 mb-4"></div>
+                <div id="twitterStatus" class="text-stone-600"></div>
                 <div class="flex gap-4 mb-4">
                     <button id="disconnectTwitter" style="display: none;" class="px-6 py-3 rounded-ui bg-red-400 text-white font-medium hover:bg-red-300 transition-colors duration-200" data-lang="faucet.twitter.disconnectButton">
                         断开 Twitter
@@ -127,7 +127,7 @@
 
             <div id="twitterOAuthSection" class="rounded-ui bg-white border border-wood-200 p-6 shadow-ui mb-6">
                 <h3 class="text-xl font-bold text-wood-900 mb-4" data-lang="faucet.sections.twitterIntegration">2. Link X account</h3>    
-                <div id="twitterOAuthStatus" class="text-stone-600 mb-4"></div>
+                <div id="twitterOAuthStatus" class="text-stone-600"></div>
                 <div class="flex gap-2">
                     <button id="connectTwitter" disabled class="px-6 py-3 rounded-ui bg-blue-400 text-white font-medium hover:bg-blue-300 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed" data-lang="faucet.twitter.connectButton">
                         连接 Twitter
@@ -209,6 +209,10 @@
         let currentCooldownTime = 0;
         let currentLang = 'zh-CN';
         let isCheckingTwitterStatus = false;
+        let isCheckingFaucetStatus = false;
+        let faucetStatusPromise = null;
+        let lastFaucetCheckTime = 0;
+        const FAUCET_CHECK_COOLDOWN = 2000; // 2秒冷却期
 
         const currentStatusStates = {
             walletStatus: { type: null, messageKey: null, params: null, isCustom: false },
@@ -546,6 +550,7 @@
         }
 
         document.getElementById('connectTwitter').addEventListener('click', async () => {
+            
             try {
                 
                 const currentToken = localStorage.getItem('faucetAuthToken') || authToken;
@@ -555,157 +560,59 @@
                     return;
                 }
 
-                showStatusI18n('twitterOAuthStatus', 'faucet.messages.checkingTwitterStatus', 'info');
-                
-                const statusResponse = await fetch(`${API_BASE}/twitter/status`, {
-                    credentials: 'include',
-                    headers: {
-                        'Authorization': `Bearer ${currentToken}`
-                    }
-                });
-                const statusData = await statusResponse.json();
+                showStatusI18n('twitterOAuthStatus', 'faucet.messages.preparingTwitterConnection', 'info');
 
-                if (!statusResponse.ok) {
-                    if (statusResponse.status === 401 || 
-                        (statusData.message && statusData.message.includes('login')) ||
-                        (statusData.error && statusData.error.includes('Unauthorized'))) {
-                        
-                        showStatusI18n('twitterOAuthStatus', 'faucet.messages.autoReloginDetected', 'info');
-                        
-                        
-                        showStatusI18n('twitterOAuthStatus', 'faucet.messages.gettingNonce', 'info');
-                        
-                        const nonceResponse = await fetch(`${API_BASE}/nonce`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            credentials: 'include',
-                            body: JSON.stringify({ walletAddress })
-                        });
-
-                        const nonceData = await nonceResponse.json();
-                        
-                        if (!nonceData.success) {
-                            throw new Error(`获取nonce失败: ${nonceData.message || nonceData.error}`);
+                try {
+                    console.log('检测到认证token，验证有效性...');
+                    const response = await fetch(`${API_BASE}/twitter`, {
+                        method: 'GET',
+                        credentials: 'include',
+                        headers: {
+                            'Authorization': `Bearer ${currentToken}`
                         }
+                    });
 
-                        const nonce = nonceData.data.nonce;
-                        const message = nonceData.data.message;
-
-                        
-                        showStatusI18n('twitterOAuthStatus', 'faucet.messages.requestingSignature', 'info');
-                        
-                        const signature = await window.ethereum.request({
-                            method: 'personal_sign',
-                            params: [message, walletAddress]
-                        });
-
+                    const data = await response.json();
                     
-                        showStatusI18n('twitterOAuthStatus', 'faucet.messages.verifyingSignature', 'info');
+                    if (data.success) {
+                        console.log('Token验证成功，跳转到Twitter OAuth页面');
+                        window.location.href = data.data.url || `${API_BASE}/twitter`;
+                    } else if (data.error === 'Authentication required' || data.message?.includes('login')) {
+                        console.log('Token已过期，清除本地认证状态并重新登录...');
+                        localStorage.removeItem('faucetAuthToken');
+                        localStorage.removeItem('faucetUser');
                         
-                        const loginResponse = await fetch(`${API_BASE}/login`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            credentials: 'include',
-                            body: JSON.stringify({
-                                walletAddress,
-                                signature,
-                                message
-                            })
-                        });
-
-                        const loginData = await loginResponse.json();
-                        
-                        if (!loginData.success) {
-                            throw new Error(`自动登录失败: ${loginData.message || loginData.error}`);
-                        }
-
-                        showStatusI18n('twitterOAuthStatus', 'faucet.messages.autoLoginSuccess', 'info');
-                        
-                        authToken = loginData.data.token;
-                        localStorage.setItem('faucetAuthToken', authToken);
-                        localStorage.setItem('faucetUser', JSON.stringify(loginData.data.user));
-                        
-                        try {
-                            await autoCheckTwitterStatus();
-                        } catch (checkError) {
-                            console.log('自动登录后检查Twitter状态失败:', checkError.message);
+                        if (typeof window.ethereum !== 'undefined' && window.ethereum.selectedAddress) {
+                            const walletAddress = window.ethereum.selectedAddress;
+                            try {
+                                await autoStartAuthFlow();
+                                
+                                const newToken = localStorage.getItem('faucetAuthToken') || authToken;
+                                if (newToken) {
+                                    console.log('重新登录成功，直接跳转到Twitter OAuth页面');
+                                    window.location.href = `${API_BASE}/twitter`;
+                                } else {
+                                    throw new Error('重新登录失败');
+                                }
+                            } catch (authError) {
+                                if (authError.message && authError.message.includes('User rejected')) {
+                                    showStatusI18n('twitterOAuthStatus', 'faucet.messages.userCancelledSignature', 'warning');
+                                    return;
+                                } else {
+                                    throw authError;
+                                }
+                            }
+                        } else {
+                            throw new Error('请先连接钱包');
                         }
                     } else {
-                        throw new Error(statusData.message || statusData.error || '状态检查失败');
+                        throw new Error(data.message || data.error);
                     }
-                } else {
-
-                    const { connected, twitter } = statusData.data;
-
-                    if (connected && twitter) {
-                        const twitterConnectedMsg = getI18nMessage('faucet.messages.twitterAlreadyConnected', '✅ Twitter 已经连接!');
-                        const twitterInfoMsg = getI18nMessage('faucet.messages.twitterInfo', 'Twitter 信息:');
-                        const usernameMsg = getI18nMessage('faucet.messages.username', '用户名');
-                        const displayNameMsg = getI18nMessage('faucet.messages.displayName', '显示名');
-                        const verifiedMsg = getI18nMessage('faucet.messages.verified', '验证状态');
-                        const followersMsg = getI18nMessage('faucet.messages.followers', '关注者');
-                        const connectedAtMsg = getI18nMessage('faucet.messages.connectedAt', '连接时间');
-                        const verifiedStatusMsg = twitter.verified ? 
-                            getI18nMessage('faucet.messages.verified_', '已验证') : 
-                            getI18nMessage('faucet.messages.unverified', '未验证');
-                        
-                        showStatus('twitterStatus',
-                            `${twitterConnectedMsg}<br><br>` +
-                            `<div class="bg-gray-50 p-3 rounded">` +
-                            `<strong>${twitterInfoMsg}</strong><br>` +
-                            `${usernameMsg}: @${twitter.username}<br>` +
-                            `${displayNameMsg}: ${twitter.name}<br>` +
-                            `${verifiedMsg}: ${verifiedStatusMsg}<br>` +
-                            `${followersMsg}: ${twitter.publicMetrics?.followers_count || 0}<br>` +
-                            `${connectedAtMsg}: ${new Date(twitter.connectedAt).toLocaleString()}` +
-                            `</div>`,
-                            'success'
-                        );
-
-                        document.getElementById('connectTwitter').style.display = 'none';
-                        document.getElementById('disconnectTwitter').style.display = 'inline-block';
-                        document.getElementById('disconnectTwitter').disabled = false;
-                        
-                        hideTwitterSection();
-                        showTwitterStatusSection();
-                        return;
-                    }
-                    
-                    showStatusI18n('twitterOAuthStatus', 'faucet.messages.statusCheckPassed', 'info');
+                } catch (fetchError) {
+                    console.log('API验证失败，直接跳转到Twitter OAuth页面:', fetchError.message);
+                    window.location.href = `${API_BASE}/twitter`;
                 }
-
-                const preCheckResponse = await fetch(`${API_BASE}/twitter/health`, {
-                    method: 'GET',
-                    credentials: 'include',
-                    headers: {
-                        'Authorization': `Bearer ${currentToken}`
-                    }
-                });
-
-                if (preCheckResponse.status === 404) {
-                    console.log('没有健康检查API，直接跳转');
-                } else if (!preCheckResponse.ok) {
-                    try {
-                        const errorData = await preCheckResponse.json();
-    
-                        if (errorData.error && (errorData.error.includes('Too many requests') || errorData.error.includes('rate'))) {
-                            showStatusI18n('twitterOAuthStatus', 'faucet.messages.tooManyRequests', 'warning');
-                            return;
-                        } else {
-                            showStatusI18n('twitterOAuthStatus', 'faucet.messages.serviceUnavailable', 'error');
-                            return;
-                        }
-                    } catch (parseError) {
-                        console.log('解析健康检查响应失败，直接跳转');
-                    }
-                }
-
-                window.location.href = `${API_BASE}/twitter`;
-                
+                                
             } catch (error) {
                 console.error('Twitter 连接流程失败:', error);
                 
@@ -1224,10 +1131,6 @@
             
                 try {
                     await autoCheckFaucetStatus();
-                
-                    if (!isCheckingTwitterStatus) {
-                        await autoCheckTwitterStatus();
-                    }
                 } catch (error) {
                     console.log('登录后自动检查状态失败:', error.message);
                 }
@@ -1235,7 +1138,7 @@
             } catch (error) {
                 console.error('自动认证流程失败:', error);
                 
-                                 if (error.message.includes('User rejected')) {
+                if (error.message.includes('User rejected')) {
                      showStatusI18n('walletStatus', 'faucet.messages.userCancelledTransaction', 'warning');
                  } else {
                      showStatusI18n('walletStatus', 'faucet.messages.authFailed', 'error');
@@ -1245,164 +1148,10 @@
 
         
         async function autoCheckTwitterStatus() {
-    
-            if (isCheckingTwitterStatus) {
-                console.log('🔒 Twitter状态检查正在进行中，跳过重复调用');
-                return;
-            }
-            
-            isCheckingTwitterStatus = true;
-            
-            try {
-                const token = localStorage.getItem('faucetAuthToken') || authToken;
-                if (!token) {
-                    console.log('没有认证token，跳过Twitter状态检查');
-                    return;
-                }
-
-                console.log('🔍 自动检查Twitter连接状态...');
-                
-                const response = await fetch(`${API_BASE}/twitter/status`, {
-                    credentials: 'include',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (!response.ok) {
-                    if (response.status === 401) {
-                        console.log('🔑 检测到401错误，尝试自动重新登录...');
-                        
-                        try {
-
-                            const nonceResponse = await fetch(`${API_BASE}/nonce`, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                credentials: 'include',
-                                body: JSON.stringify({ walletAddress })
-                            });
-
-                            const nonceData = await nonceResponse.json();
-                            
-                            if (!nonceData.success) {
-                                throw new Error(`获取nonce失败: ${nonceData.message || nonceData.error}`);
-                            }
-
-                            const nonce = nonceData.data.nonce;
-                            const message = nonceData.data.message;
-
-
-                            const signature = await window.ethereum.request({
-                                method: 'personal_sign',
-                                params: [message, walletAddress]
-                            });
-
-
-                            const loginResponse = await fetch(`${API_BASE}/login`, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                credentials: 'include',
-                                body: JSON.stringify({
-                                    walletAddress,
-                                    signature,
-                                    message
-                                })
-                            });
-
-                            const loginData = await loginResponse.json();
-                            
-                            if (!loginData.success) {
-                                throw new Error(`自动重新登录失败: ${loginData.message || loginData.error}`);
-                            }
-
-                            console.log('✅ 自动重新登录成功，更新token');
-                            
-
-                            authToken = loginData.data.token;
-                            localStorage.setItem('faucetAuthToken', authToken);
-                            localStorage.setItem('faucetUser', JSON.stringify(loginData.data.user));
-                            
-                            console.log('自动重新登录成功，立即检查Twitter状态');
-                            
-                            isCheckingTwitterStatus = false;
-                            
-                            try {
-                                await autoCheckFaucetStatus();
-                                await autoCheckTwitterStatus();
-                            } catch (checkError) {
-                                console.log('重新登录后检查状态失败:', checkError.message);
-                                showTwitterSection();
-                                hideTwitterStatusSection();
-                                hideFaucetClaimSection();
-                            }
-                            return;
-                            
-                        } catch (autoLoginError) {
-                            console.error('自动重新登录失败:', autoLoginError);
-
-                        }
-                    }
-                    
-                    console.log('Twitter状态检查失败，显示Twitter连接部分，隐藏状态部分和水龙头功能');
-                    showTwitterSection();
-                    hideTwitterStatusSection();
-                    hideFaucetClaimSection();
-                    return;
-                }
-
-                const data = await response.json();
-
-                if (data.success) {
-                    const { connected, twitter } = data.data;
-                    
-                    if (connected && twitter) {
-                        console.log('✅ Twitter已连接，隐藏Twitter连接部分，显示状态部分和水龙头功能');
-                        hideTwitterSection();
-                        showTwitterStatusSection();
-                        showFaucetClaimSection();
-                        
-                        const twitterConnectedMsg = getI18nMessage('faucet.messages.twitterConnected', '✅ Twitter 已连接');
-                        const displayNameMsg = getI18nMessage('faucet.messages.displayName', '显示名');
-                        const verifiedMsg = getI18nMessage('faucet.messages.verified', '验证状态');
-                        const connectedAtMsg = getI18nMessage('faucet.messages.connectedAt', '连接时间');
-                        const verifiedStatusMsg = twitter.verified ? 
-                            getI18nMessage('faucet.messages.verified_', '已验证') : 
-                            getI18nMessage('faucet.messages.unverified', '未验证');
-                        
-                        showStatus('twitterStatus', 
-                            `${twitterConnectedMsg}: @${twitter.username}<br>` +
-                            `<div class="text-sm text-gray-600 mt-2">` +
-                            `${displayNameMsg}: ${twitter.name} | ` +
-                            `${verifiedMsg}: ${verifiedStatusMsg} | ` +
-                            `${connectedAtMsg}: ${new Date(twitter.connectedAt).toLocaleString()}` +
-                            `</div>`,
-                            'success'
-                        );
-                    } else {
-                        console.log('Twitter未连接，显示Twitter连接部分，隐藏状态部分和水龙头功能');
-                        showTwitterSection();
-                        hideTwitterStatusSection();
-                        hideFaucetClaimSection();
-                    }
-                } else {
-                    console.log('Twitter状态检查返回失败，显示Twitter连接部分，隐藏状态部分和水龙头功能');
-                    showTwitterSection();
-                    hideTwitterStatusSection();
-                    hideFaucetClaimSection();
-                }
-
-            } catch (error) {
-                console.error('自动检查Twitter状态失败:', error);
-                showTwitterSection();
-                hideTwitterStatusSection();
-                hideFaucetClaimSection();
-            } finally {
-                isCheckingTwitterStatus = false;
-            }
+            // Twitter状态检查现在集成在 autoCheckFaucetStatus 中
+            // 这个函数保留是为了向后兼容，直接调用 autoCheckFaucetStatus
+            console.log('🔍 调用集成的状态检查函数（包含Twitter状态）...');
+            await autoCheckFaucetStatus();
         }
 
         function hideTwitterSection() {
@@ -1466,47 +1215,95 @@
         }
         
         async function autoCheckFaucetStatus() {
-            try {
-                const token = localStorage.getItem('faucetAuthToken') || authToken;
-                if (!token) {
-                    return; 
-                }
-
-                const response = await fetch(`${API_BASE}/claim/status`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    },
-                    credentials: 'include'
-                });
-
-                const data = await response.json();
-
-                if (!data.success) {
-                    return;
-                }
-
-                const { user, ip, twitter } = data.data;
-
-
-                let maxCooldownTime = 0;
-                if (user.remainingTime && user.remainingTime > 0) {
-                    maxCooldownTime = Math.max(maxCooldownTime, user.remainingTime);
-                }
-                if (ip.remainingTime && ip.remainingTime > 0) {
-                    maxCooldownTime = Math.max(maxCooldownTime, ip.remainingTime);
-                }
-                if (twitter.remainingTime && twitter.remainingTime > 0) {
-                    maxCooldownTime = Math.max(maxCooldownTime, twitter.remainingTime);
-                }
-
-
-                if (maxCooldownTime > 0) {
-                    startCountdown(maxCooldownTime);
-                }
-
-            } catch (error) {
-                console.log('静默检查冷却状态失败:', error.message);
+            const currentTime = Date.now();
+            
+            // 检查冷却期
+            if (currentTime - lastFaucetCheckTime < FAUCET_CHECK_COOLDOWN) {
+                console.log(`🕒 Faucet状态检查在冷却期内，跳过调用 (距离上次检查 ${currentTime - lastFaucetCheckTime}ms)`);
+                return;
             }
+            
+            // 如果已经有正在进行的请求，返回同一个 Promise
+            if (faucetStatusPromise) {
+                console.log('🔒 Faucet状态检查正在进行中，返回现有Promise');
+                return faucetStatusPromise;
+            }
+            
+            // 更新最后检查时间
+            lastFaucetCheckTime = currentTime;
+            
+            // 创建新的检查Promise
+            faucetStatusPromise = (async () => {
+                try {
+                    const token = localStorage.getItem('faucetAuthToken') || authToken;
+                    if (!token) {
+                        return; 
+                    }
+
+                    console.log('🔍 检查 Faucet 状态...');
+
+                    const response = await fetch(`${API_BASE}/claim/status`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        },
+                        credentials: 'include'
+                    });
+
+                    const data = await response.json();
+
+                    if (!data.success) {
+                        return;
+                    }
+
+                    const { user, ip, twitter } = data.data;
+
+                    // 处理 Twitter 状态信息
+                    if (twitter && twitter.isBound) {
+                        console.log('✅ 检测到Twitter已绑定，更新UI状态');
+                        hideTwitterSection();
+                        showTwitterStatusSection();
+                        showFaucetClaimSection();
+                        
+                        const twitterConnectedMsg = getI18nMessage('faucet.messages.twitterConnected', '✅ Twitter 已连接');
+                        
+                        showStatus('twitterStatus', 
+                            `${twitterConnectedMsg}: @${twitter.username}<br>`,
+                            'success'
+                        );
+                    } else {
+                        console.log('Twitter未绑定，显示Twitter连接部分');
+                        showTwitterSection();
+                        hideTwitterStatusSection();
+                        hideFaucetClaimSection();
+                    }
+
+                    // 处理冷却时间
+                    let maxCooldownTime = 0;
+                    if (user.remainingTime && user.remainingTime > 0) {
+                        maxCooldownTime = Math.max(maxCooldownTime, user.remainingTime);
+                    }
+                    if (ip.remainingTime && ip.remainingTime > 0) {
+                        maxCooldownTime = Math.max(maxCooldownTime, ip.remainingTime);
+                    }
+                    if (twitter.remainingTime && twitter.remainingTime > 0) {
+                        maxCooldownTime = Math.max(maxCooldownTime, twitter.remainingTime);
+                    }
+
+                    if (maxCooldownTime > 0) {
+                        startCountdown(maxCooldownTime);
+                    }
+
+                } catch (error) {
+                    console.log('静默检查冷却状态失败:', error.message);
+                } finally {
+                    // 延迟清除 Promise 引用，避免紧密的重复调用
+                    setTimeout(() => {
+                        faucetStatusPromise = null;
+                    }, 500); // 500ms 后清除，给并发调用留缓冲时间
+                }
+            })();
+            
+            return faucetStatusPromise;
         }
 
      
@@ -1575,7 +1372,6 @@
                             
                             try {
                                 await autoCheckFaucetStatus();
-                                await autoCheckTwitterStatus();
                             } catch (error) {
                                 console.log('钱包验证后自动检查状态失败:', error.message);
                             }
@@ -1686,7 +1482,7 @@
                 
                 try {
                     if (!isCheckingTwitterStatus) {
-                        await autoCheckTwitterStatus();
+                        await autoCheckFaucetStatus();
                     }
                 } catch (error) {
                     console.log('Twitter状态检查失败:', error.message);
@@ -1716,3 +1512,4 @@
 
 </body>
 </html>
+
