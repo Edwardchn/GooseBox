@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHRS 水龙头 - Goosebox</title>
+    <title>PHRS Faucet - Goosebox</title>
     
     <link rel="icon" type="image/x-icon" href="assets/logo_beta.png">
     
@@ -50,7 +50,7 @@
                     <img alt="Goosebox Logo" class="logo" loading="lazy" src="assets/logo_beta.png"/>
                     <div class="leading-tight">
                         <div class="font-extrabold text-lg">Goosebox</div>
-                        <div class="text-white/80 text-xs" id="subtitle" data-lang="faucet.subtitle">PHRS 水龙头</div>
+                        <div class="text-white/80 text-xs" id="subtitle" data-lang="faucet.subtitle">PHRS Faucet</div>
                     </div>
                 </div>
 
@@ -63,8 +63,8 @@
                     <!-- 语言选择器 -->
                     <div class="relative group">
                         <button class="flex items-center gap-2 hover:text-white transition-colors duration-200" id="currentLang">
-                            <span id="currentLangFlag" class="fi fi-cn text-lg"></span>
-                            <span id="currentLangName">中文</span>
+                            <span id="currentLangFlag" class="fi fi-us text-lg"></span>
+                            <span id="currentLangName">English</span>
                         </button>
                         <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 bg-white rounded-ui shadow-ui border border-wood-200 py-2 min-w-[180px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top scale-95 group-hover:scale-100">
                             <div id="languageOptions"></div>
@@ -74,7 +74,7 @@
                     <button id="open-connect-modal" class="px-4 py-2 rounded-ui bg-hay-400 text-wood-900 font-bold hover:bg-hay-300 transition-colors duration-200" data-lang="nav.wallet">
                     </button>
                     <button id="disconnect" class="px-4 py-2 rounded-ui bg-red-500 text-white font-bold hover:bg-red-600 transition-colors duration-200" style="display: none;" data-lang="nav.disconnect">
-                        断开连接
+                        Disconnect
                     </button>
                 </nav>
                 
@@ -82,7 +82,7 @@
                     <button id="open-connect-modal-mobile" class="px-3 py-2 rounded-ui bg-hay-400 text-wood-900 font-bold text-sm hover:bg-hay-300 transition-colors duration-200" data-lang="nav.wallet">
                     </button>
                     <button id="disconnect-mobile" class="px-3 py-2 rounded-ui bg-red-500 text-white font-bold text-sm hover:bg-red-600 transition-colors duration-200" style="display: none;" data-lang="nav.disconnect">
-                        断开
+                        Disconnect
                     </button>
                 </div>
             </div>
@@ -93,20 +93,20 @@
         <div class="max-w-6xl mx-auto px-4 py-12 md:py-16">
             <div class="grid md:grid-cols-2 gap-8 items-center">
                 <div>
-                    <h1 class="text-3xl md:text-4xl font-extrabold text-wood-900 leading-tight" id="heroTitle" data-lang="faucet.heroTitle">PHRS 水龙头</h1>
-                    <p class="mt-4 text-stone-700" id="heroDescription" data-lang="faucet.heroDescription">每日免费领取 0.1 PHRS 测试代币，体验 Goosebox 生态系统</p>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-wood-900 leading-tight" id="heroTitle" data-lang="faucet.heroTitle">PHRS Faucet</h1>
+                    <p class="mt-4 text-stone-700" id="heroDescription" data-lang="faucet.heroDescription">Get 0.1 PHRS testnet tokens daily for free, experience the Goosebox ecosystem</p>
                     <div class="mt-6 p-4 bg-white/80 rounded-ui border border-wood-200">
-                        <div class="text-sm text-stone-600 mb-2" data-lang="faucet.networkInfo.title">网络信息</div>
+                        <div class="text-sm text-stone-600 mb-2" data-lang="faucet.networkInfo.title">Network Info</div>
                         <div class="text-stone-700">
-                            <div data-lang="faucet.networkInfo.network"><strong>网络:</strong> Pharos Testnet (Chain ID: 688688)</div>
-                            <div data-lang="faucet.networkInfo.dailyLimit"><strong>每日限额:</strong> 0.1 PHRS</div>
-                            <div data-lang="faucet.networkInfo.cooldown"><strong>冷却期:</strong> 24小时</div>
+                            <div data-lang="faucet.networkInfo.network"><strong>Network:</strong> Pharos Testnet (Chain ID: 688688)</div>
+                            <div data-lang="faucet.networkInfo.dailyLimit"><strong>Daily Limit:</strong> 0.1 PHRS</div>
+                            <div data-lang="faucet.networkInfo.cooldown"><strong>Cooldown:</strong> 24 hours</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="float">
-                    <img src="assets/goosebox_ranch.png" alt="Goosebox Ranch" class="w-full" loading="lazy">
+                    <img src="assets/goosebox_ranch_phrs.png" alt="Goosebox Ranch" class="w-full" loading="lazy">
                 </div>
             </div>
         </div>
@@ -116,17 +116,17 @@
         <div class="max-w-4xl mx-auto px-4">
             
             <div class="rounded-ui bg-white border border-wood-200 p-6 shadow-ui mb-6" style="display: none;">
-                <h3 class="text-xl font-bold text-wood-900 mb-4" data-lang="faucet.sections.walletConnection">1. 钱包连接状态</h3>
-                <div id="walletStatus" class="text-stone-600" data-lang="faucet.walletStatus.integrated">钱包已集成，连接后将自动开始认证流程</div>
+                <h3 class="text-xl font-bold text-wood-900 mb-4" data-lang="faucet.sections.walletConnection">1. Wallet Connection Status</h3>
+                <div id="walletStatus" class="text-stone-600" data-lang="faucet.walletStatus.integrated">Wallet integrated, authentication flow will start automatically after connection</div>
             </div>
 
             <!-- Twitter 状态显示（独立于 Twitter OAuth 部分） -->
             <div id="twitterStatusSection" class="rounded-ui bg-white border border-wood-200 p-6 shadow-ui mb-6" style="display: none;">
-                <h3 class="text-xl font-bold text-wood-900 mb-4" data-lang="faucet.sections.twitterStatus">1. X 账户状态</h3>
+                <h3 class="text-xl font-bold text-wood-900 mb-4" data-lang="faucet.sections.twitterStatus">1. X Account Status</h3>
                 <div id="twitterStatus" class="text-stone-600"></div>
                 <div class="flex gap-4 mb-4">
                     <button id="disconnectTwitter" style="display: none;" class="px-6 py-3 rounded-ui bg-red-400 text-white font-medium hover:bg-red-300 transition-colors duration-200" data-lang="faucet.twitter.disconnectButton">
-                        断开 Twitter
+                        Disconnect Twitter
                     </button>
                 </div>
             </div>
@@ -136,25 +136,25 @@
                 <div id="twitterOAuthStatus" class="text-stone-600"></div>
                 <div class="flex gap-2">
                     <button id="connectTwitter" disabled class="px-6 py-3 rounded-ui bg-blue-400 text-white font-medium hover:bg-blue-300 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed" data-lang="faucet.twitter.connectButton">
-                        连接 Twitter
+                        Connect Twitter
                     </button>
                 </div>
             </div>
 
 
 
-            <div id="faucetClaimSection" class="rounded-ui bg-white border border-wood-200 p-6 shadow-ui mb-6">
-                <h3 class="text-xl font-bold text-wood-900 mb-4" data-lang="faucet.sections.claimTokens">2. 领取 PHRS 代币</h3>
+            <div id="faucetClaimSection" class="rounded-ui bg-white border border-wood-200 p-6 shadow-ui mb-6" style="display: none;">
+                <h3 class="text-xl font-bold text-wood-900 mb-4" data-lang="faucet.sections.claimTokens">2. Claim PHRS Tokens</h3>
                 
                 <div class="mb-4 p-4 bg-field-50 border border-field-200 rounded-lg">
-                    <div class="text-sm text-stone-600 mb-2" data-lang="faucet.claim.instructions">领取说明</div>
+                    <div class="text-sm text-stone-600 mb-2" data-lang="faucet.claim.instructions">Claim Instructions</div>
                     <ul class="text-sm text-stone-700 space-y-1">
-                        <li data-lang="faucet.claim.instruction1">• 每个钱包地址每24小时只能领取一次</li>
-                        <li data-lang="faucet.claim.instruction2">• 每次领取 0.1 PHRS 测试代币</li>
-                        <li data-lang="faucet.claim.instruction3">• 需要完成签名登录和 reCAPTCHA 验证</li>
-                        <li data-lang="faucet.claim.instruction4">• 建议绑定 Twitter 账户以获得更好的服务</li>
-                        <li data-lang="faucet.claim.instruction5">• 使用钱包连接</li>
-                        <li data-lang="faucet.claim.instruction6">• 确保在 Pharos Testnet 网络上</li>
+                        <li data-lang="faucet.claim.instruction1">• Each wallet address can only claim once every 24 hours</li>
+                        <li data-lang="faucet.claim.instruction2">• Claim 0.1 PHRS testnet tokens each time</li>
+                        <li data-lang="faucet.claim.instruction3">• Complete signature login and reCAPTCHA verification required</li>
+                        <li data-lang="faucet.claim.instruction4">• Recommend binding Twitter account for better service</li>
+                        <li data-lang="faucet.claim.instruction5">• Use wallet connection</li>
+                        <li data-lang="faucet.claim.instruction6">• Ensure on Pharos Testnet network</li>
                     </ul>
                 </div>
 
@@ -165,7 +165,7 @@
                 <div class="flex gap-2 mb-4">
 
                 <button id="claimTokens" disabled class="px-6 py-3 rounded-ui bg-hay-400 text-wood-900 font-bold shadow-ui hover:bg-hay-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200">
-                    <span id="claimButtonText" data-lang="faucet.claim.claimButton">领取代币</span>
+                    <span id="claimButtonText" data-lang="faucet.claim.claimButton">Claim Tokens</span>
                     <span id="claimCountdown" class="hidden"></span>
                 </button>
                 </div>
@@ -239,7 +239,7 @@
         let faucetRecaptchaToken = null;
         let countdownTimer = null;
         let currentCooldownTime = 0;
-        let currentLang = 'zh-CN';
+        let currentLang = defaultLanguage;
         let isCheckingTwitterStatus = false;
         let isCheckingFaucetStatus = false;
         let faucetStatusPromise = null;
@@ -255,8 +255,12 @@
         const currentStatusStates = {
             walletStatus: { type: null, messageKey: null, params: null, isCustom: false },
             twitterStatus: { type: null, messageKey: null, params: null, isCustom: false },
+            twitterOAuthStatus: { type: null, messageKey: null, params: null, isCustom: false },
             faucetStatus: { type: null, messageKey: null, params: null, isCustom: false }
         };
+
+        // 存储当前 Twitter 连接状态信息
+        let currentTwitterInfo = null;
 
         const API_BASE = 'https://api.gbox.game/api/faucet-auth';
 
@@ -346,6 +350,23 @@
             }
         }
 
+        function updateTwitterStatusDisplay() {
+            if (currentTwitterInfo) {
+                const twitterConnectedMsg = getI18nMessage('faucet.messages.twitterConnected', '✅ Twitter connected');
+                showStatus('twitterStatus', 
+                    `${twitterConnectedMsg}: @${currentTwitterInfo.username}<br>`,
+                    'success'
+                );
+                
+                currentStatusStates.twitterStatus = {
+                    type: 'success',
+                    messageKey: 'faucet.messages.twitterConnected',
+                    params: { username: currentTwitterInfo.username },
+                    isCustom: true
+                };
+            }
+        }
+
         function updateAllStatusDisplays() {
             Object.keys(currentStatusStates).forEach(elementId => {
                 const state = currentStatusStates[elementId];
@@ -353,6 +374,8 @@
                     showStatusI18n(elementId, state.messageKey, state.type, state.params);
                 } else if (state.isCustom && elementId === 'walletStatus' && walletAddress && authToken) {
                     updateWalletStatusDisplay();
+                } else if (state.isCustom && elementId === 'twitterStatus' && currentTwitterInfo) {
+                    updateTwitterStatusDisplay();
                 }
             });
         }
@@ -455,10 +478,10 @@
             }
             
             const statusClass = {
-                'info': 'p-4 border rounded-lg bg-blue-50 border-blue-200 text-blue-800',
-                'success': 'p-4 border rounded-lg bg-green-50 border-green-200 text-green-800',
-                'error': 'p-4 border rounded-lg bg-red-50 border-red-200 text-red-800',
-                'warning': 'p-4 border rounded-lg bg-yellow-50 border-yellow-200 text-yellow-800'
+                'info': 'p-4 border rounded-lg bg-blue-50 border-blue-200 text-blue-800 mb-2',
+                'success': 'p-4 border rounded-lg bg-green-50 border-green-200 text-green-800 mb-2',
+                'error': 'p-4 border rounded-lg bg-red-50 border-red-200 text-red-800 mb-2',
+                'warning': 'p-4 border rounded-lg bg-yellow-50 border-yellow-200 text-yellow-800 mb-2'
             };
             
             element.innerHTML = `<div class="${statusClass[type]}">${message}</div>`;
@@ -537,12 +560,17 @@
             const minutes = Math.floor((seconds % 3600) / 60);
             const secs = seconds % 60;
 
+            const langData = getLanguageData(currentLang);
+            const hoursText = langData.faucet?.messages?.hours || 'hours';
+            const minutesText = langData.faucet?.messages?.minutes || 'minutes';
+            const secondsText = langData.faucet?.messages?.seconds || 'seconds';
+
             if (hours > 0) {
-                return `${hours}小时${minutes}分钟`;
+                return `${hours}${hoursText}${minutes}${minutesText}`;
             } else if (minutes > 0) {
-                return `${minutes}分${secs}秒`;
+                return `${minutes}${minutesText}${secs}${secondsText}`;
             } else {
-                return `${secs}秒`;
+                return `${secs}${secondsText}`;
             }
         }
 
@@ -585,7 +613,10 @@
             if (currentCooldownTime > 0) {
                 buttonTextElement.style.display = 'none';
                 countdownElement.style.display = 'inline';
-                countdownElement.textContent = `冷却中 (${formatCountdown(currentCooldownTime)})`;
+                
+                const langData = getLanguageData(currentLang);
+                const cooldownText = langData.faucet?.messages?.cooldown || 'Cooling down';
+                countdownElement.textContent = `${cooldownText} (${formatCountdown(currentCooldownTime)})`;
             } else {
                 buttonTextElement.style.display = 'inline';
                 countdownElement.style.display = 'none';
@@ -600,7 +631,7 @@
 
             button.disabled = false;
             buttonTextElement.style.display = 'inline';
-            buttonTextElement.textContent = '领取代币';
+            buttonTextElement.textContent = 'Claim Tokens';
             countdownElement.style.display = 'none';
 
 
@@ -618,7 +649,6 @@
             try {
                 
                 const currentToken = localStorage.getItem('faucetAuthToken') || authToken;
-                
                 if (!currentToken) {
                     showStatusI18n('twitterOAuthStatus', 'faucet.messages.authRequired', 'error');
                     return;
@@ -626,108 +656,55 @@
 
                 showStatusI18n('twitterOAuthStatus', 'faucet.messages.preparingTwitterConnection', 'info');
 
-                try {
-                    console.log('检测到认证token，验证有效性...');
                     const response = await fetch(`${API_BASE}/twitter`, {
                         method: 'GET',
                         credentials: 'include',
-                        headers: {
-                            'Authorization': `Bearer ${currentToken}`
-                        }
+                    headers: { 'Authorization': `Bearer ${currentToken}` }
                     });
 
                     const data = await response.json();
 
-                    if (data.error === 'Authentication required' || data.message?.includes('login')) {
-                        console.log('Token已过期，清除本地认证状态并重新登录...');
+                const needsReauth = response.status === 401 || 
+                    data.error === 'Authentication required' || 
+                    data.message?.includes('Please login with your wallet first');
+
+                if (needsReauth) {
+                    console.log('检测到认证错误，开始重新登录...');
+                    
                         localStorage.removeItem('faucetAuthToken');
                         localStorage.removeItem('faucetUser');
-                        
-                        // 检查 AppKit 连接状态
-                        if (window.appKit && window.appKit.getIsConnectedState()) {
-                            try {
-                                await autoStartAuthFlow();
-                                
-                                const newToken = localStorage.getItem('faucetAuthToken') || authToken;
-                                if (newToken) {
-                                    console.log('重新登录成功，直接跳转到Twitter OAuth页面');
-                                    window.location.href = `${API_BASE}/twitter`;
-                                } else {
-                                    throw new Error('重新登录失败');
-                                }
-                            } catch (authError) {
-                                if (authError.message && authError.message.includes('User rejected')) {
-                                    showStatusI18n('twitterOAuthStatus', 'faucet.messages.userCancelledSignature', 'warning');
-                                    return;
-                                } else {
-                                    throw authError;
-                                }
-                            }
-                        } else {
+                    authToken = null;
+                    
+                    if (!window.appKit?.getIsConnectedState()) {
                             throw new Error('请先连接钱包');
                         }
-                    } else {
-                        throw new Error(data.message || data.error);
-                    }
-                } catch (fetchError) {
 
-                    console.log('API验证失败，可能需要重新认证:', fetchError.message);
-                    
-                    if (fetchError.message && (
-                        fetchError.message.includes('401') || 
-                        fetchError.message.includes('Unauthorized') ||
-                        fetchError.message.includes('Authentication') ||
-                        fetchError.message.includes('login')
-                    )) {
-                        console.log('检测到认证错误，尝试重新登录...');
-                        
-                        // 清除本地认证状态
-                        localStorage.removeItem('faucetAuthToken');
-                        localStorage.removeItem('faucetUser');
-                        
-                        // 检查 AppKit 连接状态
-                        if (window.appKit && window.appKit.getIsConnectedState()) {
                             try {
                                 showStatusI18n('twitterOAuthStatus', 'faucet.messages.reAuthenticating', 'info');
                                 await autoStartAuthFlow();
                                 
                                 const newToken = localStorage.getItem('faucetAuthToken') || authToken;
                                 if (newToken) {
-                                    console.log('重新登录成功，跳转到Twitter OAuth页面');
+                            console.log('重新登录成功，现在跳转到Twitter连接');
+                            // showStatusI18n('twitterOAuthStatus', 'faucet.messages.authSuccessRetryTwitter', 'success');
                                     window.location.href = `${API_BASE}/twitter`;
                                 } else {
                                     throw new Error('重新登录失败');
                                 }
                             } catch (authError) {
-                                if (authError.message && authError.message.includes('User rejected')) {
+                        if (authError.message?.includes('User rejected')) {
                                     showStatusI18n('twitterOAuthStatus', 'faucet.messages.userCancelledSignature', 'warning');
                                     return;
-                                } else {
+                        }
                                     throw authError;
-                                }
                             }
                         } else {
-                            throw new Error('请先连接钱包');
-                        }
-                    } else {
-                        // 如果不是认证错误，直接跳转到Twitter OAuth页面
-                        console.log('非认证错误，直接跳转到Twitter OAuth页面');
-                        window.location.href = `${API_BASE}/twitter`;
-                    }
+                    throw new Error(data.message || data.error || '未知错误');
                 }
                                 
             } catch (error) {
                 console.error('Twitter 连接流程失败:', error);
-                
-                if (error.message && error.message.includes('User rejected')) {
-                    showStatusI18n('twitterOAuthStatus', 'faucet.messages.userCancelledSignature', 'warning');
-                } else {
-                    const connectionFailedMsg = getI18nMessage('faucet.messages.twitterConnectionFailed', '❌ X 连接失败');
-                    showStatus('twitterOAuthStatus', 
-                        `${connectionFailedMsg}: ${error.message}`, 
-                        'error'
-                    );
-                }
+                window.location.href = `${API_BASE}/twitter`;
             }
         });
 
@@ -763,6 +740,10 @@
 
                 document.getElementById('connectTwitter').style.display = 'inline-block';
                 document.getElementById('disconnectTwitter').style.display = 'none';
+                
+                // 清除 Twitter 信息
+                currentTwitterInfo = null;
+                currentStatusStates.twitterStatus = { type: null, messageKey: null, params: null, isCustom: false };
                 
                 showTwitterSection();
                 hideTwitterStatusSection();
@@ -823,22 +804,6 @@
                 }
 
                 const { distributionId, amount, status, twitter, rateLimit, note } = data.data;
-
-                showStatus('faucetStatus',
-                    `✅ 代币申请提交成功！<br><br>` +
-                    `<div class="bg-green-50 p-3 rounded border border-green-200">` +
-                    `<strong>申请信息:</strong><br>` +
-                    `申请ID: ${distributionId}<br>` +
-                    `申请金额: ${amount} PHRS<br>` +
-                    `处理状态: ${status === 'pending' ? '处理中' : status}<br>` +
-                    `Twitter: @${twitter.username}<br>` +
-                    `剩余请求次数: ${rateLimit.remaining}<br>` +
-                    `限制重置时间: ${new Date(rateLimit.resetTime * 1000).toLocaleString()}<br><br>` +
-                    `<strong>说明:</strong> ${note}<br><br>` +
-                    `<strong>注意:</strong> 后台将自动处理发币，无需手动调用合约` +
-                    `</div>`,
-                    'success'
-                );
 
                 startCountdown(86400);
 
@@ -932,7 +897,7 @@
             const message = urlParams.get('message');
 
             console.log('🔍 Twitter 回调处理开始:', { state, code, error, message });
-
+            
             if (error) {
                 showTwitterSection();
                 hideTwitterStatusSection();
@@ -953,10 +918,13 @@
                     callbackDetails.textContent = '检测到授权回调，正在处理...';
                 }
                 
-                showStatusI18n('twitterOAuthStatus', 'faucet.messages.bindingTwitterAccount', 'info');
+                    showStatusI18n('twitterOAuthStatus', 'faucet.messages.bindingTwitterAccount', 'info');
 
-                try {
-                    const currentToken = localStorage.getItem('faucetAuthToken') || authToken;
+                    // 在调用绑定 API 前隐藏连接按钮，防止重复点击
+                    document.getElementById('connectTwitter').style.display = 'none';
+
+                    try {
+                        const currentToken = localStorage.getItem('faucetAuthToken') || authToken;
                     console.log('🔑 当前认证状态:', {
                         localStorageToken: !!localStorage.getItem('faucetAuthToken'),
                         authToken: !!authToken,
@@ -966,8 +934,6 @@
                     if (!currentToken) {
                         const errorMsg = '未找到认证 Token，请先完成钱包连接和签名认证';
                         console.error('❌ Twitter 绑定失败:', errorMsg);
-                        
-                        
 
                         if (callbackDetails) {
                             callbackDetails.textContent = '认证失败：需要先完成钱包连接和签名';
@@ -1000,29 +966,22 @@
                             callbackDetails.textContent = '绑定成功！';
                         }
                         
-                        const bindingSuccessMsg = getI18nMessage('faucet.messages.twitterBindingSuccess', 'Twitter 账户绑定成功!');
-                        const twitterInfoMsg = getI18nMessage('faucet.messages.twitterInfo', 'Twitter 信息:');
-                        const usernameMsg = getI18nMessage('faucet.messages.username', '用户名');
-                        const displayNameMsg = getI18nMessage('faucet.messages.displayName', '显示名');
-                        const verifiedMsg = getI18nMessage('faucet.messages.verified', '验证状态');
-                        const followersMsg = getI18nMessage('faucet.messages.followers', '关注者');
-                        const connectedAtMsg = getI18nMessage('faucet.messages.connectedAt', '绑定时间');
-                        const verifiedStatusMsg = twitter.verified ? 
-                            getI18nMessage('faucet.messages.verified_', '已验证') : 
-                            getI18nMessage('faucet.messages.unverified', '未验证');
+                        // 存储 Twitter 信息以便语言切换时更新
+                        currentTwitterInfo = { username: twitter.username };
+                        
+                        const twitterConnectedMsg = getI18nMessage('faucet.messages.twitterConnected', '✅ Twitter connected');
 
                         showStatus('twitterStatus',
-                            `${bindingSuccessMsg}<br><br>` +
-                            `<div class="bg-gray-50 p-3 rounded">` +
-                            `<strong>${twitterInfoMsg}</strong><br>` +
-                            `${usernameMsg}: @${twitter.username}<br>` +
-                            `${displayNameMsg}: ${twitter.name}<br>` +
-                            `${verifiedMsg}: ${verifiedStatusMsg}<br>` +
-                            `${followersMsg}: ${twitter.publicMetrics?.followers_count || 0}<br>` +
-                            `${connectedAtMsg}: ${new Date(twitter.connectedAt).toLocaleString()}` +
-                            `</div>`,
+                            `${twitterConnectedMsg}: @${twitter.username}<br>`,
                             'success'
                         );
+                        
+                        currentStatusStates.twitterStatus = {
+                            type: 'success',
+                            messageKey: 'faucet.messages.twitterConnected',
+                            params: { username: twitter.username },
+                            isCustom: true
+                        };
 
                         document.getElementById('connectTwitter').style.display = 'none';
                         document.getElementById('disconnectTwitter').style.display = 'inline-block';
@@ -1031,6 +990,7 @@
 
                         hideTwitterSection();
                         showTwitterStatusSection();
+                        showFaucetClaimSection();
                         
                         try {
                             await autoCheckFaucetStatus();
@@ -1051,15 +1011,30 @@
                     hideTwitterStatusSection();
                     showTwitterSection();
                     
+                    // 重新显示连接按钮，隐藏断开按钮
+                    document.getElementById('connectTwitter').style.display = 'inline-block';
+                    document.getElementById('disconnectTwitter').style.display = 'none';
+                    
+                    // 清除 Twitter 信息
+                    currentTwitterInfo = null;
+                    currentStatusStates.twitterStatus = { type: null, messageKey: null, params: null, isCustom: false };
+                    
                     if (callbackDetails) {
                         callbackDetails.textContent = `绑定失败：${error.message}`;
                     }
                     
-                    const bindingFailedMsg = getI18nMessage('faucet.messages.twitterBindingFailed', 'X 账户绑定失败');
-                    showStatus('twitterOAuthStatus', 
-                        `${bindingFailedMsg}: ${error.message}`, 
-                        'error'
-                    );
+                    // 确保错误信息不为空
+                    const errorMessage = error.message || error.toString() || 'Unknown error';
+                    
+                    // 存储错误信息以便语言切换时更新
+                    currentStatusStates.twitterOAuthStatus = {
+                        type: 'error',
+                        messageKey: 'faucet.messages.twitterBindingFailed',
+                        params: { error: errorMessage },
+                        isCustom: false
+                    };
+                    
+                    showStatusI18n('twitterOAuthStatus', 'faucet.messages.twitterBindingFailed', 'error', { error: errorMessage });
                 }
 
                 
@@ -1167,6 +1142,10 @@
                 showStatus('twitterStatus', '', 'info');
                 showStatus('faucetStatus', '', 'info');
                 
+                // 清除 Twitter 信息
+                currentTwitterInfo = null;
+                currentStatusStates.twitterStatus = { type: null, messageKey: null, params: null, isCustom: false };
+                
                 showTwitterSection();
                 hideTwitterStatusSection();
                 hideFaucetClaimSection();
@@ -1266,7 +1245,6 @@
                     currentNonce = data.data.nonce;
                     currentMessage = data.data.message;
                     
-                    // 使用 AppKit provider 进行签名
                     const provider = window.getProvider();
                     if (!provider) {
                         throw new Error('无法获取钱包提供者，请确保钱包已连接');
@@ -1301,7 +1279,7 @@
                     localStorage.setItem('faucetUser', JSON.stringify(user));
                     console.log('✅ JWT Token 已保存到本地存储');
 
-                    showStatus('walletStatus', `钱包已连接: ${formatAddress(user.walletAddress)}`, 'success');
+                    showStatus('walletStatus', `Wallet Connected: ${formatAddress(user.walletAddress)}`, 'success');
                     document.getElementById('connectTwitter').disabled = false; 
                     checkClaimButtonState();
                     
@@ -1335,8 +1313,6 @@
 
         
         async function autoCheckTwitterStatus() {
-            // Twitter状态检查现在集成在 autoCheckFaucetStatus 中
-            // 这个函数保留是为了向后兼容，直接调用 autoCheckFaucetStatus
             console.log('🔍 调用集成的状态检查函数（包含Twitter状态）...');
             await autoCheckFaucetStatus();
         }
@@ -1451,14 +1427,26 @@
                         showTwitterStatusSection();
                         showFaucetClaimSection();
                         
-                        const twitterConnectedMsg = getI18nMessage('faucet.messages.twitterConnected', '✅ Twitter 已连接');
+                        // 存储 Twitter 信息以便语言切换时更新
+                        currentTwitterInfo = { username: twitter.username };
+                        
+                        const twitterConnectedMsg = getI18nMessage('faucet.messages.twitterConnected', '✅ Twitter connected');
                         
                         showStatus('twitterStatus', 
                             `${twitterConnectedMsg}: @${twitter.username}<br>`,
                             'success'
                         );
+                        
+                        // 标记为自定义状态，以便语言切换时更新
+                        currentStatusStates.twitterStatus = {
+                            type: 'success',
+                            messageKey: 'faucet.messages.twitterConnected',
+                            params: { username: twitter.username },
+                            isCustom: true
+                        };
                     } else {
                         console.log('Twitter未绑定，显示Twitter连接部分');
+                        currentTwitterInfo = null; // 清除 Twitter 信息
                         showTwitterSection();
                         hideTwitterStatusSection();
                         hideFaucetClaimSection();
@@ -1575,7 +1563,6 @@
                 hideFaucetClaimSection();
                 
                 showStatusI18n('twitterStatus', 'faucet.messages.waitingForAuth', 'info');
-                showStatusI18n('faucetStatus', 'faucet.messages.waitingForFaucetAuth', 'info');
                 
                 walletAddress = address;
                 const newAccountMsg = getLanguageData(currentLang).faucet?.messages?.newAccountAuthenticating || '🔄 新账户认证中';
@@ -1813,7 +1800,7 @@
                         console.log('🔗 AppKit 已连接，本地认证有效，地址匹配:', connectedAddress);
                         walletAddress = connectedAddress;
                         updateWalletButtonVisibility(true);
-                        showStatus('walletStatus', `钱包已连接: ${formatAddress(connectedAddress)}`, 'success');
+                        showStatus('walletStatus', `Wallet Connected: ${formatAddress(connectedAddress)}`, 'success');
                         checkClaimButtonState();
                         
                         // 标记页面初始化时已经处理过认证，避免 onWalletConnected 重复处理
