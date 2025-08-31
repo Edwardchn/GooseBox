@@ -1,5 +1,5 @@
 import { store, updateStore } from '../store/appkitStore.js'
-import { updateButtonVisibility, displayWalletInfo, showMessage } from './dom.js'
+import { updateButtonVisibility, showMessage } from './dom.js'
 import { getProvider } from '../config/appKit.js'
 
 function getWalletConnectedMessage(address) {
@@ -22,10 +22,10 @@ function getWalletConnectedMessage(address) {
 }
 
 export const initializeSubscribers = (appKit) => {
-  console.log('初始化 AppKit 事件订阅者...')
+
 
   appKit.subscribeState((state) => {
-    console.log('AppKit 状态变化:', state)
+
 
     updateStore('appKitState', state)
     
@@ -34,7 +34,7 @@ export const initializeSubscribers = (appKit) => {
   })
 
   appKit.subscribeAccount((account) => {
-    console.log('账户状态变化:', account)
+
     
     updateStore('accountState', account)
     
@@ -43,7 +43,7 @@ export const initializeSubscribers = (appKit) => {
       const provider = getProvider()
       updateStore('eip155Provider', provider)
       
-      displayWalletInfo(account.address, account.chainId)
+      // faucet.html 使用自己的钱包信息显示逻辑
       
 
       const walletConnectedMsg = getWalletConnectedMessage(account.address)
@@ -56,7 +56,7 @@ export const initializeSubscribers = (appKit) => {
     } else {
 
       updateStore('eip155Provider', null)
-      displayWalletInfo(null, null)
+      // faucet.html 处理断开连接的 UI 更新
       
       if (window.onWalletDisconnected) {
         window.onWalletDisconnected()
@@ -66,30 +66,28 @@ export const initializeSubscribers = (appKit) => {
 
 
   appKit.subscribeNetwork((network) => {
-    console.log('网络状态变化:', network)
+
     updateStore('networkState', network)
     
-    if (network.chainId) {
-      displayWalletInfo(store.accountState?.address, network.chainId)
-    }
+    // faucet.html 处理网络变化的 UI 更新
   })
 
   appKit.subscribeTheme((theme) => {
-    console.log('主题状态变化:', theme)
+
     updateStore('themeState', theme)
   })
 
   appKit.subscribeWalletInfo((walletInfo) => {
-    console.log('钱包信息变化:', walletInfo)
+
     updateStore('walletInfo', walletInfo)
   })
 
 
   appKit.subscribeEvents((event) => {
-    console.log('AppKit 事件:', event)
+
     const currentEvents = store.events || []
     updateStore('events', [...currentEvents, event])
   })
 
-  console.log('AppKit 事件订阅者初始化完成')
+
 }

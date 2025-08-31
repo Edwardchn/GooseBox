@@ -158,6 +158,8 @@ const languagePacks = {
         contractCalling: '签名获取成功，正在调用合约...',
         claimInfo: '领取信息',
         amount: '金额',
+        status: '状态',
+        distributionId: '分发ID',
         waitingConfirmation: '交易已提交，等待确认...',
         transactionHash: '交易哈希',
         notifyingServer: '通知服务器合约执行成功...',
@@ -167,6 +169,15 @@ const languagePacks = {
         gasUsed: 'Gas 使用',
         claimAmount: '领取金额',
         cooldownStarted: '24小时冷却期已开始'
+      },
+      security: {
+        title: '🛡️ 安全限制',
+        walletCooldown: '• 用户冷却: 24小时内每个钱包地址只能申请一次',
+        ipLimit: '• IP 限制: 24小时内每个 IP 地址只能申请一次',
+        twitterLimit: '• Twitter 限制: 24小时内每个 Twitter 账户只能申请一次',
+        rateLimit: '• 速率限制: 每小时最多 10 次申请请求',
+        recaptcha: '• reCAPTCHA: 必须通过 Google reCAPTCHA v2 验证',
+        twitterBinding: '• Twitter 绑定: 必须绑定 Twitter 账户才能申请'
       },
       errors: {
         loginRequired: '请先登录',
@@ -438,6 +449,8 @@ const languagePacks = {
         contractCalling: 'Signature obtained successfully, calling contract...',
         claimInfo: 'Claim Info',
         amount: 'Amount',
+        status: 'Status',
+        distributionId: 'Distribution ID',
         waitingConfirmation: 'Transaction submitted, waiting for confirmation...',
         transactionHash: 'Transaction Hash',
         notifyingServer: 'Notifying server of successful contract execution...',
@@ -447,6 +460,15 @@ const languagePacks = {
         gasUsed: 'Gas Used',
         claimAmount: 'Claim Amount',
         cooldownStarted: '24-hour cooldown started'
+      },
+      security: {
+        title: '🛡️ Security Restrictions',
+        walletCooldown: '• User Cooldown: Each wallet address can only claim once within 24 hours',
+        ipLimit: '• IP Restriction: Each IP address can only claim once within 24 hours',
+        twitterLimit: '• Twitter Restriction: Each Twitter account can only claim once within 24 hours',
+        rateLimit: '• Rate Limit: Maximum 10 claim requests per hour',
+        recaptcha: '• reCAPTCHA: Must pass Google reCAPTCHA v2 verification',
+        twitterBinding: '• Twitter Binding: Must bind Twitter account to claim tokens'
       },
       errors: {
         loginRequired: 'Please login first',
@@ -706,6 +728,8 @@ const languagePacks = {
         contractCalling: 'Подпись получена успешно, вызов контракта...',
         claimInfo: 'Информация о получении',
         amount: 'Сумма',
+        status: 'Статус',
+        distributionId: 'ID распределения',
         waitingConfirmation: 'Транзакция отправлена, ожидание подтверждения...',
         transactionHash: 'Хеш транзакции',
         notifyingServer: 'Уведомление сервера об успешном выполнении контракта...',
@@ -715,6 +739,15 @@ const languagePacks = {
         gasUsed: 'Использовано газа',
         claimAmount: 'Сумма получения',
         cooldownStarted: '24-часовой период ожидания начался'
+      },
+      security: {
+        title: '🛡️ Ограничения безопасности',
+        walletCooldown: '• Время ожидания пользователя: Каждый адрес кошелька может запрашивать только один раз в течение 24 часов',
+        ipLimit: '• Ограничение IP: Каждый IP-адрес может запрашивать только один раз в течение 24 часов',
+        twitterLimit: '• Ограничение Twitter: Каждая учетная запись Twitter может запрашивать только один раз в течение 24 часов',
+        rateLimit: '• Ограничение скорости: Максимум 10 запросов в час',
+        recaptcha: '• reCAPTCHA: Необходимо пройти проверку Google reCAPTCHA v2',
+        twitterBinding: '• Привязка Twitter: Необходимо привязать учетную запись Twitter для получения токенов'
       },
       errors: {
         loginRequired: 'Сначала войдите в систему',
@@ -899,33 +932,33 @@ const languagePacks = {
         answer: 'Mời người khác được rương; sau khi liên kết, bạn sẽ liên tục nhận hoa hồng từ hoạt động của người dưới.'
       }
     },
-          faucet: {
-        title: 'Vòi PHRS',
-        subtitle: 'Vòi PHRS',
-        heroTitle: 'Vòi PHRS',
-        heroDescription: 'Nhận 0.1 PHRS token thử nghiệm hàng ngày và khám phá hệ sinh thái Goosebox',
-        sections: {
-          walletConnection: 'Trạng thái kết nối ví',
-          twitterIntegration: 'Liên kết tài khoản X',
-          twitterStatus: 'Trạng thái tài khoản X',
-          claimTokens: 'Nhận token PHRS'
-        },
-        networkInfo: {
-          title: 'Thông tin mạng',
-          network: 'Mạng: Pharos Testnet (Chain ID: 688688)',
-          dailyLimit: 'Giới hạn hàng ngày: 0.1 PHRS',
-          cooldown: 'Thời gian chờ: 24 giờ'
-        },
-        walletStatus: {
-          integrated: 'Ví đã tích hợp, xác thực sẽ bắt đầu tự động sau khi kết nối',
-          connected: 'Ví đã kết nối',
+    faucet: {
+      title: 'Vòi PHRS',
+      subtitle: 'Vòi PHRS',
+      heroTitle: 'Vòi PHRS',
+      heroDescription: 'Nhận 0.1 PHRS token thử nghiệm hàng ngày và khám phá hệ sinh thái Goosebox',
+      sections: {
+        walletConnection: 'Trạng thái kết nối ví',
+        twitterIntegration: 'Liên kết tài khoản X',
+        twitterStatus: 'Trạng thái tài khoản X',
+        claimTokens: 'Nhận token PHRS'
+      },
+      networkInfo: {
+        title: 'Thông tin mạng',
+        network: 'Mạng: Pharos Testnet (Chain ID: 688688)',
+        dailyLimit: 'Giới hạn hàng ngày: 0.1 PHRS',
+        cooldown: 'Thời gian chờ: 24 giờ'
+      },
+      walletStatus: {
+        integrated: 'Ví đã tích hợp, xác thực sẽ bắt đầu tự động sau khi kết nối',
+        connected: 'Ví đã kết nối',
           waiting: 'Đang chờ kết nối ví...',
           disconnected: 'Ví đã ngắt kết nối',
           switchingAccount: 'Phát hiện chuyển đổi tài khoản',
           newAccountAuth: 'Xác thực tài khoản mới'
-        },
-        twitter: {
-          connectButton: 'Kết nối Twitter',
+      },
+      twitter: {
+        connectButton: 'Kết nối Twitter',
           disconnectButton: 'Ngắt kết nối Twitter',
           alreadyConnected: 'Twitter đã được kết nối!',
           twitterInfo: 'Thông tin Twitter:',
@@ -956,17 +989,17 @@ const languagePacks = {
           serviceUnavailable: 'Dịch vụ Twitter tạm thời không khả dụng',
           contactAdmin: 'Vui lòng thử lại sau hoặc liên hệ quản trị viên',
           connectionFailed: 'Kết nối X thất bại'
-        },
-        claim: {
-          instructions: 'Hướng dẫn nhận',
-          instruction1: '• Mỗi địa chỉ ví chỉ có thể nhận một lần trong 24 giờ',
-          instruction2: '• 0.1 PHRS token thử nghiệm mỗi lần nhận',
-          instruction3: '• Yêu cầu đăng nhập bằng chữ ký và xác minh reCAPTCHA',
+      },
+      claim: {
+        instructions: 'Hướng dẫn nhận',
+        instruction1: '• Mỗi địa chỉ ví chỉ có thể nhận một lần trong 24 giờ',
+        instruction2: '• 0.1 PHRS token thử nghiệm mỗi lần nhận',
+        instruction3: '• Yêu cầu đăng nhập bằng chữ ký và xác minh reCAPTCHA',
           instruction4: '• Khuyến nghị liên kết tài khoản Twitter để có dịch vụ tốt hơn',
           instruction5: '• Sử dụng kết nối ví',
           instruction6: '• Đảm bảo trên mạng Pharos Testnet',
           autoCheckAfterLogin: 'Tự động kiểm tra trạng thái sau khi đăng nhập thành công',
-          manualCheckButton: 'Kiểm tra trạng thái thủ công',
+        manualCheckButton: 'Kiểm tra trạng thái thủ công',
           claimButton: 'Nhận token',
           cooldownTime: 'Thời gian chờ',
           checkingStatus: 'Đang kiểm tra trạng thái vòi...',
@@ -993,6 +1026,8 @@ const languagePacks = {
           contractCalling: 'Chữ ký đã lấy thành công, đang gọi hợp đồng...',
           claimInfo: 'Thông tin nhận',
           amount: 'Số lượng',
+          status: 'Trạng thái',
+          distributionId: 'ID phân phối',
           waitingConfirmation: 'Giao dịch đã được gửi, đang chờ xác nhận...',
           transactionHash: 'Hash giao dịch',
           notifyingServer: 'Thông báo cho máy chủ về việc thực hiện hợp đồng thành công...',
@@ -1001,8 +1036,17 @@ const languagePacks = {
           blockNumber: 'Số khối',
           gasUsed: 'Gas đã sử dụng',
           claimAmount: 'Số lượng nhận',
-          cooldownStarted: 'Thời gian chờ 24 giờ đã bắt đầu'
-        },
+                  cooldownStarted: 'Thời gian chờ 24 giờ đã bắt đầu'
+      },
+      security: {
+        title: '🛡️ Hạn chế bảo mật',
+        walletCooldown: '• Thời gian hồi phục người dùng: Mỗi địa chỉ ví chỉ có thể yêu cầu một lần trong 24 giờ',
+        ipLimit: '• Hạn chế IP: Mỗi địa chỉ IP chỉ có thể yêu cầu một lần trong 24 giờ',
+        twitterLimit: '• Hạn chế Twitter: Mỗi tài khoản Twitter chỉ có thể yêu cầu một lần trong 24 giờ',
+        rateLimit: '• Giới hạn tốc độ: Tối đa 10 yêu cầu mỗi giờ',
+        recaptcha: '• reCAPTCHA: Phải vượt qua xác minh Google reCAPTCHA v2',
+        twitterBinding: '• Liên kết Twitter: Phải liên kết tài khoản Twitter để nhận token'
+      },
         errors: {
           loginRequired: 'Vui lòng đăng nhập trước',
           recaptchaRequired: 'Vui lòng hoàn thành xác minh reCAPTCHA trước',
@@ -1017,8 +1061,8 @@ const languagePacks = {
           dependencyFailed: 'ethers.js không thể tải, vui lòng làm mới trang',
           networkError: 'Lỗi mạng, vui lòng kiểm tra kết nối',
           serverError: 'Lỗi máy chủ, vui lòng thử lại sau'
-        },
-        messages: {
+      },
+      messages: {
         checkingTwitterStatus: '🔍 Đang kiểm tra trạng thái kết nối Twitter...',
         autoReloginDetected: '🔑 Phát hiện cần đăng nhập lại, tự động thực hiện quy trình đăng nhập...',
         gettingSignature: 'Đang lấy chữ ký...',
@@ -1154,17 +1198,17 @@ const languagePacks = {
         answer: 'Запрошення дає скриню; після зв\'язування ви будете постійно отримувати відкати від активності вашої нижньої лінії.'
       }
     },
-          faucet: {
-        title: 'PHRS Кран',
-        subtitle: 'PHRS Кран',
-        heroTitle: 'PHRS Кран',
-        heroDescription: 'Отримуйте 0.1 PHRS тестових токенів щодня та досліджуйте екосистему Goosebox',
-        sections: {
-          walletConnection: 'Стан підключення гаманця',
-          twitterIntegration: 'Зв\'язати X аккаунт',
+    faucet: {
+      title: 'PHRS Кран',
+      subtitle: 'PHRS Кран',
+      heroTitle: 'PHRS Кран',
+      heroDescription: 'Отримуйте 0.1 PHRS тестових токенів щодня та досліджуйте екосистему Goosebox',
+      sections: {
+        walletConnection: 'Стан підключення гаманця',
+        twitterIntegration: 'Зв\'язати X аккаунт',
           twitterStatus: 'Статус аккаунта X',
-          claimTokens: 'Отримати PHRS токени'
-        },
+        claimTokens: 'Отримати PHRS токени'
+      },
         networkInfo: {
           title: 'Інформація про мережу',
           network: 'Мережа: Pharos Testnet (Chain ID: 688688)',
@@ -1178,9 +1222,9 @@ const languagePacks = {
           disconnected: 'Гаманець відключено',
           switchingAccount: 'Виявлено зміну облікового запису',
           newAccountAuth: 'Аутентифікація нового облікового запису'
-        },
-        twitter: {
-          connectButton: 'Підключити Twitter',
+      },
+      twitter: {
+        connectButton: 'Підключити Twitter',
           disconnectButton: 'Відключити Twitter',
           alreadyConnected: 'Twitter вже підключено!',
           twitterInfo: 'Інформація Twitter:',
@@ -1211,8 +1255,8 @@ const languagePacks = {
           serviceUnavailable: 'Сервіс Twitter тимчасово недоступний',
           contactAdmin: 'Спробуйте пізніше або зверніться до адміністратора',
           connectionFailed: 'Не вдалося підключитися до X'
-        },
-        claim: {
+      },
+      claim: {
           instructions: 'Інструкції по отриманню',
           instruction1: '• Кожна адреса гаманця може отримувати тільки раз в 24 години',
           instruction2: '• 0.1 PHRS тестових токенів за отримання',
@@ -1248,6 +1292,8 @@ const languagePacks = {
           contractCalling: 'Підпис отримано успішно, виклик контракту...',
           claimInfo: 'Інформація про отримання',
           amount: 'Сума',
+          status: 'Статус',
+          distributionId: 'ID розподілу',
           waitingConfirmation: 'Транзакція відправлена, очікування підтвердження...',
           transactionHash: 'Хеш транзакції',
           notifyingServer: 'Повідомлення сервера про успішне виконання контракту...',
@@ -1256,8 +1302,17 @@ const languagePacks = {
           blockNumber: 'Номер блоку',
           gasUsed: 'Використано газу',
           claimAmount: 'Сума отримання',
-          cooldownStarted: '24-годинний період очікування почався'
-        },
+                  cooldownStarted: '24-годинний період очікування почався'
+      },
+      security: {
+        title: '🛡️ Обмеження безпеки',
+        walletCooldown: '• Час очікування користувача: Кожна адреса гаманця може подавати запит лише раз на 24 години',
+        ipLimit: '• Обмеження IP: Кожна IP-адреса може подавати запит лише раз на 24 години',
+        twitterLimit: '• Обмеження Twitter: Кожен обліковий запис Twitter може подавати запит лише раз на 24 години',
+        rateLimit: '• Обмеження швидкості: Максимум 10 запитів на годину',
+        recaptcha: '• reCAPTCHA: Необхідно пройти перевірку Google reCAPTCHA v2',
+        twitterBinding: '• Прив\'язка Twitter: Необхідно прив\'язати обліковий запис Twitter для отримання токенів'
+      },
         errors: {
           loginRequired: 'Спочатку увійдіть в систему',
           recaptchaRequired: 'Спочатку завершіть верифікацію reCAPTCHA',
@@ -1272,8 +1327,8 @@ const languagePacks = {
           dependencyFailed: 'ethers.js не вдалося завантажити, оновіть сторінку',
           networkError: 'Помилка мережі, перевірте підключення',
           serverError: 'Помилка сервера, спробуйте пізніше'
-        },
-        messages: {
+      },
+      messages: {
         checkingTwitterStatus: '🔍 Перевірка статусу підключення Twitter...',
         gettingSignature: 'Отримання підпису...',
         contractCalling: 'Виклик контракту...',
@@ -1409,17 +1464,17 @@ const languagePacks = {
         answer: 'Mengundang dapat peti; setelah terikat, Anda akan terus dapatkan komisi dari aktivitas downline.'
       }
     },
-          faucet: {
-        title: 'Keran PHRS',
-        subtitle: 'Keran PHRS',
-        heroTitle: 'Keran PHRS',
-        heroDescription: 'Klaim 0.1 PHRS token uji setiap hari dan jelajahi ekosistem Goosebox',
-        sections: {
-          walletConnection: 'Status Koneksi Dompet',
-          twitterIntegration: 'Hubungkan akun X',
+    faucet: {
+      title: 'Keran PHRS',
+      subtitle: 'Keran PHRS',
+      heroTitle: 'Keran PHRS',
+      heroDescription: 'Klaim 0.1 PHRS token uji setiap hari dan jelajahi ekosistem Goosebox',
+      sections: {
+        walletConnection: 'Status Koneksi Dompet',
+        twitterIntegration: 'Hubungkan akun X',
           twitterStatus: 'Status Akun X',
-          claimTokens: 'Klaim Token PHRS'
-        },
+        claimTokens: 'Klaim Token PHRS'
+      },
         networkInfo: {
           title: 'Informasi Jaringan',
           network: 'Jaringan: Pharos Testnet (Chain ID: 688688)',
@@ -1433,9 +1488,9 @@ const languagePacks = {
           disconnected: 'Dompet terputus',
           switchingAccount: 'Terdeteksi pergantian akun',
           newAccountAuth: 'Mengautentikasi akun baru'
-        },
-        twitter: {
-          connectButton: 'Hubungkan Twitter',
+      },
+      twitter: {
+        connectButton: 'Hubungkan Twitter',
           disconnectButton: 'Putuskan Twitter',
           alreadyConnected: 'Twitter sudah terhubung!',
           twitterInfo: 'Info Twitter:',
@@ -1466,8 +1521,8 @@ const languagePacks = {
           serviceUnavailable: 'Layanan Twitter sementara tidak tersedia',
           contactAdmin: 'Silakan coba lagi nanti atau hubungi administrator',
           connectionFailed: 'Koneksi X gagal'
-        },
-        claim: {
+      },
+      claim: {
           instructions: 'Instruksi Klaim',
           instruction1: '• Setiap alamat dompet hanya dapat klaim sekali setiap 24 jam',
           instruction2: '• 0.1 PHRS token uji per klaim',
@@ -1503,6 +1558,8 @@ const languagePacks = {
           contractCalling: 'Tanda tangan berhasil diperoleh, memanggil kontrak...',
           claimInfo: 'Info Klaim',
           amount: 'Jumlah',
+          status: 'Status',
+          distributionId: 'ID Distribusi',
           waitingConfirmation: 'Transaksi dikirim, menunggu konfirmasi...',
           transactionHash: 'Hash Transaksi',
           notifyingServer: 'Memberitahu server tentang eksekusi kontrak yang berhasil...',
@@ -1511,8 +1568,17 @@ const languagePacks = {
           blockNumber: 'Nomor Blok',
           gasUsed: 'Gas Digunakan',
           claimAmount: 'Jumlah Klaim',
-          cooldownStarted: 'Waktu tunggu 24 jam dimulai'
-        },
+                  cooldownStarted: 'Waktu tunggu 24 jam dimulai'
+      },
+      security: {
+        title: '🛡️ Pembatasan Keamanan',
+        walletCooldown: '• Cooldown Pengguna: Setiap alamat dompet hanya dapat mengklaim sekali dalam 24 jam',
+        ipLimit: '• Pembatasan IP: Setiap alamat IP hanya dapat mengklaim sekali dalam 24 jam',
+        twitterLimit: '• Pembatasan Twitter: Setiap akun Twitter hanya dapat mengklaim sekali dalam 24 jam',
+        rateLimit: '• Batas Laju: Maksimal 10 permintaan klaim per jam',
+        recaptcha: '• reCAPTCHA: Harus lulus verifikasi Google reCAPTCHA v2',
+        twitterBinding: '• Ikatan Twitter: Harus mengikat akun Twitter untuk mengklaim token'
+      },
         errors: {
           loginRequired: 'Harap login terlebih dahulu',
           recaptchaRequired: 'Harap selesaikan verifikasi reCAPTCHA terlebih dahulu',
@@ -1527,8 +1593,8 @@ const languagePacks = {
           dependencyFailed: 'ethers.js gagal dimuat, silakan segarkan halaman',
           networkError: 'Kesalahan jaringan, silakan periksa koneksi',
           serverError: 'Kesalahan server, silakan coba lagi nanti'
-        },
-        messages: {
+      },
+      messages: {
         checkingTwitterStatus: '🔍 Memeriksa status koneksi Twitter...',
         gettingSignature: 'Mendapatkan tanda tangan...',
         contractCalling: 'Memanggil kontrak...',

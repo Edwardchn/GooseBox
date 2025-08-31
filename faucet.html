@@ -39,9 +39,21 @@
         .float { animation: float 4s ease-in-out infinite; }
         @keyframes float { 0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)} }
         .logo { height: 50px; width: auto; }
+        
+        /* 修复 Reown 字体预加载警告 - 创建一个不可见的元素使用该字体 */
+        .reown-font-preload {
+            font-family: 'KHTeka-Medium', sans-serif;
+            position: absolute;
+            visibility: hidden;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body class="bg-wood-50 text-stone-700">
+    <!-- 修复 Reown 字体预加载警告 - 隐藏元素使用预加载的字体 -->
+    <div class="reown-font-preload">.</div>
 
     <header class="sticky top-0 z-50">
         <div class="bg-wood-400 shadow-ui text-white">
@@ -144,18 +156,26 @@
 
 
             <div id="faucetClaimSection" class="rounded-ui bg-white border border-wood-200 p-6 shadow-ui mb-6" style="display: none;">
+                <div id="faucetStatus" class="mt-4"></div>
                 <h3 class="text-xl font-bold text-wood-900 mb-4" data-lang="faucet.sections.claimTokens">2. Claim PHRS Tokens</h3>
-                
                 <div class="mb-4 p-4 bg-field-50 border border-field-200 rounded-lg">
                     <div class="text-sm text-stone-600 mb-2" data-lang="faucet.claim.instructions">Claim Instructions</div>
-                    <ul class="text-sm text-stone-700 space-y-1">
+                    <ul class="text-sm text-stone-800 space-y-1">
+                        <li data-lang="faucet.security.walletCooldown">• Wallet Cooldown: 24 hours per wallet address</li>
+                        <li data-lang="faucet.security.ipLimit">• IP Limit: 24 hours per IP address</li>
+                        <li data-lang="faucet.security.twitterLimit">• Twitter Limit: 24 hours per Twitter account</li>
+                        <li data-lang="faucet.security.rateLimit">• Rate Limit: 10 requests per hour</li>
+                        <li data-lang="faucet.security.recaptcha">• reCAPTCHA: Must pass Google reCAPTCHA v2 verification</li>
+                        <li data-lang="faucet.security.twitterBinding">• Twitter Binding: Must bind Twitter account to claim</li>
+                    </ul>
+                    <!-- <ul class="text-sm text-stone-700 space-y-1">
                         <li data-lang="faucet.claim.instruction1">• Each wallet address can only claim once every 24 hours</li>
                         <li data-lang="faucet.claim.instruction2">• Claim 0.1 PHRS testnet tokens each time</li>
                         <li data-lang="faucet.claim.instruction3">• Complete signature login and reCAPTCHA verification required</li>
                         <li data-lang="faucet.claim.instruction4">• Recommend binding Twitter account for better service</li>
                         <li data-lang="faucet.claim.instruction5">• Use wallet connection</li>
                         <li data-lang="faucet.claim.instruction6">• Ensure on Pharos Testnet network</li>
-                    </ul>
+                    </ul> -->
                 </div>
 
                 <div id="faucet-recaptcha-container" class="mb-4">
@@ -169,8 +189,6 @@
                     <span id="claimCountdown" class="hidden"></span>
                 </button>
                 </div>
-
-                <div id="faucetStatus" class="mt-4"></div>
             </div>
 
 
@@ -225,7 +243,20 @@
             appKit.disconnect();
         });
         
-        console.log('AppKit 已初始化并设置全局引用');
+        try {
+            // 只禁用自动连接，但不强制断开现有连接
+            if (appKit.setAutoConnect) {
+                appKit.setAutoConnect(false);
+
+            }
+            
+
+            
+        } catch (error) {
+
+        }
+        
+
     </script>
     
     <script type="module" src="/src/main.js"></script>
@@ -401,7 +432,7 @@
                 if (disconnectMobileBtn) disconnectMobileBtn.style.display = 'none';
             }
             
-            console.log('钱包按钮可见性已更新, 连接状态:', isConnected);
+
         }
 
         
@@ -444,13 +475,13 @@
         
         function onFaucetRecaptchaSuccess(token) {
             faucetRecaptchaToken = token;
-            console.log('水龙头 reCAPTCHA 验证成功');
+
             checkClaimButtonState();
         }
 
         function onFaucetRecaptchaExpired() {
             faucetRecaptchaToken = null;
-            console.log('水龙头 reCAPTCHA 已过期，请重新验证');
+
             document.getElementById('claimTokens').disabled = true;
         }
 
@@ -473,7 +504,7 @@
         function showStatus(elementId, message, type = 'info') {
             const element = document.getElementById(elementId);
             if (!element) {
-                console.error(`❌ showStatus: 找不到元素 '${elementId}'`);
+
                 return;
             }
             
@@ -669,7 +700,7 @@
                     data.message?.includes('Please login with your wallet first');
 
                 if (needsReauth) {
-                    console.log('检测到认证错误，开始重新登录...');
+
                     
                         localStorage.removeItem('faucetAuthToken');
                         localStorage.removeItem('faucetUser');
@@ -685,7 +716,7 @@
                                 
                                 const newToken = localStorage.getItem('faucetAuthToken') || authToken;
                                 if (newToken) {
-                            console.log('重新登录成功，现在跳转到Twitter连接');
+
                             // showStatusI18n('twitterOAuthStatus', 'faucet.messages.authSuccessRetryTwitter', 'success');
                                     window.location.href = `${API_BASE}/twitter`;
                                 } else {
@@ -703,7 +734,7 @@
                 }
                                 
             } catch (error) {
-                console.error('Twitter 连接流程失败:', error);
+
                 window.location.href = `${API_BASE}/twitter`;
             }
         });
@@ -790,7 +821,7 @@
 
                 const data = await response.json();
 
-                console.log('水龙头申请发币响应:', data);
+
 
                 if (!data.success) {
                     let errorDetails = {
@@ -805,6 +836,15 @@
 
                 const { distributionId, amount, status, twitter, rateLimit, note } = data.data;
 
+                const langData = getLanguageData(currentLang);
+                let successMessage = data.message || langData.faucet?.messages?.claimSuccess || 'Claim request submitted successfully';
+                let successDetails = '';
+                
+                showStatus('faucetStatus', 
+                    `✅ ${successMessage}`, 
+                    'success'
+                );
+
                 startCountdown(86400);
 
                 if (typeof grecaptcha !== 'undefined') {
@@ -814,7 +854,7 @@
                 }
 
             } catch (error) {
-                console.error('水龙头申请发币完整错误信息:', error);
+
 
                 let errorMessage = `申请发币失败: ${error.message}`;
                 let errorDetails = '';
@@ -896,8 +936,8 @@
             const error = urlParams.get('error');
             const message = urlParams.get('message');
 
-            console.log('🔍 Twitter 回调处理开始:', { state, code, error, message });
-            
+
+
             if (error) {
                 showTwitterSection();
                 hideTwitterStatusSection();
@@ -909,7 +949,7 @@
             }
 
             if (state && code) {
-                console.log('✅ 检测到 Twitter 授权回调参数');
+
                 
                 const callbackStatus = document.getElementById('twitterCallbackStatus');
                 const callbackDetails = document.getElementById('twitterCallbackDetails');
@@ -918,22 +958,18 @@
                     callbackDetails.textContent = '检测到授权回调，正在处理...';
                 }
                 
-                    showStatusI18n('twitterOAuthStatus', 'faucet.messages.bindingTwitterAccount', 'info');
+                showStatusI18n('twitterOAuthStatus', 'faucet.messages.bindingTwitterAccount', 'info');
 
                     // 在调用绑定 API 前隐藏连接按钮，防止重复点击
                     document.getElementById('connectTwitter').style.display = 'none';
 
-                    try {
-                        const currentToken = localStorage.getItem('faucetAuthToken') || authToken;
-                    console.log('🔑 当前认证状态:', {
-                        localStorageToken: !!localStorage.getItem('faucetAuthToken'),
-                        authToken: !!authToken,
-                        currentToken: !!currentToken
-                    });
+                try {
+                    const currentToken = localStorage.getItem('faucetAuthToken') || authToken;
+
 
                     if (!currentToken) {
                         const errorMsg = '未找到认证 Token，请先完成钱包连接和签名认证';
-                        console.error('❌ Twitter 绑定失败:', errorMsg);
+
 
                         if (callbackDetails) {
                             callbackDetails.textContent = '认证失败：需要先完成钱包连接和签名';
@@ -943,7 +979,7 @@
                         return;
                     }
 
-                    console.log('🔐 使用 JWT Token 进行 Twitter 绑定:', currentToken.substring(0, 20) + '...');
+
 
                     const response = await fetch(`${API_BASE}/twitter/bind`, {
                         method: 'POST',
@@ -955,9 +991,9 @@
                         body: JSON.stringify({ state, code })
                     });
 
-                    console.log('📡 Twitter 绑定 API 响应状态:', response.status);
+
                     const data = await response.json();
-                    console.log('📡 Twitter 绑定 API 响应数据:', data);
+
 
                     if (data.success) {
                         const twitter = data.data.twitter;
@@ -995,7 +1031,7 @@
                         try {
                             await autoCheckFaucetStatus();
                         } catch (checkError) {
-                            console.log('Twitter绑定后检查水龙头状态失败:', checkError.message);
+
                         }
                         
                         if (callbackStatus) {
@@ -1006,7 +1042,7 @@
                     }
 
                 } catch (error) {
-                    console.error('❌ Twitter 账户绑定失败:', error);
+
                     
                     hideTwitterStatusSection();
                     showTwitterSection();
@@ -1040,7 +1076,7 @@
                 
                 window.history.replaceState({}, document.title, window.location.pathname);
             } else {
-                console.log('ℹ️ 未检测到 Twitter 回调参数，跳过处理');
+
             }
         }
 
@@ -1054,28 +1090,24 @@
                     const user = JSON.parse(savedUser);
 
                     if (isTokenExpired(savedToken)) {
-                        console.log('本地Token已过期，清除存储');
+
                         localStorage.removeItem('faucetAuthToken');
                         localStorage.removeItem('faucetUser');
                         return false;
                     }
 
                     walletAddress = user.walletAddress;
-                    console.log('💾 从本地存储恢复状态:', {
-                        Token: '存在',
-                        钱包地址: walletAddress,
-                        用户ID: user.id
-                    });
+
 
                     document.getElementById('connectTwitter').disabled = false;
-                    console.log('从本地存储恢复了认证状态，等待钱包连接验证');
+
 
                     const walletConnectedMsg = getLanguageData(currentLang).faucet?.messages?.walletConnected || '钱包已连接';
                     showStatus('walletStatus', `${walletConnectedMsg}: ${formatAddress(user.walletAddress)}`, 'success');
 
                     return true;
                 } catch (error) {
-                    console.error('解析本地存储的用户信息失败:', error);
+
                     localStorage.removeItem('faucetAuthToken');
                     localStorage.removeItem('faucetUser');
                     return false;
@@ -1115,7 +1147,7 @@
             if (buttonTextElement) buttonTextElement.style.display = 'inline';
             if (countdownElement) countdownElement.style.display = 'none';
             
-            console.log('已清除本地认证状态和相关UI状态');
+
         }
 
         function isTokenExpired(token) {
@@ -1129,7 +1161,7 @@
                 
                 return false;
             } catch (error) {
-                console.error('检查Token过期时间失败:', error);
+
                 return true;
             }
         }
@@ -1139,12 +1171,14 @@
                 clearLocalAuth();
                 
                 showStatusI18n('walletStatus', 'faucet.messages.walletDisconnected', 'info');
-                showStatus('twitterStatus', '', 'info');
-                showStatus('faucetStatus', '', 'info');
+                // 清空其他状态而不是显示空框
+                document.getElementById('twitterStatus').innerHTML = '';
+                document.getElementById('faucetStatus').innerHTML = '';
                 
                 // 清除 Twitter 信息
                 currentTwitterInfo = null;
                 currentStatusStates.twitterStatus = { type: null, messageKey: null, params: null, isCustom: false };
+                currentStatusStates.faucetStatus = { type: null, messageKey: null, params: null, isCustom: false };
                 
                 showTwitterSection();
                 hideTwitterStatusSection();
@@ -1154,10 +1188,10 @@
                 currentMessage = null;
                 faucetRecaptchaToken = null;
                 
-                console.log('钱包断开连接，认证状态已自动清除');
+
                 
             } catch (error) {
-                console.error('自动清除认证状态失败:', error);
+
             }
         }
 
@@ -1166,20 +1200,20 @@
             
             // 检查冷却期
             if (currentTime - lastAuthTime < AUTH_COOLDOWN) {
-                console.log(`🕒 认证在冷却期内，跳过调用 (距离上次认证 ${currentTime - lastAuthTime}ms)`);
+
                 return;
             }
             
             // 如果正在认证，返回现有的 Promise
             if (authPromise) {
-                console.log('🔒 认证正在进行中，返回现有Promise');
+
                 return authPromise;
             }
             
             // 检查是否已有有效的认证
             if (authToken && walletAddress) {
                 try {
-                    console.log('🔍 验证现有Token是否仍然有效...');
+
                     const response = await fetch(`${API_BASE}/me`, {
                         headers: { 'Authorization': `Bearer ${authToken}` },
                         credentials: 'include'
@@ -1188,7 +1222,7 @@
                     
                     if (data.success && data.data && data.data.user && 
                         data.data.user.walletAddress.toLowerCase() === walletAddress.toLowerCase()) {
-                        console.log('✅ 现有认证仍然有效，跳过重新认证');
+
                         
                         // 更新UI状态
                         const walletConnectedMsg = getLanguageData(currentLang).faucet?.messages?.walletConnected || '钱包已连接';
@@ -1200,25 +1234,25 @@
                         try {
                             await autoCheckFaucetStatus();
                         } catch (error) {
-                            console.log('Token验证后状态检查失败:', error.message);
+
                         }
                         
                         return;
                     } else {
-                        console.log('❌ Token验证失败或地址不匹配，清除本地认证');
+
                         clearLocalAuth();
                     }
                 } catch (verifyError) {
-                    console.log('Token验证请求失败，清除本地认证:', verifyError.message);
+
                     clearLocalAuth();
                 }
             }
             
             // 如果没有Token或Token无效，才开始新的认证流程
             if (!authToken) {
-                console.log('🔐 没有认证Token，开始新的认证流程');
+
             } else {
-                console.log('🔐 Token无效，开始重新认证流程');
+
             }
             
             // 更新状态和时间
@@ -1227,7 +1261,7 @@
             // 创建认证Promise
             authPromise = (async () => {
                 try {
-                    console.log('🔐 开始自动认证流程，钱包地址:', walletAddress);
+
                     
                     const response = await fetch(`${API_BASE}/nonce`, {
                         method: 'POST',
@@ -1245,9 +1279,22 @@
                     currentNonce = data.data.nonce;
                     currentMessage = data.data.message;
                     
-                    const provider = window.getProvider();
+                    // 等待钱包提供者可用，最多等待5秒
+                    let provider = null;
+                    let attempts = 0;
+                    const maxAttempts = 50; // 5秒，每次等待100ms
+                    
+                    while (!provider && attempts < maxAttempts) {
+                        provider = window.getProvider();
                     if (!provider) {
-                        throw new Error('无法获取钱包提供者，请确保钱包已连接');
+                            await new Promise(resolve => setTimeout(resolve, 100));
+                            attempts++;
+
+                        }
+                    }
+                    
+                    if (!provider) {
+                        throw new Error('无法获取钱包提供者，请确保钱包已连接并重试');
                     }
                     
                     const signature = await provider.request({
@@ -1277,7 +1324,7 @@
                     
                     localStorage.setItem('faucetAuthToken', authToken);
                     localStorage.setItem('faucetUser', JSON.stringify(user));
-                    console.log('✅ JWT Token 已保存到本地存储');
+
 
                     showStatus('walletStatus', `Wallet Connected: ${formatAddress(user.walletAddress)}`, 'success');
                     document.getElementById('connectTwitter').disabled = false; 
@@ -1286,11 +1333,11 @@
                     try {
                         await autoCheckFaucetStatus();
                     } catch (error) {
-                        console.log('登录后自动检查状态失败:', error.message);
+
                     }
 
                 } catch (error) {
-                    console.error('自动认证流程失败:', error);
+
                     
                     if (error.message.includes('User rejected')) {
                         showStatusI18n('walletStatus', 'faucet.messages.userCancelledTransaction', 'warning');
@@ -1313,7 +1360,7 @@
 
         
         async function autoCheckTwitterStatus() {
-            console.log('🔍 调用集成的状态检查函数（包含Twitter状态）...');
+
             await autoCheckFaucetStatus();
         }
 
@@ -1321,7 +1368,7 @@
             const twitterSection = document.getElementById('twitterOAuthSection');
             if (twitterSection) {
                 twitterSection.style.display = 'none';
-                console.log('Twitter OAuth 集成部分已隐藏');
+
             }
         }
 
@@ -1329,7 +1376,7 @@
             const twitterSection = document.getElementById('twitterOAuthSection');
             if (twitterSection) {
                 twitterSection.style.display = 'block';
-                console.log('Twitter OAuth 集成部分已显示');
+
             }
             
             const connectButton = document.getElementById('connectTwitter');
@@ -1340,16 +1387,16 @@
 
         function showTwitterStatusSection() {
             const twitterStatusSection = document.getElementById('twitterStatusSection');
-            console.log('🔧 showTwitterStatusSection 调用, 元素:', twitterStatusSection);
+
             if (twitterStatusSection) {
                 twitterStatusSection.style.display = 'block';
-                console.log('✅ Twitter 状态部分已显示');
+
                 
 
                 const twitterStatus = document.getElementById('twitterStatus');
-                console.log('🔧 twitterStatus 子元素:', twitterStatus);
+
             } else {
-                console.error('❌ 找不到 twitterStatusSection 元素');
+
             }
         }
 
@@ -1357,7 +1404,7 @@
             const twitterStatusSection = document.getElementById('twitterStatusSection');
             if (twitterStatusSection) {
                 twitterStatusSection.style.display = 'none';
-                console.log('Twitter 状态部分已隐藏');
+
             }
         }
 
@@ -1365,7 +1412,13 @@
             const faucetSection = document.getElementById('faucetClaimSection');
             if (faucetSection) {
                 faucetSection.style.display = 'none';
-                console.log('领取 PHRS 代币部分已隐藏');
+
+                
+                // 同时清空 faucetStatus 内容，避免显示空状态框
+                const faucetStatus = document.getElementById('faucetStatus');
+                if (faucetStatus) {
+                    faucetStatus.innerHTML = '';
+                }
             }
         }
 
@@ -1373,7 +1426,7 @@
             const faucetSection = document.getElementById('faucetClaimSection');
             if (faucetSection) {
                 faucetSection.style.display = 'block';
-                console.log('领取 PHRS 代币部分已显示');
+
             }
         }
         
@@ -1382,13 +1435,13 @@
             
             // 检查冷却期
             if (currentTime - lastFaucetCheckTime < FAUCET_CHECK_COOLDOWN) {
-                console.log(`🕒 Faucet状态检查在冷却期内，跳过调用 (距离上次检查 ${currentTime - lastFaucetCheckTime}ms)`);
+
                 return;
             }
             
             // 如果已经有正在进行的请求，返回同一个 Promise
             if (faucetStatusPromise) {
-                console.log('🔒 Faucet状态检查正在进行中，返回现有Promise');
+
                 return faucetStatusPromise;
             }
             
@@ -1403,7 +1456,7 @@
                         return; 
                     }
 
-                    console.log('🔍 检查 Faucet 状态...');
+
 
                     const response = await fetch(`${API_BASE}/claim/status`, {
                         headers: {
@@ -1422,7 +1475,7 @@
 
                     // 处理 Twitter 状态信息
                     if (twitter && twitter.isBound) {
-                        console.log('✅ 检测到Twitter已绑定，更新UI状态');
+
                         hideTwitterSection();
                         showTwitterStatusSection();
                         showFaucetClaimSection();
@@ -1445,7 +1498,7 @@
                             isCustom: true
                         };
                     } else {
-                        console.log('Twitter未绑定，显示Twitter连接部分');
+
                         currentTwitterInfo = null; // 清除 Twitter 信息
                         showTwitterSection();
                         hideTwitterStatusSection();
@@ -1469,7 +1522,7 @@
                     }
 
                 } catch (error) {
-                    console.log('静默检查冷却状态失败:', error.message);
+
                 } finally {
                     // 延迟清除 Promise 引用，避免紧密的重复调用
                     setTimeout(() => {
@@ -1483,24 +1536,15 @@
 
      
         async function onWalletConnected(address) {
-            console.log('🔌 AppKit 钱包连接事件:', {
-                连接地址: address,
-                当前认证Token: authToken ? '存在' : '不存在',
-                当前钱包地址: walletAddress || '未设置',
-                地址匹配: walletAddress === address,
-                是否为账户切换: walletAddress && walletAddress !== address,
-                初始化已处理: window.initialAuthProcessed || false,
-                初始化完成: window.appKitInitialized || false,
-                本地认证已检查: window.localAuthChecked || false
-            });
+
             
             // 如果本地认证还没检查完成，等待一下
             if (!window.localAuthChecked) {
-                console.log('⏳ 等待本地认证检查完成...');
+
                 await new Promise(resolve => {
                     const checkAuth = () => {
                         if (window.localAuthChecked) {
-                            console.log('✅ 本地认证检查完成，继续处理连接事件');
+
                             resolve();
                         } else {
                             setTimeout(checkAuth, 100);
@@ -1512,7 +1556,7 @@
             
             // 如果页面初始化时已经处理过认证，且地址匹配，跳过
             if (window.initialAuthProcessed && walletAddress === address && authToken) {
-                console.log('🚫 页面初始化时已处理认证，跳过重复处理');
+
                 updateWalletButtonVisibility(true);
                 checkClaimButtonState();
                 return;
@@ -1520,7 +1564,7 @@
             
             // 防止重复调用 - 如果钱包地址相同且有有效认证，跳过
             if (walletAddress === address && authToken) {
-                console.log('💭 钱包地址和认证状态未变化，跳过处理');
+
                 // 仍然需要更新按钮状态
                 updateWalletButtonVisibility(true);
                 checkClaimButtonState();
@@ -1529,10 +1573,10 @@
             
             // 如果在初始化期间且本地有认证数据，延迟处理避免冲突
             if (!window.appKitInitialized && authToken) {
-                console.log('⏳ 初始化期间检测到本地认证，延迟处理连接事件');
+
                 setTimeout(() => {
                     if (walletAddress === address && authToken) {
-                        console.log('✅ 延迟处理：地址匹配且有认证，跳过重新认证');
+
                         updateWalletButtonVisibility(true);
                         checkClaimButtonState();
                     }
@@ -1543,7 +1587,7 @@
             const isAccountSwitch = walletAddress && walletAddress.toLowerCase() !== address.toLowerCase();
             
             if (isAccountSwitch) {
-                console.log('🔄 检测到账户切换，从', walletAddress, '切换到', address);
+
                 showStatus('walletStatus', 
                     `🔄 检测到账户切换<br><br>` +
                     `从: ${formatAddress(walletAddress)}<br>` +
@@ -1570,18 +1614,25 @@
                 checkClaimButtonState();
                 
                 // 延迟启动认证流程，避免立即触发
-                setTimeout(() => autoStartAuthFlow(), 1000);
+                setTimeout(async () => {
+                    try {
+                        await autoStartAuthFlow();
+                    } catch (error) {
+
+                        showStatusI18n('walletStatus', 'faucet.messages.authFailed', 'error');
+                    }
+                }, 1000);
                 return;
             }
 
             // 如果钱包地址相同且有认证，验证认证是否有效
             if (authToken && walletAddress === address) {
-                console.log('🔍 验证现有Token是否仍然有效...');
+
                 
                 try {
                     // 先检查 token 是否过期
                     if (isTokenExpired(authToken)) {
-                        console.log('❌ Token已过期，清除认证状态');
+
                         clearLocalAuth();
                     } else {
                         const response = await fetch(`${API_BASE}/me`, {
@@ -1594,7 +1645,7 @@
 
                         if (data.success && data.data && data.data.user) {
                             const user = data.data.user;
-                            console.log('✅ Token验证成功，用户信息:', user);
+
                             
                             if (user.walletAddress.toLowerCase() === address.toLowerCase()) {
                                 const walletConnectedMsg = getLanguageData(currentLang).faucet?.messages?.walletConnected || '钱包已连接';
@@ -1605,21 +1656,21 @@
                                 try {
                                     await autoCheckFaucetStatus();
                                 } catch (error) {
-                                    console.log('钱包验证后自动检查状态失败:', error.message);
+
                                 }
                                 
                                 return;
                             } else {
-                                console.log('❌ 钱包地址不匹配，清除认证状态');
+
                                 clearLocalAuth();
                             }
                         } else {
-                            console.log('❌ Token验证失败:', data.message || data.error);
+
                             clearLocalAuth();
                         }
                     }
                 } catch (verifyError) {
-                    console.log('Token验证请求失败:', verifyError.message);
+
                     clearLocalAuth();
                 }
             }
@@ -1629,7 +1680,7 @@
             
             // 只有在真正需要认证时才开始认证流程
             if (!authToken || window.needsReauth) {
-                console.log('🔄 开始新的认证流程，因为:', authToken ? 'Token无效或钱包地址不匹配' : 'Token不存在');
+
                 
                 const walletConnectedMsg = getLanguageData(currentLang).faucet?.messages?.walletConnected || '钱包已连接';
                 showStatus('walletStatus', `${walletConnectedMsg}: ${formatAddress(address)}`, 'info');
@@ -1639,16 +1690,21 @@
                 checkClaimButtonState();
                 
                 // 延迟启动认证流程，避免在AppKit初始化时的多次调用
-                console.log('⏳ 准备启动认证流程...');
-                setTimeout(() => {
-                    console.log('🚀 启动认证流程');
-                    autoStartAuthFlow();
+
+                setTimeout(async () => {
+
+                    try {
+                        await autoStartAuthFlow();
+                    } catch (error) {
+
+                        showStatusI18n('walletStatus', 'faucet.messages.authFailed', 'error');
+                    }
                 }, 500);
                 
                 // 清除标记
                 window.needsReauth = false;
             } else {
-                console.log('✅ 已有有效认证，跳过认证流程');
+
                 const walletConnectedMsg = getLanguageData(currentLang).faucet?.messages?.walletConnected || '钱包已连接';
                 showStatus('walletStatus', `${walletConnectedMsg}: ${formatAddress(address)}`, 'success');
                 updateWalletButtonVisibility(true);
@@ -1658,28 +1714,25 @@
                 try {
                     await autoCheckFaucetStatus();
                 } catch (error) {
-                    console.log('状态检查失败:', error.message);
+
                 }
             }
         }
 
         function onWalletDisconnected() {
-            console.log('🔌 AppKit 钱包断开连接事件', {
-                初始化完成: window.appKitInitialized || false,
-                当前钱包地址: walletAddress || '未设置'
-            });
+
             
             // 检查是否是页面初始化期间的状态变化，如果是则不清除认证
             const isInitializing = !window.appKitInitialized;
             
             if (isInitializing) {
-                console.log('⚠️ 页面初始化期间的断开连接事件，不清除本地认证');
+
                 return;
             }
             
             // 如果之前有连接的钱包地址，才是真正的断开连接
             if (walletAddress) {
-                console.log('🔌 真正的用户断开连接，清除认证状态');
+
                 walletAddress = null;
                 
                 // 清除初始化标记
@@ -1695,7 +1748,7 @@
                 
                 autoClearAuth();
             } else {
-                console.log('⚠️ 无钱包地址记录，跳过处理');
+
                 updateWalletButtonVisibility(false);
             }
         }
@@ -1707,7 +1760,7 @@
             const code = urlParams.get('code');
             
             if (state && code) {
-                console.log('🔍 检测到 Twitter 回调参数:', { state, code });
+
                 
                 const callbackStatus = document.getElementById('twitterCallbackStatus');
                 const callbackDetails = document.getElementById('twitterCallbackDetails');
@@ -1745,10 +1798,10 @@
             const code = urlParams.get('code');
             
             if ((state && code) && !window.location.pathname.includes('faucet.html')) {
-                console.log('🔄 检测到 Twitter 回调参数，但不在 faucet.html 页面，自动重定向...');
+
                 
                 const newUrl = `${window.location.origin}/faucet.html${window.location.search}`;
-                console.log('重定向到:', newUrl);
+
                 window.location.href = newUrl;
                 return true;
             }
@@ -1761,10 +1814,10 @@
             return new Promise((resolve) => {
                 const checkAppKit = () => {
                     if (window.appKit && window.getProvider) {
-                        console.log('✅ AppKit 已初始化');
+
                         resolve();
                     } else {
-                        console.log('⏳ 等待 AppKit 初始化...');
+
                         setTimeout(checkAppKit, 100);
                     }
                 };
@@ -1779,6 +1832,9 @@
             
             // 等待 AppKit 初始化完成
             await waitForAppKitInit();
+            
+            // 页面刷新后保持之前的连接状态，不强制断开
+
             
             initLanguage();
             
@@ -1797,7 +1853,7 @@
                     
                     // 如果本地有认证且地址匹配，直接使用
                     if (authRestored && walletAddress && walletAddress.toLowerCase() === connectedAddress.toLowerCase()) {
-                        console.log('🔗 AppKit 已连接，本地认证有效，地址匹配:', connectedAddress);
+
                         walletAddress = connectedAddress;
                         updateWalletButtonVisibility(true);
                         showStatus('walletStatus', `Wallet Connected: ${formatAddress(connectedAddress)}`, 'success');
@@ -1809,10 +1865,10 @@
                         try {
                             await autoCheckFaucetStatus();
                         } catch (error) {
-                            console.log('状态检查失败:', error.message);
+        
                         }
                     } else {
-                        console.log('🔗 AppKit 已连接，但需要重新认证. 本地认证:', authRestored, '地址匹配:', walletAddress?.toLowerCase() === connectedAddress.toLowerCase());
+
                         walletAddress = connectedAddress;
                         updateWalletButtonVisibility(true);
                         
@@ -1823,16 +1879,16 @@
                         
                         // 只有在本地没有认证或认证无效时，才设置需要重新认证的标记
                         if (!authRestored || !authToken) {
-                            console.log('📝 标记需要重新认证');
+
                             window.needsReauth = true;
                         }
                     }
                 } else {
-                    console.log('🔗 AppKit 显示已连接但无账户信息');
+
                     updateWalletButtonVisibility(false);
                 }
             } else {
-                console.log('🔗 AppKit 未连接');
+
                 updateWalletButtonVisibility(false);
                 
                 if (!authRestored) {
@@ -1847,15 +1903,15 @@
             const hasCallback = checkTwitterCallbackInURL();
             
             if (hasCallback) {
-                console.log('🔄 检测到 Twitter 回调，开始处理绑定...');
+
                 handleTwitterCallback();
             } else {
-                console.log('ℹ️ 未检测到 Twitter 回调，跳过处理');
+
             }
             
             // 标记AppKit初始化完成
             window.appKitInitialized = true;
-            console.log('✅ AppKit 初始化流程完成');
+
 
         });
 
