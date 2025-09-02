@@ -11,7 +11,7 @@ const languagePacks = {
       wallet: '连接钱包',
       disconnect: '断开连接',
       network: '网络',
-      faucet: 'PHRS 水龙头'
+      faucet: '获得 PHRS'
     },
     hero: {
       title: '鹅场挂机 · 宝箱掉落 · 合成进阶',
@@ -65,15 +65,20 @@ const languagePacks = {
       }
     },
     faucet: {
-      title: 'PHRS 水龙头',
-      subtitle: 'PHRS 水龙头',
-      heroTitle: 'PHRS 水龙头',
-      heroDescription: '每日免费领取 0.1 PHRS 测试代币，体验 Goosebox 生态系统',
+      title: '加入Goosebox！',
+      subtitle: '获得 PHRS',
+      heroTitle: '加入Goosebox！',
+      heroDescription: '每日领取PHRS！体验 Goosebox 生态系统',
       sections: {
         walletConnection: '钱包连接状态',
-        twitterIntegration: 'Link X account',
+        twitterIntegration: '连接 X 账户',
         twitterStatus: 'X 账户状态',
-        claimTokens: '领取 PHRS 代币'
+        claimTokens: '领取测试代币'
+      },
+      badges: {
+        dailyFree: '每日免费领取',
+        socialVerify: '社交验证',
+        tokenClaim: '代币领取'
       },
       networkInfo: {
         title: '网络信息',
@@ -90,6 +95,7 @@ const languagePacks = {
         newAccountAuth: '新账户认证中'
       },
       twitter: {
+        description: '验证您的社交账户以获得更好的体验',
         connectButton: '连接 Twitter',
         disconnectButton: '断开 Twitter',
         alreadyConnected: 'Twitter 已经连接!',
@@ -123,6 +129,7 @@ const languagePacks = {
         connectionFailed: 'X 连接失败'
       },
       claim: {
+        description: '连接钱包，完成验证，一键领取！',
         instructions: '领取说明',
         instruction1: '• 每个钱包地址每24小时只能领取一次',
         instruction2: '• 每次领取 0.1 PHRS 测试代币',
@@ -132,7 +139,7 @@ const languagePacks = {
         instruction6: '• 确保在 Pharos Testnet 网络上',
         autoCheckAfterLogin: '登录成功后自动检查状态',
         manualCheckButton: '手动检查状态',
-        claimButton: '领取代币',
+        claimButton: '立即领取！',
         cooldownTime: '冷却中',
         checkingStatus: '正在检查水龙头状态...',
         autoCheckingStatus: '自动检查水龙头状态...',
@@ -302,7 +309,7 @@ const languagePacks = {
       wallet: 'Connect Wallet',
       disconnect: 'Disconnect',
       network: 'Network',
-      faucet: 'PHRS Faucet'
+      faucet: 'Get PHRS'
     },
     hero: {
       title: 'Idle Goose · Chest Drops · Merge & Progress',
@@ -356,15 +363,20 @@ const languagePacks = {
       }
     },
     faucet: {
-      title: 'PHRS Faucet',
-      subtitle: 'PHRS Faucet',
-      heroTitle: 'PHRS Faucet',
-      heroDescription: 'Claim 0.1 PHRS test tokens daily and experience the Goosebox ecosystem',
+      title: 'Join Goosebox!',
+      subtitle: 'Get PHRS',
+      heroTitle: 'Join Goosebox!',
+      heroDescription: 'Claim PHRS daily and experience the Goosebox ecosystem',
       sections: {
         walletConnection: 'Wallet Connection Status',
         twitterIntegration: 'Link X account',
         twitterStatus: 'X Account Status',
-        claimTokens: 'Claim PHRS Tokens'
+        claimTokens: 'Claim Testnet Tokens'
+      },
+      badges: {
+        dailyFree: 'Daily Free Claim',
+        socialVerify: 'Social Verification',
+        tokenClaim: 'Token Claim'
       },
       networkInfo: {
         title: 'Network Info',
@@ -381,6 +393,7 @@ const languagePacks = {
         newAccountAuth: 'Authenticating new account'
       },
       twitter: {
+        description: 'Verify your social account for a better experience',
         connectButton: 'Connect Twitter',
         disconnectButton: 'Disconnect Twitter',
         alreadyConnected: 'Twitter is already connected!',
@@ -414,16 +427,17 @@ const languagePacks = {
         connectionFailed: 'X connection failed'
       },
       claim: {
+        description: 'Connect wallet, complete verification, and claim with one click!',
         instructions: 'Claim Instructions',
         instruction1: '• Each wallet address can only claim once every 24 hours',
-        instruction2: '• 0.1 PHRS test tokens per claim',
+        instruction2: '• 0.1 PHRS testnet tokens per claim',
         instruction3: '• Requires signature login and reCAPTCHA verification',
         instruction4: '• Recommend binding Twitter account for better service',
         instruction5: '• Wallet connection',
         instruction6: '• Ensure on Pharos Testnet network',
         autoCheckAfterLogin: 'Automatically check status after successful login',
         manualCheckButton: 'Manual Status Check',
-        claimButton: 'Claim Tokens',
+        claimButton: 'Claim Now!',
         cooldownTime: 'Cooldown',
         checkingStatus: 'Checking faucet status...',
         autoCheckingStatus: 'Auto-checking faucet status...',
@@ -581,7 +595,7 @@ const languagePacks = {
       wallet: 'Подключить кошелек',
       disconnect: 'Отключить',
       network: 'Сеть',
-      faucet: 'PHRS Кран'
+      faucet: 'Получить PHRS'
     },
     hero: {
       title: 'Ферма гусей · Сундуки · Объединение и прогресс',
@@ -643,7 +657,7 @@ const languagePacks = {
         walletConnection: 'Состояние подключения кошелька',
         twitterIntegration: 'Связать X аккаунт',
         twitterStatus: 'Статус аккаунта X',
-        claimTokens: 'Получить PHRS токены'
+        claimTokens: 'Получить тестовые токены'
       },
       networkInfo: {
         title: 'Информация о сети',
@@ -879,7 +893,7 @@ const languagePacks = {
       wallet: 'Kết nối ví',
       disconnect: 'Ngắt kết nối',
       network: 'Mạng',
-      faucet: 'Vòi PHRS'
+      faucet: 'Nhận PHRS'
     },
     hero: {
       title: 'Nông trại ngỗng · Rương rơi · Hợp nhất và tiến bộ',
@@ -941,7 +955,7 @@ const languagePacks = {
         walletConnection: 'Trạng thái kết nối ví',
         twitterIntegration: 'Liên kết tài khoản X',
         twitterStatus: 'Trạng thái tài khoản X',
-        claimTokens: 'Nhận token PHRS'
+        claimTokens: 'Nhận token thử nghiệm'
       },
       networkInfo: {
         title: 'Thông tin mạng',
@@ -1145,7 +1159,7 @@ const languagePacks = {
       wallet: 'Підключити гаманець',
       disconnect: 'Відключити',
       network: 'Мережа',
-      faucet: 'PHRS Кран'
+      faucet: 'Отримати PHRS'
     },
     hero: {
       title: 'Гусина ферма · Скрині · Об\'єднання та прогрес',
@@ -1207,7 +1221,7 @@ const languagePacks = {
         walletConnection: 'Стан підключення гаманця',
         twitterIntegration: 'Зв\'язати X аккаунт',
           twitterStatus: 'Статус аккаунта X',
-        claimTokens: 'Отримати PHRS токени'
+        claimTokens: 'Отримати тестові токени'
       },
         networkInfo: {
           title: 'Інформація про мережу',
@@ -1411,7 +1425,7 @@ const languagePacks = {
       wallet: 'Hubungkan Dompet',
       disconnect: 'Putuskan',
       network: 'Jaringan',
-      faucet: 'Keran PHRS'
+      faucet: 'Dapatkan PHRS'
     },
     hero: {
       title: 'Peternakan angsa · Peti jatuh · Gabung & maju',
@@ -1473,7 +1487,7 @@ const languagePacks = {
         walletConnection: 'Status Koneksi Dompet',
         twitterIntegration: 'Hubungkan akun X',
           twitterStatus: 'Status Akun X',
-        claimTokens: 'Klaim Token PHRS'
+        claimTokens: 'Klaim Token Testnet'
       },
         networkInfo: {
           title: 'Informasi Jaringan',
