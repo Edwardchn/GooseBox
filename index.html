@@ -232,7 +232,7 @@
     </div>
   </footer>
 
-  <script src="js/languages.js"></script>
+  <script src="./js/languages.js"></script>
   <!-- <script type="module" src="/src/main.js"></script> -->
 
   <script>
@@ -243,7 +243,7 @@
       
       if (state && code) {
         console.log('🔄 检测到 Twitter 回调参数，重定向到 faucet.html...');
-        const newUrl = `/faucet.html${window.location.search}`;
+        const newUrl = `./faucet.html${window.location.search}`;
         window.location.href = newUrl;
         return;
       }

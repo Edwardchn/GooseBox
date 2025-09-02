@@ -196,7 +196,7 @@
         </div>
     </footer>
 
-    <script src="public/js/languages.js"></script>
+    <script src="./js/languages.js"></script>
     
     <script type="module">
         // 导入 AppKit 配置和工具函数
@@ -233,7 +233,7 @@
 
     </script>
     
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="./src/main.js"></script>
     
     <script>
 
@@ -431,6 +431,10 @@
                 localStorage.setItem('goosebox_lang', lang);
                 updateLanguage(lang);
                 renderLanguageSelector();
+                
+                const button = document.getElementById('currentLang');
+                button.classList.add('scale-95');
+                setTimeout(() => button.classList.remove('scale-95'), 150);
             }
         }
 
@@ -1685,6 +1689,15 @@
                 checkAppKit();
             });
         }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const dropdown = document.querySelector('.group');
+                if (dropdown) {
+                    dropdown.classList.remove('group-hover:opacity-100', 'group-hover:visible', 'group-hover:scale-100');
+                }
+            }
+        });
 
         window.addEventListener('load', async () => {
             if (checkAndRedirectToFaucet()) {
