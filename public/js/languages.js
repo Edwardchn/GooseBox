@@ -18,6 +18,11 @@ const languagePacks = {
       description: '放置与点触结合，让 <b>Goosebox</b> 自动"产蛋"。开箱与任务积累碎片，合成稀有道具，赚取 DIAMOND 与 Pharos。',
       playNow: '立即开始'
     },
+    lucky: {
+      title: '幸运抽奖，赢取大奖',
+      subtitle: '加入Goosebox幸运抽奖。每日转动，赢取PHRS、加速道具和惊喜！',
+      button: '立即抽奖'
+    },
     highlights: {
       idle: {
         title: '挂机养鹅',
@@ -51,6 +56,14 @@ const languagePacks = {
       }
     },
     faq: {
+      lucky: {
+        question: '幸运抽奖 — 规则',
+        answer: {
+          rule1: '玩家可通过完成下述任务获得抽奖次数。',
+          rule3: '活动时间为 2025 年 9 月 1 日至 2025 年 9 月 15 日。',
+          rule4: '本活动最终解释权归 GooseBox 所有。'
+        }
+      },
       offline: {
         question: '离线收益怎么领？',
         answer: '回到游戏首页点击"领取"，即可一次性收取离线期间的产蛋累计。'
@@ -316,6 +329,11 @@ const languagePacks = {
       description: 'Tap-and-idle gameplay—let <b>Goosebox</b> auto "lay eggs". Open chests and complete quests to gather shards, merge rare items, and earn <b>DIAMOND</b> & <b>Pharos</b>.',
       playNow: 'Play Now'
     },
+    lucky: {
+      title: 'Spin & Win Big Prizes',
+      subtitle: 'Join the Goosebox Lucky Draw. Spin daily for PHRS, boosts, and surprises!',
+      button: 'Spin Now'
+    },
     highlights: {
       idle: {
         title: 'Idle Goose',
@@ -349,6 +367,14 @@ const languagePacks = {
       }
     },
     faq: {
+      lucky: {
+        question: 'Lucky Draw — Rules',
+        answer: {
+          rule1: 'Players can earn lucky draw chances by completing the tasks below.',
+          rule3: 'The event period is September 1, 2025 – September 15, 2025.',
+          rule4: 'The final interpretation right of this event belongs to GooseBox.'
+        }
+      },
       offline: {
         question: 'How to claim offline earnings?',
         answer: 'Return to the home screen and tap "Claim" to collect all eggs produced while offline.'
@@ -602,574 +628,15 @@ const languagePacks = {
       description: 'Игра с тапами и ожиданием—пусть Goosebox автоматически "несет яйца". Открывайте сундуки и выполняйте квесты для сбора осколков, объединяйте редкие предметы и зарабатывайте DIAMOND и Pharos.',
       playNow: 'Играть сейчас'
     },
+    lucky: {
+      title: 'Крути и выигрывай большие призы',
+      subtitle: 'Присоединяйтесь к розыгрышу Goosebox. Крутите ежедневно и выигрывайте PHRS, ускорения и сюрпризы!',
+      button: 'Крутить сейчас'
+    },
     highlights: {
       idle: {
         title: 'Ферма гусей',
-        description: 'Автоматическое производство яиц; легко получайте награды DIAMOND / Pharos.'
-      },
-      upgrade: {
-        title: 'Улучшение гусятника',
-        description: 'Тратьте DIAMOND на улучшение линий и сооружений; разблокируйте новых гусей и косметику.'
-      },
-      community: {
-        title: 'Квесты и сообщество',
-        description: 'Выполняйте задания и присоединяйтесь к сообществу для получения дополнительных ускорений и ресурсов.'
-      },
-      early: {
-        title: 'Ранние преимущества',
-        description: 'Подготовьтесь к будущим версиям—ранние игроки получают эксклюзивные награды и значки.'
-      }
-    },
-    play: {
-      title: 'Начать играть',
-      subtitle: 'Начните в три шага. Легкая игра с ожиданием.',
-      steps: [
-        'Откройте <b>веб-версию</b> для входа в Goosebox',
-        'Зарегистрируйтесь / войдите и завершите обучающие квесты',
-        'Улучшите гусятник и линии для продвижения вперед'
-      ],
-      button: 'Начать играть',
-      tips: {
-        title: 'Советы',
-        content: 'Ежедневные квесты могут выпадать дополнительные осколки Pharos; общественные мероприятия дают ускорения.'
-      }
-    },
-    faq: {
-      offline: {
-        question: 'Как получить офлайн доход?',
-        answer: 'Вернитесь на главный экран и нажмите "Получить", чтобы собрать все яйца, произведенные в офлайне.'
-      },
-      tokens: {
-        question: 'Как получить больше DIAMOND/Pharos?',
-        answer: 'Выполняйте квесты, участвуйте в мероприятиях, рефералы и открывайте сундуки; редкие сундуки могут выпадать много токенов и эксклюзивов.'
-      },
-      referral: {
-        question: 'Правила реферальных наград?',
-        answer: 'Приглашение дает сундук; после связывания вы будете постоянно получать откаты от активности вашей нижней линии.'
-      }
-    },
-    faucet: {
-      title: 'PHRS Кран',
-      subtitle: 'PHRS Кран',
-      heroTitle: 'PHRS Кран',
-      heroDescription: 'Получайте 0.1 PHRS тестовых токенов ежедневно и исследуйте экосистему Goosebox',
-      sections: {
-        walletConnection: 'Состояние подключения кошелька',
-        twitterIntegration: 'Связать X аккаунт',
-        twitterStatus: 'Статус аккаунта X',
-        claimTokens: 'Получить тестовые токены'
-      },
-      networkInfo: {
-        title: 'Информация о сети',
-        network: 'Сеть: Pharos Testnet (Chain ID: 688688)',
-        dailyLimit: 'Дневной лимит: 0.1 PHRS',
-        cooldown: 'Перезарядка: 24 часа'
-      },
-      walletStatus: {
-        integrated: 'Кошелек интегрирован, аутентификация начнется автоматически после подключения',
-        connected: 'Кошелек подключен',
-        waiting: 'Ожидание подключения кошелька...',
-        disconnected: 'Кошелек отключен',
-        switchingAccount: 'Обнаружена смена аккаунта',
-        newAccountAuth: 'Аутентификация нового аккаунта'
-      },
-      twitter: {
-        connectButton: 'Подключить Twitter',
-        disconnectButton: 'Отключить Twitter',
-        alreadyConnected: 'Twitter уже подключен!',
-        twitterInfo: 'Информация Twitter:',
-        username: 'Имя пользователя',
-        displayName: 'Отображаемое имя',
-        verified: 'Статус верификации',
-        followers: 'Подписчики',
-        connectedAt: 'Подключено',
-        bindingSuccess: 'Аккаунт Twitter успешно привязан!',
-        disconnectSuccess: 'Подключение Twitter отключено!',
-        authRequired: 'Сначала завершите подключение кошелька и аутентификацию подписи!',
-        operationSteps: 'Шаги операции:',
-        step1: '1. Нажмите кнопку "Подключить кошелек"',
-        step2: '2. Завершите аутентификацию подписи кошелька',
-        step3: '3. Затем нажмите "Подключить Twitter"',
-        checkingStatus: 'Проверка статуса подключения Twitter...',
-        reloginRequired: 'Обнаружена необходимость повторного входа, автоматически выполняется процесс входа...',
-        signingMessage: 'Запрос подписи кошелька...',
-        verifyingSignature: 'Проверка подписи и вход...',
-        autoLoginSuccess: 'Автоматический вход успешен, запуск авторизации Twitter...',
-        statusCheckPassed: 'Проверка статуса пройдена, запуск авторизации Twitter...',
-        userCancelledSignature: 'Пользователь отменил подпись кошелька',
-        reconnectInstructions: 'Подключение Twitter требует повторной подписи для проверки личности.',
-        solution: 'Решение:',
-        retryInstruction: 'Нажмите "Подключить Twitter" еще раз и подтвердите подпись во всплывающем окне кошелька.',
-        tooManyRequests: 'Слишком много запросов',
-        waitAndRetry: 'Сервер получил слишком много запросов, подождите несколько минут и попробуйте снова',
-        serviceUnavailable: 'Сервис Twitter временно недоступен',
-        contactAdmin: 'Попробуйте позже или обратитесь к администратору',
-        connectionFailed: 'Не удалось подключиться к X'
-      },
-      claim: {
-        instructions: 'Инструкции по получению',
-        instruction1: '• Каждый адрес кошелька может получать только раз в 24 часа',
-        instruction2: '• 0.1 PHRS тестовых токенов за получение',
-        instruction3: '• Требуется вход по подписи и верификация reCAPTCHA',
-        instruction4: '• Рекомендуется привязать аккаунт Twitter для лучшего сервиса',
-        instruction5: '• Используйте подключение кошелька',
-        instruction6: '• Убедитесь, что находитесь в сети Pharos Testnet',
-        autoCheckAfterLogin: 'Автоматическая проверка статуса после успешного входа',
-        manualCheckButton: 'Ручная проверка статуса',
-        claimButton: 'Получить токены',
-        cooldownTime: 'Перезарядка',
-        checkingStatus: 'Проверка статуса крана...',
-        autoCheckingStatus: 'Автоматическая проверка статуса крана...',
-        claimStatus: 'Статус получения',
-        canClaim: 'Можно получить',
-        cannotClaim: 'Временно нельзя получить',
-        userStatus: 'Статус пользователя',
-        ipStatus: 'Статус IP',
-        twitterStatus: 'Статус Twitter',
-        rateLimit: 'Ограничение скорости',
-        address: 'Адрес',
-        bound: 'Привязан',
-        unbound: 'Не привязан',
-        cooldownRemaining: 'Остаток перезарядки',
-        allowedRequests: 'Разрешенные запросы',
-        remaining: 'Осталось',
-        yes: 'Да',
-        no: 'Нет',
-        hours: 'часов',
-        minutes: 'минут',
-        seconds: 'секунд',
-        claimingTokens: 'Получение подписи...',
-        contractCalling: 'Подпись получена успешно, вызов контракта...',
-        claimInfo: 'Информация о получении',
-        amount: 'Сумма',
-        status: 'Статус',
-        distributionId: 'ID распределения',
-        waitingConfirmation: 'Транзакция отправлена, ожидание подтверждения...',
-        transactionHash: 'Хеш транзакции',
-        notifyingServer: 'Уведомление сервера об успешном выполнении контракта...',
-        claimSuccess: 'Токены успешно получены!',
-        transactionInfo: 'Информация о транзакции',
-        blockNumber: 'Номер блока',
-        gasUsed: 'Использовано газа',
-        claimAmount: 'Сумма получения',
-        cooldownStarted: '24-часовой период ожидания начался'
-      },
-      security: {
-        title: '🛡️ Ограничения безопасности',
-        walletCooldown: '• Время ожидания пользователя: Каждый адрес кошелька может запрашивать только один раз в течение 24 часов',
-        ipLimit: '• Ограничение IP: Каждый IP-адрес может запрашивать только один раз в течение 24 часов',
-        twitterLimit: '• Ограничение Twitter: Каждая учетная запись Twitter может запрашивать только один раз в течение 24 часов',
-        rateLimit: '• Ограничение скорости: Максимум 10 запросов в час',
-        recaptcha: '• reCAPTCHA: Необходимо пройти проверку Google reCAPTCHA v2',
-        twitterBinding: '• Привязка Twitter: Необходимо привязать учетную запись Twitter для получения токенов'
-      },
-      errors: {
-        loginRequired: 'Сначала войдите в систему',
-        recaptchaRequired: 'Сначала завершите верификацию reCAPTCHA',
-        walletRequired: 'Подключите кошелек',
-        authRequired: 'Сначала завершите подключение кошелька и аутентификацию подписи',
-        userRejected: 'Пользователь отменил транзакцию',
-        insufficientFunds: 'Недостаточно средств на счете для оплаты газа',
-        cooldownNotMet: 'Период ожидания не истек, попробуйте через 24 часа',
-        invalidSignature: 'Проверка подписи не удалась',
-        nonceUsed: 'Подпись уже использована',
-        addressMismatch: 'Текущий адрес кошелька не соответствует адресу подписи',
-        dependencyFailed: 'ethers.js не удалось загрузить, обновите страницу',
-        networkError: 'Ошибка сети, проверьте подключение',
-        serverError: 'Ошибка сервера, попробуйте позже'
-      },
-      messages: {
-        checkingTwitterStatus: '🔍 Проверка статуса подключения Twitter...',
-        autoReloginDetected: '🔑 Обнаружена необходимость повторного входа, автоматически выполняется процесс входа...',
-        gettingNonce: '🔑 Получение nonce подписи...',
-        requestingSignature: '✍️ Запрос подписи кошелька...',
-        verifyingSignature: '🔐 Проверка подписи и вход...',
-        autoLoginSuccess: '✅ Автоматический вход успешен, запуск авторизации Twitter...',
-        statusCheckPassed: '✅ Проверка статуса пройдена, запуск авторизации Twitter...',
-        userCancelledSignature: '⚠️ Пользователь отменил подпись кошелька',
-        tooManyRequests: '❌ Слишком много запросов',
-        serviceUnavailable: '❌ Сервис Twitter временно недоступен',
-        disconnectingTwitter: 'Отключение Twitter...',
-        twitterDisconnected: 'Подключение Twitter отключено!',
-        twitterDisconnectFailed: 'Не удалось отключить Twitter',
-        checkingFaucetStatus: 'Проверка статуса крана...',
-        autoCheckingFaucetStatus: 'Автоматическая проверка статуса крана...',
-        faucetCheckFailed: 'Не удалось проверить статус крана',
-        autoFaucetCheckFailed: 'Не удалось автоматически проверить статус крана',
-        gettingSignature: 'Получение подписи...',
-        contractCalling: 'Вызов контракта...',
-        checkingDependencies: 'Проверка зависимостей...',
-        transactionSubmitted: 'Транзакция отправлена, ожидание подтверждения...',
-        notifyingServer: 'Уведомление сервера об успешном выполнении контракта...',
-        tokenClaimSuccess: 'Токены успешно получены!',
-        tokenClaimSuccessServerFailed: 'Токены успешно получены, но подтверждение сервера не удалось',
-        tokenClaimSuccessNotifyFailed: 'Токены успешно получены, но уведомление сервера не удалось',
-        contractCallFailed: 'Вызов контракта не удался',
-        twitterAuthFailed: 'Авторизация Twitter не удалась',
-        bindingTwitterAccount: 'Привязка аккаунта Twitter...',
-        twitterBindingSuccess: 'Аккаунт Twitter успешно привязан!',
-        twitterAlreadyConnected: '✅ Twitter уже подключен!',
-        signatureSuccess: 'Подпись получена успешно, вызов контракта...',
-        waitingForAuth: 'Ожидание завершения аутентификации нового аккаунта перед проверкой статуса Twitter...',
-        waitingForFaucetAuth: 'Ожидание завершения аутентификации нового аккаунта перед проверкой статуса крана...',
-        authRequired: '❌ Сначала завершите подключение кошелька и аутентификацию подписи!',
-        autoLoginRequired: '🔑 Обнаружена необходимость входа, автоматически выполняется процесс входа...',
-        dependencyLoadFailed: 'Не удалось загрузить зависимости, обновите страницу',
-        twitterServiceCheck: 'Сначала проверьте доступность сервиса Twitter',
-        reconnectInstructions: 'Для подключения Twitter требуется повторная подпись для проверки личности.',
-        retryInstruction: 'Нажмите "Подключить Twitter" еще раз и подтвердите подпись во всплывающем окне кошелька.',
-        getSignatureFailed: 'Не удалось получить подпись',
-        walletConnected: 'Кошелек подключен',
-        walletDisconnected: 'Кошелек отключен',
-        walletDisconnectedAppKit: 'Кошелек AppKit отключен',
-        waitingWalletConnection: 'Ожидание подключения кошелька...',
-        userCancelledTransaction: 'Пользователь отменил подпись',
-        authFailed: 'Аутентификация не удалась, переподключите кошелек',
-        accountSwitchDetected: '🔄 Обнаружена смена аккаунта',
-        newAccountAuthenticating: '🔄 Аутентификация нового аккаунта',
-        twitterAlreadyConnected: '✅ Twitter уже подключен!',
-        twitterConnected: '✅ Twitter подключен',
-        signatureSuccess: 'Подпись получена успешно, вызов контракта...',
-        waitingForAuth: 'Ожидание завершения аутентификации нового аккаунта перед проверкой статуса Twitter...',
-        waitingForFaucetAuth: 'Ожидание завершения аутентификации нового аккаунта перед проверкой статуса крана...',
-        authRequired: '❌ Сначала завершите подключение кошелька и аутентификацию подписи!',
-        autoLoginRequired: '🔑 Обнаружена необходимость входа, автоматически выполняется процесс входа...',
-        dependencyLoadFailed: 'Не удалось загрузить зависимости, обновите страницу',
-        twitterServiceCheck: 'Сначала проверьте доступность сервиса Twitter',
-        reconnectInstructions: 'Для подключения Twitter требуется повторная подпись для проверки личности.',
-        retryInstruction: 'Нажмите "Подключить Twitter" еще раз и подтвердите подпись во всплывающем окне кошелька.',
-        getSignatureFailed: 'Не удалось получить подпись',
-        twitterInfo: 'Информация Twitter:',
-        username: 'Имя пользователя',
-        displayName: 'Отображаемое имя',
-        verified: 'Статус верификации',
-        followers: 'Подписчики',
-        connectedAt: 'Подключено',
-        yes: 'Да',
-        no: 'Нет',
-        verified_: 'Верифицирован',
-        unverified: 'Не верифицирован',
-        faucetUser: 'Пользователь крана:',
-        wallet: 'Кошелек',
-        transactionInfo: 'Информация о транзакции:',
-        transactionHash: 'Хеш транзакции',
-        blockNumber: 'Номер блока',
-        gasUsed: 'Использовано газа',
-        claimAmount: 'Сумма получения',
-        cooldownStarted: '24-часовой период ожидания начался',
-        cooldown: 'Ожидание',
-        hours: 'часов',
-        minutes: 'минут',
-        seconds: 'секунд',
-        error: 'Ошибка',
-        notice: 'Примечание:',
-        tokenClaimedButCooldownMayNotSet: 'Токены успешно получены, но период ожидания может быть установлен неправильно',
-        confirmError: 'Ошибка подтверждения',
-        twitterAuthFailed: 'Авторизация Twitter не удалась',
-        twitterBindingFailed: 'Не удалось привязать аккаунт X : {error}',
-        twitterConnectionFailed: '❌ Не удалось подключиться к X',
-        twitterAuthSuccess: '✅ Авторизация Twitter успешна!',
-        twitterBindingSuccess: 'Аккаунт Twitter успешно привязан!',
-        processingBinding: 'Обнаружены параметры обратного вызова авторизации, обработка привязки...',
-        callbackInfo: 'Информация об обратном вызове:',
-        bindingNotice: 'Если привязка не удалась, убедитесь, что кошелек подключен и аутентификация подписи завершена.',
-        unknownError: 'Неизвестная ошибка',
-        retryLater: 'Повторите попытку позже или обратитесь к администратору.',
-        status: 'Статус',
-        code: 'Код',
-        none: 'Отсутствует'
-      }
-    }
-  },
-
-  vi: {
-    title: 'Goosebox — Nông trại ngỗng',
-    subtitle: 'Nông trại ngỗng · Trò chơi thường',
-    nav: {
-      home: 'Trang chủ',
-      highlights: 'Điểm nổi bật',
-      play: 'Bắt đầu chơi',
-      faq: 'FAQ',
-      wallet: 'Kết nối ví',
-      disconnect: 'Ngắt kết nối',
-      network: 'Mạng',
-      faucet: 'Nhận PHRS'
-    },
-    hero: {
-      title: 'Nông trại ngỗng · Rương rơi · Hợp nhất và tiến bộ',
-      description: 'Lối chơi tap-và-chờ—để Goosebox tự động "đẻ trứng". Mở rương và hoàn thành nhiệm vụ để thu thập mảnh vỡ, hợp nhất vật phẩm hiếm và kiếm DIAMOND và Pharos.',
-      playNow: 'Chơi ngay'
-    },
-    highlights: {
-      idle: {
-        title: 'Nông trại ngỗng',
-        description: 'Sản xuất trứng tự động; dễ dàng nhận phần thưởng DIAMOND / Pharos.'
-      },
-      upgrade: {
-        title: 'Nâng cấp chuồng ngỗng',
-        description: 'Tiêu DIAMOND để tăng cường dây chuyền và cơ sở; mở khóa ngỗng mới và trang phục.'
-      },
-      community: {
-        title: 'Nhiệm vụ & Cộng đồng',
-        description: 'Hoàn thành nhiệm vụ và tham gia cộng đồng để nhận tăng tốc và tài nguyên bổ sung.'
-      },
-      early: {
-        title: 'Đặc quyền sớm',
-        description: 'Chuẩn bị cho phiên bản tương lai—người chơi sớm nhận phần thưởng và huy hiệu độc quyền.'
-      }
-    },
-    play: {
-      title: 'Bắt đầu chơi',
-      subtitle: 'Bắt đầu trong ba bước. Chơi chờ dễ dàng.',
-      steps: [
-        'Mở <b>phiên bản Web</b> để vào Goosebox',
-        'Đăng ký / đăng nhập và hoàn thành nhiệm vụ hướng dẫn',
-        'Nâng cấp chuồng ngỗng và dây chuyền để tiến lên'
-      ],
-      button: 'Bắt đầu chơi',
-      tips: {
-        title: 'Mẹo',
-        content: 'Nhiệm vụ hàng ngày có thể rơi thêm mảnh Pharos; sự kiện cộng đồng cho tăng tốc.'
-      }
-    },
-    faq: {
-      offline: {
-        question: 'Làm thế nào để nhận thu nhập ngoại tuyến?',
-        answer: 'Quay lại màn hình chính và nhấn "Nhận" để thu thập tất cả trứng được sản xuất khi ngoại tuyến.'
-      },
-      tokens: {
-        question: 'Làm thế nào để có thêm DIAMOND/Pharos?',
-        answer: 'Hoàn thành nhiệm vụ, tham gia sự kiện, giới thiệu và mở rương; rương hiếm có thể rơi nhiều token và vật phẩm độc quyền.'
-      },
-      referral: {
-        question: 'Quy tắc phần thưởng giới thiệu?',
-        answer: 'Mời người khác được rương; sau khi liên kết, bạn sẽ liên tục nhận hoa hồng từ hoạt động của người dưới.'
-      }
-    },
-    faucet: {
-      title: 'Vòi PHRS',
-      subtitle: 'Vòi PHRS',
-      heroTitle: 'Vòi PHRS',
-      heroDescription: 'Nhận 0.1 PHRS token thử nghiệm hàng ngày và khám phá hệ sinh thái Goosebox',
-      sections: {
-        walletConnection: 'Trạng thái kết nối ví',
-        twitterIntegration: 'Liên kết tài khoản X',
-        twitterStatus: 'Trạng thái tài khoản X',
-        claimTokens: 'Nhận token thử nghiệm'
-      },
-      networkInfo: {
-        title: 'Thông tin mạng',
-        network: 'Mạng: Pharos Testnet (Chain ID: 688688)',
-        dailyLimit: 'Giới hạn hàng ngày: 0.1 PHRS',
-        cooldown: 'Thời gian chờ: 24 giờ'
-      },
-      walletStatus: {
-        integrated: 'Ví đã tích hợp, xác thực sẽ bắt đầu tự động sau khi kết nối',
-        connected: 'Ví đã kết nối',
-          waiting: 'Đang chờ kết nối ví...',
-          disconnected: 'Ví đã ngắt kết nối',
-          switchingAccount: 'Phát hiện chuyển đổi tài khoản',
-          newAccountAuth: 'Xác thực tài khoản mới'
-      },
-      twitter: {
-        connectButton: 'Kết nối Twitter',
-          disconnectButton: 'Ngắt kết nối Twitter',
-          alreadyConnected: 'Twitter đã được kết nối!',
-          twitterInfo: 'Thông tin Twitter:',
-          username: 'Tên người dùng',
-          displayName: 'Tên hiển thị',
-          verified: 'Trạng thái xác minh',
-          followers: 'Người theo dõi',
-          connectedAt: 'Kết nối lúc',
-          bindingSuccess: 'Tài khoản Twitter đã được liên kết thành công!',
-          disconnectSuccess: 'Kết nối Twitter đã bị ngắt!',
-          authRequired: 'Vui lòng hoàn thành kết nối ví và xác thực chữ ký trước!',
-          operationSteps: 'Các bước thao tác:',
-          step1: '1. Nhấp vào nút "Kết nối ví"',
-          step2: '2. Hoàn thành xác thực chữ ký ví',
-          step3: '3. Sau đó nhấp vào "Kết nối Twitter"',
-          checkingStatus: 'Đang kiểm tra trạng thái kết nối Twitter...',
-          reloginRequired: 'Phát hiện cần đăng nhập lại, tự động thực hiện quy trình đăng nhập...',
-          signingMessage: 'Yêu cầu chữ ký ví...',
-          verifyingSignature: 'Đang xác minh chữ ký và đăng nhập...',
-          autoLoginSuccess: 'Tự động đăng nhập thành công, đang khởi động ủy quyền Twitter...',
-          statusCheckPassed: 'Kiểm tra trạng thái đã vượt qua, đang khởi động ủy quyền Twitter...',
-          userCancelledSignature: 'Người dùng đã hủy chữ ký ví',
-          reconnectInstructions: 'Kết nối Twitter yêu cầu ký lại để xác minh danh tính.',
-          solution: 'Giải pháp:',
-          retryInstruction: 'Vui lòng nhấp vào "Kết nối Twitter" một lần nữa và xác nhận chữ ký trong cửa sổ bật lên ví.',
-          tooManyRequests: 'Quá nhiều yêu cầu',
-          waitAndRetry: 'Máy chủ nhận quá nhiều yêu cầu, vui lòng đợi vài phút và thử lại',
-          serviceUnavailable: 'Dịch vụ Twitter tạm thời không khả dụng',
-          contactAdmin: 'Vui lòng thử lại sau hoặc liên hệ quản trị viên',
-          connectionFailed: 'Kết nối X thất bại'
-      },
-      claim: {
-        instructions: 'Hướng dẫn nhận',
-        instruction1: '• Mỗi địa chỉ ví chỉ có thể nhận một lần trong 24 giờ',
-        instruction2: '• 0.1 PHRS token thử nghiệm mỗi lần nhận',
-        instruction3: '• Yêu cầu đăng nhập bằng chữ ký và xác minh reCAPTCHA',
-          instruction4: '• Khuyến nghị liên kết tài khoản Twitter để có dịch vụ tốt hơn',
-          instruction5: '• Sử dụng kết nối ví',
-          instruction6: '• Đảm bảo trên mạng Pharos Testnet',
-          autoCheckAfterLogin: 'Tự động kiểm tra trạng thái sau khi đăng nhập thành công',
-        manualCheckButton: 'Kiểm tra trạng thái thủ công',
-          claimButton: 'Nhận token',
-          cooldownTime: 'Thời gian chờ',
-          checkingStatus: 'Đang kiểm tra trạng thái vòi...',
-          autoCheckingStatus: 'Tự động kiểm tra trạng thái vòi...',
-          claimStatus: 'Trạng thái nhận',
-          canClaim: 'Có thể nhận',
-          cannotClaim: 'Tạm thời không thể nhận',
-          userStatus: 'Trạng thái người dùng',
-          ipStatus: 'Trạng thái IP',
-          twitterStatus: 'Trạng thái Twitter',
-          rateLimit: 'Giới hạn tốc độ',
-          address: 'Địa chỉ',
-          bound: 'Đã liên kết',
-          unbound: 'Chưa liên kết',
-          cooldownRemaining: 'Thời gian chờ còn lại',
-          allowedRequests: 'Yêu cầu được phép',
-          remaining: 'Còn lại',
-          yes: 'Có',
-          no: 'Không',
-          hours: 'giờ',
-          minutes: 'phút',
-          seconds: 'giây',
-          claimingTokens: 'Đang lấy chữ ký...',
-          contractCalling: 'Chữ ký đã lấy thành công, đang gọi hợp đồng...',
-          claimInfo: 'Thông tin nhận',
-          amount: 'Số lượng',
-          status: 'Trạng thái',
-          distributionId: 'ID phân phối',
-          waitingConfirmation: 'Giao dịch đã được gửi, đang chờ xác nhận...',
-          transactionHash: 'Hash giao dịch',
-          notifyingServer: 'Thông báo cho máy chủ về việc thực hiện hợp đồng thành công...',
-          claimSuccess: 'Token đã được nhận thành công!',
-          transactionInfo: 'Thông tin giao dịch',
-          blockNumber: 'Số khối',
-          gasUsed: 'Gas đã sử dụng',
-          claimAmount: 'Số lượng nhận',
-                  cooldownStarted: 'Thời gian chờ 24 giờ đã bắt đầu'
-      },
-      security: {
-        title: '🛡️ Hạn chế bảo mật',
-        walletCooldown: '• Thời gian hồi phục người dùng: Mỗi địa chỉ ví chỉ có thể yêu cầu một lần trong 24 giờ',
-        ipLimit: '• Hạn chế IP: Mỗi địa chỉ IP chỉ có thể yêu cầu một lần trong 24 giờ',
-        twitterLimit: '• Hạn chế Twitter: Mỗi tài khoản Twitter chỉ có thể yêu cầu một lần trong 24 giờ',
-        rateLimit: '• Giới hạn tốc độ: Tối đa 10 yêu cầu mỗi giờ',
-        recaptcha: '• reCAPTCHA: Phải vượt qua xác minh Google reCAPTCHA v2',
-        twitterBinding: '• Liên kết Twitter: Phải liên kết tài khoản Twitter để nhận token'
-      },
-        errors: {
-          loginRequired: 'Vui lòng đăng nhập trước',
-          recaptchaRequired: 'Vui lòng hoàn thành xác minh reCAPTCHA trước',
-          walletRequired: 'Vui lòng kết nối ví',
-          authRequired: 'Vui lòng hoàn thành kết nối ví và xác thực chữ ký trước',
-          userRejected: 'Người dùng đã hủy giao dịch',
-          insufficientFunds: 'Số dư tài khoản không đủ để trả phí gas',
-          cooldownNotMet: 'Thời gian chờ chưa đủ, vui lòng thử lại sau 24 giờ',
-          invalidSignature: 'Xác minh chữ ký thất bại',
-          nonceUsed: 'Chữ ký đã được sử dụng',
-          addressMismatch: 'Địa chỉ ví hiện tại không khớp với địa chỉ chữ ký',
-          dependencyFailed: 'ethers.js không thể tải, vui lòng làm mới trang',
-          networkError: 'Lỗi mạng, vui lòng kiểm tra kết nối',
-          serverError: 'Lỗi máy chủ, vui lòng thử lại sau'
-      },
-      messages: {
-        checkingTwitterStatus: '🔍 Đang kiểm tra trạng thái kết nối Twitter...',
-        autoReloginDetected: '🔑 Phát hiện cần đăng nhập lại, tự động thực hiện quy trình đăng nhập...',
-        gettingSignature: 'Đang lấy chữ ký...',
-        contractCalling: 'Đang gọi hợp đồng...',
-        checkingDependencies: 'Đang kiểm tra phụ thuộc...',
-        disconnectingTwitter: 'Đang ngắt kết nối Twitter...',
-        twitterDisconnected: 'Kết nối Twitter đã ngắt!',
-        checkingFaucetStatus: 'Đang kiểm tra trạng thái vòi...',
-        autoCheckingFaucetStatus: 'Tự động kiểm tra trạng thái vòi...',
-        walletConnected: 'Ví đã kết nối',
-        walletDisconnected: 'Ví đã ngắt kết nối',
-        walletDisconnectedAppKit: 'Ví AppKit đã ngắt kết nối',
-        waitingWalletConnection: 'Đang chờ kết nối ví...',
-        userCancelledTransaction: 'Người dùng đã hủy chữ ký',
-        authFailed: 'Xác thực thất bại, vui lòng kết nối lại ví',
-        accountSwitchDetected: '🔄 Phát hiện chuyển đổi tài khoản',
-        newAccountAuthenticating: '🔄 Đang xác thực tài khoản mới',
-        twitterConnected: '✅ Xác thực Twitter thành công',
-        twitterAlreadyConnected: '✅ Twitter đã được kết nối!',
-        signatureSuccess: 'Chữ ký đã lấy thành công, đang gọi hợp đồng...',
-        waitingForAuth: 'Đang chờ xác thực tài khoản mới hoàn thành trước khi kiểm tra trạng thái Twitter...',
-        waitingForFaucetAuth: 'Đang chờ xác thực tài khoản mới hoàn thành trước khi kiểm tra trạng thái vòi...',
-        authRequired: '❌ Vui lòng hoàn thành kết nối ví và xác thực chữ ký trước!',
-        autoLoginRequired: '🔑 Phát hiện cần đăng nhập, tự động chạy quy trình đăng nhập...',
-        dependencyLoadFailed: 'Tải phụ thuộc thất bại, vui lòng làm mới trang',
-        twitterServiceCheck: 'Kiểm tra dịch vụ Twitter có khả dụng trước',
-        reconnectInstructions: 'Kết nối Twitter yêu cầu ký lại để xác minh danh tính.',
-        retryInstruction: 'Vui lòng nhấp vào "Kết nối Twitter" một lần nữa và xác nhận chữ ký trong cửa sổ bật lên ví.',
-        getSignatureFailed: 'Lấy chữ ký thất bại',
-        twitterInfo: 'Thông tin Twitter:',
-        username: 'Tên người dùng',
-        displayName: 'Tên hiển thị',
-        verified: 'Trạng thái xác minh',
-        followers: 'Người theo dõi',
-        connectedAt: 'Kết nối lúc',
-        yes: 'Có',
-        no: 'Không',
-        verified_: 'Đã xác minh',
-        unverified: 'Chưa xác minh',
-        faucetUser: 'Người dùng vòi:',
-        wallet: 'Ví',
-        transactionInfo: 'Thông tin giao dịch:',
-        transactionHash: 'Hash giao dịch',
-        blockNumber: 'Số khối',
-        gasUsed: 'Gas đã sử dụng',
-        claimAmount: 'Số lượng nhận',
-        cooldownStarted: 'Thời gian chờ 24 giờ đã bắt đầu',
-        cooldown: 'Đang chờ',
-        hours: 'giờ',
-        minutes: 'phút',
-        seconds: 'giây',
-        error: 'Lỗi',
-        notice: 'Lưu ý:',
-        tokenClaimedButCooldownMayNotSet: 'Token đã được nhận thành công, nhưng thời gian chờ có thể không được thiết lập đúng',
-        confirmError: 'Lỗi xác nhận',
-        twitterAuthFailed: 'Ủy quyền Twitter thất bại',
-        twitterConnectionFailed: '❌ Kết nối X thất bại',
-        twitterAuthSuccess: '✅ Ủy quyền Twitter thành công!',
-        twitterBindingSuccess: 'Tài khoản Twitter đã được liên kết thành công!',
-        processingBinding: 'Phát hiện tham số callback ủy quyền, đang xử lý liên kết...',
-        callbackInfo: 'Thông tin callback:',
-        bindingNotice: 'Nếu liên kết thất bại, vui lòng đảm bảo ví đã được kết nối và xác thực chữ ký đã hoàn thành.',
-        unknownError: 'Lỗi không xác định',
-        retryLater: 'Vui lòng thử lại sau hoặc liên hệ quản trị viên.',
-        status: 'Trạng thái',
-        code: 'Mã',
-        none: 'Không có'
-      }
-    }
-  },
-
-  uk: {
-    title: 'Goosebox — Гусина ферма',
-    subtitle: 'Гусина ферма · Казуальна гра',
-    nav: {
-      home: 'Головна',
-      highlights: 'Особливості',
-      play: 'Почати грати',
-      faq: 'FAQ',
-      wallet: 'Підключити гаманець',
-      disconnect: 'Відключити',
-      network: 'Мережа',
-      faucet: 'Отримати PHRS'
-    },
-    hero: {
-      title: 'Гусина ферма · Скрині · Об\'єднання та прогрес',
-      description: 'Гра з тапами та очікуванням—нехай Goosebox автоматично "несе яйця". Відкривайте скрині та виконуйте квести для збору уламків, об\'єднуйте рідкісні предмети та заробляйте DIAMOND і Pharos.',
-      playNow: 'Грати зараз'
-    },
-    highlights: {
-      idle: {
-        title: 'Гусина ферма',
-        description: 'Автоматичне виробництво яєць; легко отримуйте нагороди DIAMOND / Pharos.'
+        description: 'Автоматическое виробництво яєць; легко отримуйте нагороди DIAMOND / Pharos.'
       },
       upgrade: {
         title: 'Покращення гусятника',
@@ -1185,10 +652,10 @@ const languagePacks = {
       }
     },
     play: {
-      title: 'Почати грати',
-      subtitle: 'Почніть у три кроки. Легка гра з очікуванням.',
+      title: 'Начать играть',
+      subtitle: 'Начните в три шага. Легкая игра с ожиданием.',
       steps: [
-        'Відкрийте <b>веб-версію</b> для входу в Goosebox',
+        'Откройте <b>веб-версію</b> для входу в Goosebox',
         'Зареєструйтесь / увійдіть та завершіть навчальні квести',
         'Покращіть гусятник та лінії для просування вперед'
       ],
@@ -1199,6 +666,14 @@ const languagePacks = {
       }
     },
     faq: {
+      lucky: {
+        question: 'Правила розыгрыша',
+        answer: {
+          rule1: 'Игроки могут получать попытки розыгрыша, выполняя задания ниже.',
+          rule3: 'Период проведения: 1 сентября 2025 — 15 сентября 2025.',
+          rule4: 'Окончательное право толкования данного события принадлежит GooseBox.'
+        }
+      },
       offline: {
         question: 'Як отримати офлайн дохід?',
         answer: 'Поверніться на головний екран і натисніть "Отримати", щоб зібрати всі яйця, вироблені в офлайні.'
@@ -1338,7 +813,7 @@ const languagePacks = {
           invalidSignature: 'Перевірка підпису не вдалася',
           nonceUsed: 'Підпис вже використано',
           addressMismatch: 'Поточна адреса гаманця не відповідає адресі підпису',
-          dependencyFailed: 'ethers.js не вдалося завантажити, оновіть сторінку',
+          dependencyFailed: 'ethers.js не вдалося завантажити, обновите сторінку',
           networkError: 'Помилка мережі, перевірте підключення',
           serverError: 'Помилка сервера, спробуйте пізніше'
       },
@@ -1372,44 +847,65 @@ const languagePacks = {
         reconnectInstructions: 'Підключення Twitter вимагає повторної підписи для перевірки особистості.',
         retryInstruction: 'Натисніть "Підключити Twitter" ще раз і підтвердіть підпис у спливаючому вікні гаманця.',
         getSignatureFailed: 'Не вдалося отримати підпис',
-        twitterInfo: 'Інформація Twitter:',
-        username: 'Ім\'я користувача',
-        displayName: 'Відображуване ім\'я',
-        verified: 'Статус верифікації',
-        followers: 'Підписники',
-        connectedAt: 'Підключено',
-        yes: 'Так',
-        no: 'Ні',
-        verified_: 'Верифіковано',
-        unverified: 'Не верифіковано',
-        faucetUser: 'Користувач крану:',
-        wallet: 'Гаманець',
-        transactionInfo: 'Інформація про транзакцію:',
-        transactionHash: 'Хеш транзакції',
-        blockNumber: 'Номер блоку',
-        gasUsed: 'Використано газу',
-        claimAmount: 'Сума отримання',
-        cooldownStarted: '24-годинний період очікування почався',
-        cooldown: 'Очікування',
-        hours: 'годин',
-        minutes: 'хвилин',
+        walletConnected: 'Кошелек подключен',
+        walletDisconnected: 'Кошелек отключен',
+        walletDisconnectedAppKit: 'Кошелек AppKit отключен',
+        waitingWalletConnection: 'Ожидание подключения кошелька...',
+        userCancelledTransaction: 'Пользователь отменил подпись',
+        authFailed: 'Аутентификация не удалась, переподключите кошелек',
+        accountSwitchDetected: '🔄 Обнаружена смена аккаунта',
+        newAccountAuthenticating: '🔄 Аутентификация нового аккаунта',
+        twitterAlreadyConnected: '✅ Twitter уже подключен!',
+        twitterConnected: '✅ Twitter подключен',
+        signatureSuccess: 'Подпись получена успешно, вызов контракта...',
+        waitingForAuth: 'Ожидание завершения аутентификации нового аккаунта перед проверкой статуса Twitter...',
+        waitingForFaucetAuth: 'Ожидание завершения аутентификации нового аккаунта перед проверкой статуса крана...',
+        authRequired: '❌ Сначала завершите подключение кошелька и аутентификацию подписи!',
+        autoLoginRequired: '🔑 Обнаружена необходимость входа, автоматически выполняется процесс входа...',
+        dependencyLoadFailed: 'Не удалось загрузить зависимости, обновите страницу',
+        twitterServiceCheck: 'Сначала проверьте доступность сервиса Twitter',
+        reconnectInstructions: 'Для подключения Twitter требуется повторная подпись для проверки личности.',
+        retryInstruction: 'Нажмите "Подключить Twitter" еще раз и подтвердите подпись во всплывающем окне кошелька.',
+        getSignatureFailed: 'Не удалось получить подпись',
+        twitterInfo: 'Информация Twitter:',
+        username: 'Имя пользователя',
+        displayName: 'Отображаемое имя',
+        verified: 'Статус верификации',
+        followers: 'Подписчики',
+        connectedAt: 'Подключено',
+        yes: 'Да',
+        no: 'Нет',
+        verified_: 'Верифицирован',
+        unverified: 'Не верифицирован',
+        faucetUser: 'Пользователь крана:',
+        wallet: 'Кошелек',
+        transactionInfo: 'Информация о транзакции:',
+        transactionHash: 'Хеш транзакции',
+        blockNumber: 'Номер блока',
+        gasUsed: 'Использовано газа',
+        claimAmount: 'Сумма получения',
+        cooldownStarted: '24-часовой период ожидания начался',
+        cooldown: 'Ожидание',
+        hours: 'часов',
+        minutes: 'минут',
         seconds: 'секунд',
-        error: 'Помилка',
-        notice: 'Примітка:',
-        tokenClaimedButCooldownMayNotSet: 'Токени успішно отримано, але період очікування може бути встановлений неправильно',
-        confirmError: 'Помилка підтвердження',
-        twitterAuthFailed: 'Авторизація Twitter не вдалася',
-        twitterConnectionFailed: '❌ Не вдалося підключитися до X',
-        twitterAuthSuccess: '✅ Авторизація Twitter успішна!',
-        twitterBindingSuccess: 'Аккаунт Twitter успішно прив\'язано!',
-        processingBinding: 'Виявлено параметри зворотного виклику авторизації, обробка прив\'язування...',
-        callbackInfo: 'Інформація про зворотний виклик:',
-        bindingNotice: 'Якщо прив\'язування не вдалося, переконайтеся, що гаманець підключено та аутентифікація підпису завершена.',
-        unknownError: 'Невідома помилка',
-        retryLater: 'Повторіть спробу пізніше або зверніться до адміністратора.',
+        error: 'Ошибка',
+        notice: 'Примечание:',
+        tokenClaimedButCooldownMayNotSet: 'Токены успешно получены, но период ожидания может быть установлен неправильно',
+        confirmError: 'Ошибка подтверждения',
+        twitterAuthFailed: 'Авторизация Twitter не удалась',
+        twitterBindingFailed: 'Не удалось привязать аккаунт X : {error}',
+        twitterConnectionFailed: '❌ Не удалось подключиться к X',
+        twitterAuthSuccess: '✅ Авторизация Twitter успешна!',
+        twitterBindingSuccess: 'Аккаунт Twitter успешно привязан!',
+        processingBinding: 'Обнаружены параметры обратного вызова авторизации, обработка привязки...',
+        callbackInfo: 'Информация об обратном вызове:',
+        bindingNotice: 'Если привязка не удалась, убедитесь, что кошелек подключен и аутентификация подписи завершена.',
+        unknownError: 'Неизвестная ошибка',
+        retryLater: 'Повторите попытку позже или обратитесь к администратору.',
         status: 'Статус',
         code: 'Код',
-        none: 'Відсутній'
+        none: 'Отсутствует'
       }
     }
   },
@@ -1431,6 +927,11 @@ const languagePacks = {
       title: 'Peternakan angsa · Peti jatuh · Gabung & maju',
       description: 'Gameplay tap-dan-tunggu—biarkan Goosebox otomatis "bertelur". Buka peti dan selesaikan quest untuk mengumpulkan pecahan, gabungkan item langka, dan dapatkan DIAMOND & Pharos.',
       playNow: 'Main Sekarang'
+    },
+    lucky: {
+      title: 'Putar & Menangkan Hadiah Besar',
+      subtitle: 'Ikuti Undian Berhadiah Goosebox. Putar setiap hari untuk PHRS, item, dan kejutan!',
+      button: 'Putar Sekarang'
     },
     highlights: {
       idle: {
@@ -1465,6 +966,14 @@ const languagePacks = {
       }
     },
     faq: {
+      lucky: {
+        question: 'Aturan Undian Berhadiah',
+        answer: {
+          rule1: 'Pemain dapat memperoleh kesempatan undian dengan menyelesaikan tugas di bawah ini.',
+          rule3: 'Periode acara: 1 September 2025 – 15 September 2025.',
+          rule4: 'Hak interpretasi akhir acara ini berada pada GooseBox.'
+        }
+      },
       offline: {
         question: 'Bagaimana cara klaim penghasilan offline?',
         answer: 'Kembali ke layar utama dan tekan "Klaim" untuk mengumpulkan semua telur yang diproduksi saat offline.'
@@ -1638,6 +1147,26 @@ const languagePacks = {
         signatureSuccess: 'Tanda tangan berhasil diperoleh, memanggil kontrak...',
         waitingForAuth: 'Menunggu autentikasi akun baru selesai sebelum memeriksa status Twitter...',
         waitingForFaucetAuth: 'Menunggu autentikasi akun baru selesai sebelum memeriksa status keran...',
+        twitterServiceCheck: 'Periksa apakah layanan Twitter tersedia terlebih dahulu',
+        reconnectInstructions: 'Menghubungkan Twitter memerlukan penandatanganan ulang untuk memverifikasi identitas.',
+        retryInstruction: 'Silakan klik "Hubungkan Twitter" lagi dan konfirmasi tanda tangan di popup dompet.',
+        getSignatureFailed: 'Gagal mendapatkan tanda tangan',
+        walletConnected: 'Koek Terhubung',
+        walletDisconnected: 'Koek terputus',
+        walletDisconnectedAppKit: 'Koek AppKit terputus',
+        waitingWalletConnection: 'Menunggu koneksi dompet...',
+        userCancelledTransaction: 'Pengguna membatalkan tanda tangan',
+        authFailed: 'Otentikasi gagal, silakan hubungkan ulang dompet',
+        accountSwitchDetected: '🔄 Terdeteksi pergantian akun',
+        newAccountAuthenticating: '🔄 Mengotentikasi akun baru',
+        twitterAlreadyConnected: '✅ Twitter sudah terhubung!',
+        twitterConnected: '✅ Twitter terhubung',
+        signatureSuccess: 'Tanda tangan berhasil diperoleh, memanggil kontrak...',
+        waitingForAuth: 'Menunggu autentikasi akun baru selesai sebelum memeriksa status Twitter...',
+        waitingForFaucetAuth: 'Menunggu autentikasi akun baru selesai sebelum memeriksa status keran...',
+        authRequired: '❌ Harap selesaikan koneksi dompet dan autentikasi tanda tangan terlebih dahulu!',
+        autoLoginRequired: '🔑 Login diperlukan terdeteksi, secara otomatis menjalankan proses login...',
+        dependencyLoadFailed: 'Gagal memuat dependensi, silakan muat ulang halaman',
         twitterServiceCheck: 'Periksa apakah layanan Twitter tersedia terlebih dahulu',
         reconnectInstructions: 'Menghubungkan Twitter memerlukan penandatanganan ulang untuk memverifikasi identitas.',
         retryInstruction: 'Silakan klik "Hubungkan Twitter" lagi dan konfirmasi tanda tangan di popup dompet.',

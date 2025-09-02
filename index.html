@@ -61,6 +61,7 @@
         <nav class="hidden md:flex items-center gap-6 text-white/90">
           <a href="#home" class="hover:text-white" data-lang="nav.home"></a>
           <a href="#mechanics" class="hover:text-white" data-lang="nav.highlights"></a>
+          <a href="#lucky-draw" class="hover:text-white font-semibold px-3 py-1 rounded-md bg-white/10 hover:bg-white/20 transition" aria-label="Lucky Draw Event">Lucky Draw</a>
           <a href="#play" class="hover:text-white" data-lang="nav.play"></a>
           <a href="#faq" class="hover:text-white" data-lang="nav.faq"></a>
           
@@ -78,6 +79,39 @@
       </div>
     </div>
   </header>
+
+  <!-- Lucky Draw Promo -->
+  <section id="lucky-draw" class="bg-gradient-to-r from-hay-300 via-hay-400 to-wood-400 text-wood-900">
+    <div class="max-w-6xl mx-auto px-4 py-6">
+      <div class="grid md:grid-cols-3 gap-6 items-center">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 flex-wrap">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 text-wood-800 shadow-ui">
+              <span class="text-xs font-bold tracking-wide">EVENT</span>
+              <span class="text-xs">Lucky Draw</span>
+            </div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 text-wood-800 shadow-ui" aria-live="polite">
+              <span class="text-xs font-bold tracking-wide" id="luckyTimerLabel">Ends in</span>
+              <span class="text-xs tabular-nums" id="luckyTimer">--</span>
+            </div>
+          </div>
+          <h2 class="mt-3 text-2xl md:text-3xl font-extrabold drop-shadow-[0_1px_0_rgba(255,255,255,.6)]" data-lang="lucky.title">Spin & Win Big Prizes</h2>
+          <p class="mt-2 text-stone-800/90" data-lang="lucky.subtitle">Join the Goosebox Lucky Draw. Spin daily for PHRS, boosts, and surprises!</p>
+          <div class="mt-4 flex flex-wrap gap-3">
+            <a href="https://spin.gbox.game/" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-2 px-6 py-3 rounded-ui bg-white text-wood-900 font-bold shadow-ui hover:bg-wood-50 focus:outline-none focus:ring-2 focus:ring-white/60">
+              <span data-lang="lucky.button">Spin Now</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor" aria-hidden="true"><path d="M13 5l7 7-7 7v-4H4v-6h9V5z"/></svg>
+            </a>
+            <a href="#faq" class="inline-flex items-center px-4 py-3 rounded-ui bg-white/30 text-wood-900 font-semibold hover:bg-white/40">FAQ</a>
+          </div>
+        </div>
+        <div class="rounded-[18px] overflow-hidden shadow-ui bg-white/70">
+          <img src="assets/goosebox-spin.jpg" alt="Goosebox Lucky Draw" class="w-full h-auto object-cover">
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Hero -->
   <section id="home" class="grain">
@@ -226,6 +260,7 @@
       }
       updateLanguage(currentLang);
       renderLanguageSelector();
+      initLuckyTimer();
     }
 
     function updateLanguage(lang) {
@@ -260,6 +295,20 @@
 
       const faqContainer = document.getElementById('faqContainer');
       faqContainer.innerHTML = `
+        <details class="rounded-ui bg-white border border-wood-200 p-4 shadow-ui group">
+          <summary class="cursor-pointer font-semibold flex items-center justify-between">
+            <span>${langData.faq.lucky?.question || 'Lucky Draw — Rules'}</span>
+            <span class="text-stone-400 group-open:rotate-180 transition">⌄</span>
+          </summary>
+          <ul class="mt-3 text-stone-700 list-disc pl-5 space-y-1">
+            ${(() => {
+              const a = langData.faq.lucky?.answer;
+              if (!a) return '';
+              const parts = [a.rule1, a.rule3, a.rule4].filter(Boolean);
+              return parts.map(t => `<li>${t}</li>`).join('');
+            })()}
+          </ul>
+        </details>
         <details class="rounded-ui bg-white border border-wood-200 p-4 shadow-ui group">
           <summary class="cursor-pointer font-semibold flex items-center justify-between">
             <span>${langData.faq.offline.question}</span>
@@ -330,6 +379,47 @@
     });
 
     document.addEventListener('DOMContentLoaded', initLanguage);
+  </script>
+
+  <script>
+    // Lucky Draw timer: Sep 1, 2025 00:00:00 UTC to Sep 15, 2025 23:59:59 UTC
+    const LUCKY_START = Date.UTC(2025, 8, 1, 0, 0, 0); // months 0-indexed
+    const LUCKY_END = Date.UTC(2025, 8, 15, 23, 59, 59);
+
+    let luckyTimerInterval;
+
+    function initLuckyTimer() {
+      const label = document.getElementById('luckyTimerLabel');
+      const el = document.getElementById('luckyTimer');
+      if (!el || !label) return;
+      if (luckyTimerInterval) clearInterval(luckyTimerInterval);
+      const update = () => {
+        const now = Date.now();
+        if (now < LUCKY_START) {
+          label.textContent = 'Starts in';
+          renderCountdown(el, LUCKY_START - now);
+        } else if (now <= LUCKY_END) {
+          label.textContent = 'Ends in';
+          renderCountdown(el, LUCKY_END - now);
+        } else {
+          label.textContent = 'Ended';
+          el.textContent = '00d 00h 00m 00s';
+          clearInterval(luckyTimerInterval);
+        }
+      };
+      update();
+      luckyTimerInterval = setInterval(update, 1000);
+    }
+
+    function pad2(n){ return String(n).padStart(2,'0'); }
+    function renderCountdown(targetEl, ms) {
+      const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      targetEl.textContent = `${pad2(days)}d ${pad2(hours)}h ${pad2(minutes)}m ${pad2(seconds)}s`;
+    }
   </script>
 
 </body>
