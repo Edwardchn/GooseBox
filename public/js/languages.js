@@ -60,7 +60,7 @@ const languagePacks = {
         question: '幸运抽奖 — 规则',
         answer: {
           rule1: '玩家可通过完成下述任务获得抽奖次数。',
-          rule3: '活动时间为 2025 年 9 月 1 日至 2025 年 9 月 15 日。',
+          rule3: '活动时间：TBA（待定）。',
           rule4: '本活动最终解释权归 GooseBox 所有。'
         }
       },
@@ -371,7 +371,7 @@ const languagePacks = {
         question: 'Lucky Draw — Rules',
         answer: {
           rule1: 'Players can earn lucky draw chances by completing the tasks below.',
-          rule3: 'The event period is September 1, 2025 – September 15, 2025.',
+          rule3: 'The event period is TBA (To Be Announced).',
           rule4: 'The final interpretation right of this event belongs to GooseBox.'
         }
       },
@@ -970,7 +970,7 @@ const languagePacks = {
         question: 'Aturan Undian Berhadiah',
         answer: {
           rule1: 'Pemain dapat memperoleh kesempatan undian dengan menyelesaikan tugas di bawah ini.',
-          rule3: 'Periode acara: 1 September 2025 – 15 September 2025.',
+          rule3: 'Periode acara: TBA (To Be Announced).',
           rule4: 'Hak interpretasi akhir acara ini berada pada GooseBox.'
         }
       },
