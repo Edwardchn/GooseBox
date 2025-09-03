@@ -910,7 +910,7 @@ const languagePacks = {
     }
   },
 
-  vn: {
+  vi: {
     title: 'Goosebox — Trang trại ngỗng',
     subtitle: 'Trang trại ngỗng · Trò chơi giải trí',
     nav: {
@@ -1221,7 +1221,7 @@ const languagePacks = {
     }
   },
 
-  ua: {
+  uk: {
     title: 'Goosebox — Ферма гусей',
     subtitle: 'Ферма гусей · Казуальна гра',
     nav: {
