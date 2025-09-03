@@ -50,6 +50,7 @@
             overflow: hidden;
         }
     </style>
+  <script type="module" crossorigin src="./assets/faucet--rIFf0pO.js"></script>
 </head>
 <body class="bg-wood-50 text-stone-700">
     <div class="reown-font-preload">.</div>
@@ -193,42 +194,7 @@
 
     <script src="./js/languages.js"></script>
     
-    <script type="module">
-        // 导入 AppKit 配置和工具函数
-        import { appKit, getProvider } from './src/config/appKit.js';
-        import { store } from './src/store/appkitStore.js';
-        
-        // 设置全局引用供 faucet 脚本使用
-        window.appKit = appKit;
-        window.getProvider = getProvider;
-        window.appKitStore = store;
-        
-        // 设置 AppKit 回调函数
-        window.onWalletConnected = onWalletConnected;
-        window.onWalletDisconnected = onWalletDisconnected;
-        
-        // 设置断开连接按钮事件监听器
-        document.getElementById('disconnect')?.addEventListener('click', () => {
-            appKit.disconnect();
-        });
-        
-        document.getElementById('disconnect-mobile')?.addEventListener('click', () => {
-            appKit.disconnect();
-        });
-        
-        try {
-            // 只禁用自动连接，但不强制断开现有连接
-            if (appKit.setAutoConnect) {
-                appKit.setAutoConnect(false);
-            }            
-        } catch (error) {
-
-        }
-        
-
-    </script>
     
-    <script type="module" src="./src/main.js"></script>
     
     <script>
 
