@@ -21,7 +21,20 @@ const languagePacks = {
     lucky: {
       title: '幸运抽奖，赢取大奖',
       subtitle: '加入Goosebox幸运抽奖。每日转动，赢取PHRS、加速道具和惊喜！',
-      button: '立即抽奖'
+      button: '立即抽奖',
+      badges: {
+        liveNow: '🎯 正在进行',
+        endingSoon: '⏰ 即将结束'
+      },
+      countdown: {
+        eventEndsIn: '活动结束倒计时：',
+        eventEnded: '活动已结束',
+        expired: '已过期',
+        date: '2025年9月15日'
+      },
+      startSpinning: '🎯 开始抽奖',
+      learnMore: '了解更多',
+      dailySpins: '🎰 每日抽奖可用！'
     },
     highlights: {
       idle: {
@@ -60,7 +73,7 @@ const languagePacks = {
         question: '幸运抽奖 — 规则',
         answer: {
           rule1: '玩家可通过完成下述任务获得抽奖次数。',
-          rule3: '活动时间：TBA（待定）。',
+          rule3: '活动时间：截止至2025年9月15日。',
           rule4: '本活动最终解释权归 GooseBox 所有。'
         }
       },
@@ -332,7 +345,20 @@ const languagePacks = {
     lucky: {
       title: 'Spin & Win Big Prizes',
       subtitle: 'Join the Goosebox Lucky Draw. Spin daily for PHRS, boosts, and surprises!',
-      button: 'Spin Now'
+      button: 'Spin Now',
+      badges: {
+        liveNow: '🎯 LIVE NOW',
+        endingSoon: '⏰ ENDING SOON'
+      },
+      countdown: {
+        eventEndsIn: 'Event ends in:',
+        eventEnded: 'Event Ended',
+        expired: 'EXPIRED',
+        date: 'September 15th, 2025'
+      },
+      startSpinning: '🎯 Start Spinning',
+      learnMore: 'Learn More',
+      dailySpins: '🎰 Daily Spins Available!'
     },
     highlights: {
       idle: {
@@ -371,7 +397,7 @@ const languagePacks = {
         question: 'Lucky Draw — Rules',
         answer: {
           rule1: 'Players can earn lucky draw chances by completing the tasks below.',
-          rule3: 'The event period is TBA (To Be Announced).',
+          rule3: 'The event period is until September 15th, 2025.',
           rule4: 'The final interpretation right of this event belongs to GooseBox.'
         }
       },
@@ -631,7 +657,20 @@ const languagePacks = {
     lucky: {
       title: 'Крути и выигрывай большие призы',
       subtitle: 'Присоединяйтесь к розыгрышу Goosebox. Крутите ежедневно и выигрывайте PHRS, ускорения и сюрпризы!',
-      button: 'Крутить сейчас'
+      button: 'Крутить сейчас',
+      badges: {
+        liveNow: '🎯 ПРЯМО СЕЙЧАС',
+        endingSoon: '⏰ СКОРО КОНЕЦ'
+      },
+      countdown: {
+        eventEndsIn: 'Событие заканчивается через:',
+        eventEnded: 'Событие завершено',
+        expired: 'ПРОСРОЧЕНО',
+        date: '15 сентября 2025 г.'
+      },
+      startSpinning: '🎯 Начать вращение',
+      learnMore: 'Узнать больше',
+      dailySpins: '🎰 Ежедневные вращения доступны!'
     },
     highlights: {
       idle: {
@@ -931,7 +970,20 @@ const languagePacks = {
     lucky: {
       title: 'Quay & Thắng giải lớn',
       subtitle: 'Tham gia Quay số may mắn Goosebox. Quay hàng ngày để nhận PHRS, tăng tốc và bất ngờ!',
-      button: 'Quay ngay'
+      button: 'Quay ngay',
+      badges: {
+        liveNow: '🎯 ĐANG DIỄN RA',
+        endingSoon: '⏰ SẮP KẾT THÚC'
+      },
+      countdown: {
+        eventEndsIn: 'Sự kiện kết thúc trong:',
+        eventEnded: 'Sự kiện đã kết thúc',
+        expired: 'HẾT HẠN',
+        date: 'Ngày 15 tháng 9 năm 2025'
+      },
+      startSpinning: '🎯 Bắt đầu quay',
+      learnMore: 'Tìm hiểu thêm',
+      dailySpins: '🎰 Lượt quay hàng ngày có sẵn!'
     },
     highlights: {
       idle: {
@@ -970,7 +1022,7 @@ const languagePacks = {
         question: 'Quay số may mắn — Quy tắc',
         answer: {
           rule1: 'Người chơi có thể kiếm cơ hội quay số bằng cách hoàn thành các nhiệm vụ dưới đây.',
-          rule3: 'Thời gian sự kiện: TBA (Sẽ được thông báo).',
+          rule3: 'Thời gian sự kiện: đến ngày 15 tháng 9 năm 2025.',
           rule4: 'Quyền giải thích cuối cùng của sự kiện này thuộc về GooseBox.'
         }
       },
@@ -1242,7 +1294,20 @@ const languagePacks = {
     lucky: {
       title: 'Крути і вигравай великі призи',
       subtitle: 'Приєднуйтесь до розіграшу Goosebox. Крутіть щодня за PHRS, прискорення та сюрпризи!',
-      button: 'Крутити зараз'
+      button: 'Крутити зараз',
+      badges: {
+        liveNow: '🎯 ПРЯМО ЗАРАЗ',
+        endingSoon: '⏰ НЕВДОВЗІ ЗАКІНЧИТЬСЯ'
+      },
+      countdown: {
+        eventEndsIn: 'Подія закінчується через:',
+        eventEnded: 'Подія завершена',
+        expired: 'ПРОСТРОЧЕНО',
+        date: '15 вересня 2025 року'
+      },
+      startSpinning: '🎯 Почати обертання',
+      learnMore: 'Дізнатися більше',
+      dailySpins: '🎰 Щоденні обертання доступні!'
     },
     highlights: {
       idle: {
@@ -1281,7 +1346,7 @@ const languagePacks = {
         question: 'Розіграш удачі — Правила',
         answer: {
           rule1: 'Гравці можуть заробляти шанси розіграшу, виконуючи завдання нижче.',
-          rule3: 'Період заходу: TBA (буде оголошено).',
+          rule3: 'Період заходу: до 15 вересня 2025 року.',
           rule4: 'Остаточне право тлумачення цього заходу належить GooseBox.'
         }
       },
@@ -1553,7 +1618,20 @@ const languagePacks = {
     lucky: {
       title: 'Putar & Menangkan Hadiah Besar',
       subtitle: 'Ikuti Undian Berhadiah Goosebox. Putar setiap hari untuk PHRS, item, dan kejutan!',
-      button: 'Putar Sekarang'
+      button: 'Putar Sekarang',
+      badges: {
+        liveNow: '🎯 SEDANG BERLANGSUNG',
+        endingSoon: '⏰ SEGERA BERAKHIR'
+      },
+      countdown: {
+        eventEndsIn: 'Acara berakhir dalam:',
+        eventEnded: 'Acara Berakhir',
+        expired: 'KEDALUWARSA',
+        date: '15 September 2025'
+      },
+      startSpinning: '🎯 Mulai Putar',
+      learnMore: 'Pelajari Lebih Lanjut',
+      dailySpins: '🎰 Putaran Harian Tersedia!'
     },
     highlights: {
       idle: {
@@ -1592,7 +1670,7 @@ const languagePacks = {
         question: 'Aturan Undian Berhadiah',
         answer: {
           rule1: 'Pemain dapat memperoleh kesempatan undian dengan menyelesaikan tugas di bawah ini.',
-          rule3: 'Periode acara: TBA (To Be Announced).',
+          rule3: 'Periode acara: hingga 15 September 2025.',
           rule4: 'Hak interpretasi akhir acara ini berada pada GooseBox.'
         }
       },

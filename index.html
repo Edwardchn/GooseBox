@@ -40,9 +40,39 @@
     @keyframes float { 0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)} }
     .logo { height: 50px; width: auto; }
     .flogo { height: 80px; width: auto; }
+    
+    /* Lucky Draw animations */
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(255, 255, 255, 0.6), 0 0 60px rgba(255, 215, 0, 0.4); }
+    }
+    
+    .lucky-glow {
+      animation: glow 2s ease-in-out infinite;
+    }
+    
+    .countdown-pulse {
+      animation: pulse 1s ease-in-out infinite;
+    }
+    
+    @keyframes countdown-flash {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    
+    .flash-text {
+      animation: countdown-flash 1s ease-in-out infinite;
+    }
   </style>
 </head>
 <body class="bg-wood-50 text-stone-700">
+
+
 
   <!-- 顶部：木板导航 -->
   <header class="sticky top-0 z-50">
@@ -79,6 +109,67 @@
       </div>
     </div>
   </header>
+
+        <!-- Lucky Draw Promo -->
+        <section id="lucky-draw" class="bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 text-white relative overflow-hidden">
+          <!-- Animated background pattern -->
+          <div class="absolute inset-0 opacity-10">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_rgba(255,255,255,0.3)_0%,_transparent_50%)] animate-pulse"></div>
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,_rgba(255,255,255,0.2)_0%,_transparent_50%)] animate-pulse" style="animation-delay: 1s;"></div>
+          </div>
+          
+          <div class="relative max-w-6xl mx-auto px-4 py-8">
+            <div class="grid md:grid-cols-3 gap-8 items-center">
+              <div class="md:col-span-2">
+                <div class="flex items-center gap-3 flex-wrap mb-4">
+                  <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500 text-white shadow-lg font-bold animate-bounce">
+                    <span class="text-sm font-extrabold tracking-wide" data-lang="lucky.badges.liveNow">🎯 LIVE NOW</span>
+                  </div>
+                  <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500 text-white shadow-lg border-2 border-white/30 animate-pulse">
+                    <span class="text-sm font-bold tracking-wide" data-lang="lucky.badges.endingSoon">⏰ ENDING SOON</span>
+                  </div>
+                </div>
+                
+                <h2 class="text-3xl md:text-4xl font-extrabold drop-shadow-lg mb-4" data-lang="lucky.title">
+                  <span class="bg-gradient-to-r from-yellow-200 to-white bg-clip-text text-transparent">Spin & Win Big Prizes</span>
+                </h2>
+                
+                <p class="text-xl text-white/95 mb-6 drop-shadow" data-lang="lucky.subtitle">Join the Goosebox Lucky Draw. Spin daily for PHRS, boosts, and surprises!</p>
+                
+                <!-- Countdown Timer -->
+                <div class="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-white/20 lucky-glow">
+                  <div class="text-center">
+                    <p class="text-lg font-bold mb-3 flash-text" id="luckyTimerLabel" data-lang="lucky.countdown.eventEndsIn">Event ends in:</p>
+                    <div class="text-4xl md:text-5xl font-extrabold font-mono tracking-wider countdown-pulse" id="luckyTimer">
+                      Loading...
+                    </div>
+                    <p class="text-sm text-white/80 mt-2">🗓️ <span data-lang="lucky.countdown.date">September 15th, 2025</span></p>
+                  </div>
+                </div>
+                
+                <div class="flex flex-wrap gap-4">
+                  <a href="https://spin.gbox.game/" target="_blank" rel="noopener noreferrer"
+                     class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-extrabold shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-300 text-lg border-2 border-white/30 hover:border-white/50">
+                    <span data-lang="lucky.startSpinning">🎯 Start Spinning</span>
+                  </a>
+                  <a href="#faq" class="inline-flex items-center px-6 py-4 rounded-2xl bg-white/20 backdrop-blur-sm text-white font-bold hover:bg-white/30 transition-all duration-300 border border-white/30 text-lg">
+                    <span data-lang="lucky.learnMore">Learn More</span>
+                  </a>
+                </div>
+              </div>
+              
+              <div class="relative">
+                <div class="rounded-3xl overflow-hidden shadow-2xl bg-white/10 backdrop-blur-sm border border-white/20 transform hover:scale-105 transition-transform duration-300">
+                  <img src="assets/goosebox-spin.jpg" alt="Goosebox Lucky Draw" class="w-full h-auto object-cover">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                  <div class="absolute bottom-4 left-4 right-4">
+                    <p class="text-white font-bold text-lg drop-shadow-lg" data-lang="lucky.dailySpins">🎰 Daily Spins Available!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
   <!-- Hero -->
   <section id="home" class="grain">
@@ -148,38 +239,6 @@
     </div>
   </section>
 
-    <!-- Lucky Draw Promo -->
-    <section id="lucky-draw" class="bg-gradient-to-r from-stone-300 via-stone-400 to-stone-500 text-white">
-      <div class="max-w-6xl mx-auto px-4 py-6">
-        <div class="grid md:grid-cols-3 gap-6 items-center">
-          <div class="md:col-span-2">
-            <div class="flex items-center gap-3 flex-wrap">
-              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 text-stone-800 shadow-ui">
-                <span class="text-xs font-bold tracking-wide">EVENT</span>
-                <span class="text-xs">Lucky Draw</span>
-              </div>
-              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 text-orange-800 shadow-ui" aria-live="polite">
-                <span class="text-xs font-bold tracking-wide">COMING SOON</span>
-              </div>
-            </div>
-            <h2 class="mt-3 text-2xl md:text-3xl font-extrabold drop-shadow-[0_1px_0_rgba(0,0,0,.3)]" data-lang="lucky.title">Spin & Win Big Prizes</h2>
-            <p class="mt-2 text-white/90" data-lang="lucky.subtitle">Join the Goosebox Lucky Draw. Spin daily for PHRS, boosts, and surprises!</p>
-            <div class="mt-4 flex flex-wrap gap-3">
-              <button disabled
-                 class="inline-flex items-center gap-2 px-6 py-3 rounded-ui bg-stone-600 text-stone-300 font-bold shadow-ui cursor-not-allowed opacity-70">
-                <span data-lang="lucky.button">Coming Soon</span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-              </button>
-              <a href="#faq" class="inline-flex items-center px-4 py-3 rounded-ui bg-white/20 text-white font-semibold hover:bg-white/30">FAQ</a>
-            </div>
-          </div>
-          <div class="rounded-[18px] overflow-hidden shadow-ui bg-white/20">
-            <img src="assets/goosebox-spin.jpg" alt="Goosebox Lucky Draw" class="w-full h-auto object-cover opacity-70">
-          </div>
-        </div>
-      </div>
-    </section>
-
   <!-- 开始游戏 -->
   <section id="play" class="py-12">
     <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-6 items-center">
@@ -233,7 +292,7 @@
     </div>
   </footer>
 
-  <script src="./js/languages.js?v=2025.01.27.1"></script>
+  <script src="./js/languages.js?v=2025.01.27.2"></script>
   <!-- <script type="module" src="/src/main.js"></script> -->
 
   <script>
@@ -383,31 +442,39 @@
   </script>
 
   <script>
-    // Lucky Draw timer: Sep 1, 2025 00:00:00 UTC to Sep 15, 2025 23:59:59 UTC
-    const LUCKY_START = Date.UTC(2025, 8, 1, 0, 0, 0); // months 0-indexed
-    const LUCKY_END = Date.UTC(2025, 8, 15, 23, 59, 59);
+    // Lucky Draw timer: countdown to Sep 15, 2025 23:59:59 UTC
+    const LUCKY_END = Date.UTC(2025, 8, 15, 23, 59, 59); // September 15, 2025
 
     let luckyTimerInterval;
 
     function initLuckyTimer() {
       const label = document.getElementById('luckyTimerLabel');
       const el = document.getElementById('luckyTimer');
-      if (!el || !label) return;
+      if (!el) return;
       if (luckyTimerInterval) clearInterval(luckyTimerInterval);
+      
       const update = () => {
         const now = Date.now();
-        if (now < LUCKY_START) {
-          label.textContent = 'Starts in';
-          renderCountdown(el, LUCKY_START - now);
-        } else if (now <= LUCKY_END) {
-          label.textContent = 'Ends in';
-          renderCountdown(el, LUCKY_END - now);
+        const timeRemaining = LUCKY_END - now;
+        
+        if (timeRemaining > 0) {
+          if (label) {
+            const langData = getLanguageData(currentLang);
+            label.textContent = langData.lucky?.countdown?.eventEndsIn || 'Event ends in:';
+          }
+          renderCountdown(el, timeRemaining);
         } else {
-          label.textContent = 'Ended';
-          el.textContent = '00d 00h 00m 00s';
+          if (label) {
+            const langData = getLanguageData(currentLang);
+            label.textContent = langData.lucky?.countdown?.eventEnded || 'Event Ended';
+          }
+          const langData = getLanguageData(currentLang);
+          const expiredText = langData.lucky?.countdown?.expired || 'EXPIRED';
+          el.innerHTML = `<span class="text-red-300">${expiredText}</span>`;
           clearInterval(luckyTimerInterval);
         }
       };
+      
       update();
       luckyTimerInterval = setInterval(update, 1000);
     }
@@ -419,7 +486,14 @@
       const hours = Math.floor((totalSeconds % 86400) / 3600);
       const minutes = Math.floor((totalSeconds % 3600) / 60);
       const seconds = totalSeconds % 60;
-      targetEl.textContent = `${pad2(days)}d ${pad2(hours)}h ${pad2(minutes)}m ${pad2(seconds)}s`;
+      
+      // Create colored countdown with better formatting
+      targetEl.innerHTML = `
+        <span class="text-yellow-300">${pad2(days)}</span><span class="text-white/60">d</span>
+        <span class="text-orange-300 ml-2">${pad2(hours)}</span><span class="text-white/60">h</span>
+        <span class="text-red-300 ml-2">${pad2(minutes)}</span><span class="text-white/60">m</span>
+        <span class="text-pink-300 ml-2">${pad2(seconds)}</span><span class="text-white/60">s</span>
+      `;
     }
   </script>
 
