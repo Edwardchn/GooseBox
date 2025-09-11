@@ -1,39 +1,29 @@
 # 🪿 GooseBox v1.1.4-beta Patch Notes
 
 **Hello Farmers!**  
-This update introduces a brand new way to turn your farm work into progress, along with big adjustments to Farm Points and Diamonds.  
 
 ---
 
-## 🌾 Core Changes
-- **Farm Points**
-  - *Cash* has been renamed to **Farm Points**.  
-  - Balancing update: amounts have been scaled down (≈100,000x smaller).  
+## 🚧 Under Maintenance
 
-- **Diamonds**
-  - Reward amounts have been **redesigned and rebalanced**.  
-  - All existing holdings redistributed based on the new design.  
-  - Daily referral rewards have been **removed** under the new system.  
-  - **New Limit:** Referral rewards now have a **daily cap of 5**, preventing excessive Diamond generation from referral chests. *(Referral bindings remain intact.)*  
+**GooseBox v1.1.4-beta** is currently under maintenance and development.
+
+**Status:** 🔧 In Progress  
+**Expected Release:** Coming Soon  
 
 ---
 
-## 🥚 New Feature – Conversion Machine
-- Added a new **machine** that converts **Eggs into Farm Points** once the tank is fully filled.  
-- Adjusted UI to show progress, conversion rate, and production clearly.  
-- Added smooth visual effects to highlight when conversion happens.  
+## 📋 What to Expect
+- Major gameplay improvements and balancing updates
+- New features and quality of life enhancements  
+- UI/UX optimizations for better farm management
+- Performance improvements and bug fixes
 
 ---
 
-## 🖥️ Interface & Optimizations
-- **Delivery Line Upgrade** now shows conversion rate.  
-- **Farm Group** UI now displays production per second more clearly.  
-- **Booster button** and **active booster display** have been improved for better clarity.  
-- **IAP Store** has been moved to the Game Menu.  
-- **Inventory** has been moved to the Profile page.  
-- Added **Terms & Conditions** in Settings.  
-- Reduced backend calls on the Home page for better performance.  
+## 📢 Stay Updated
+We'll announce the full patch notes and release details once v1.1.4-beta is ready for deployment. 
 
----
+Thank you for your patience as we work to make your farming experience even better!
 
-✅ That's it for **v1.1.4-beta**! With Farm Points, Diamonds, and the new Conversion Machine in place, your farm is more alive and rewarding than ever. Thanks for testing GooseBox Beta and helping us grow the flock!  
+**The GooseBox Team** 🪿  
