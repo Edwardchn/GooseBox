@@ -91,9 +91,10 @@
         <nav class="hidden md:flex items-center gap-6 text-white/90">
           <a href="#home" class="hover:text-white" data-lang="nav.home"></a>
           <a href="#mechanics" class="hover:text-white" data-lang="nav.highlights"></a>
-          <a href="#lucky-draw" class="hover:text-white" aria-label="Lucky Draw Event">Lucky Draw</a>
+          <!-- <a href="#lucky-draw" class="hover:text-white" aria-label="Lucky Draw Event" id="lucky-nav-link">Lucky Draw</a> -->
           <a href="#play" class="hover:text-white" data-lang="nav.play"></a>
           <a href="#faq" class="hover:text-white" data-lang="nav.faq"></a>
+          <a href="patch-notes.html" class="hover:text-white" aria-label="Patch Notes">📋 Patch Notes</a>
           
           <!-- 语言选择器 -->
           <div class="relative group">
@@ -110,9 +111,11 @@
     </div>
   </header>
 
-        <!-- Lucky Draw Promo -->
-        <section id="lucky-draw" class="bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 text-white relative overflow-hidden">
-          <!-- Animated background pattern -->
+
+
+        <!-- Lucky Draw Promo - TEMPORARILY DISABLED -->
+        <!--
+        <section id="lucky-draw" class="bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 text-white relative overflow-hidden spn-event-section">
           <div class="absolute inset-0 opacity-10">
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_rgba(255,255,255,0.3)_0%,_transparent_50%)] animate-pulse"></div>
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,_rgba(255,255,255,0.2)_0%,_transparent_50%)] animate-pulse" style="animation-delay: 1s;"></div>
@@ -136,7 +139,6 @@
                 
                 <p class="text-xl text-white/95 mb-6 drop-shadow" data-lang="lucky.subtitle">Join the Goosebox Lucky Draw. Spin daily for PHRS, boosts, and surprises!</p>
                 
-                <!-- Countdown Timer -->
                 <div class="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-white/20 lucky-glow">
                   <div class="text-center">
                     <p class="text-lg font-bold mb-3 flash-text" id="luckyTimerLabel" data-lang="lucky.countdown.eventEndsIn">Event ends in:</p>
@@ -170,6 +172,7 @@
             </div>
           </div>
         </section>
+        -->
 
   <!-- Hero -->
   <section id="home" class="grain">
@@ -320,7 +323,7 @@
       }
       updateLanguage(currentLang);
       renderLanguageSelector();
-      initLuckyTimer();
+      // initLuckyTimer(); // Disabled - Lucky Draw section is commented out
     }
 
     function updateLanguage(lang) {
@@ -441,6 +444,8 @@
     document.addEventListener('DOMContentLoaded', initLanguage);
   </script>
 
+
+  <!-- Lucky Draw timer script - DISABLED since section is commented out
   <script>
     // Lucky Draw timer: countdown to Sep 15, 2025 23:59:59 UTC
     const LUCKY_END = Date.UTC(2025, 8, 15, 23, 59, 59); // September 15, 2025
@@ -496,6 +501,7 @@
       `;
     }
   </script>
+  -->
 
 </body>
 </html>

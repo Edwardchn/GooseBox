@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Patch Notes - Goosebox</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="assets/logo_beta.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/logo_beta.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/logo_beta.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/logo_beta.png">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 国旗图标库 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" />
+  <!-- Marked.js for markdown parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            wood:  { 50:'#f6efe9',100:'#eadfd3',200:'#d8c1a8',300:'#c8a37e',400:'#b8875a',500:'#9b6f48',600:'#7c583a',700:'#654830',800:'#523a26',900:'#3e2c1d'},
+            hay:   { 50:'#fff8e6',100:'#ffefc2',200:'#ffe38f',300:'#ffd24d',400:'#fbbf24',500:'#f59e0b'},
+            field: { 50:'#f4fde8',100:'#e3fac5',200:'#c6f18c',300:'#a2e251',400:'#7ace24',500:'#5cab17'},
+            stone: { 300:'#d1d5db',400:'#9ca3af',700:'#374151'}
+          },
+          boxShadow: { ui:'0 8px 20px rgba(0,0,0,.12)' },
+          borderRadius: { ui:'18px' }
+        }
+      }
+    }
+  </script>
+  <style>
+    .grain {
+      background:
+        radial-gradient(1000px 400px at 80% -20%, rgba(255,255,255,.25), rgba(255,255,255,0)),
+        linear-gradient(180deg, #f7e7d5 0%, #fff6e8 40%, #f9efe3 100%);
+    }
+    .float { animation: float 4s ease-in-out infinite; }
+    @keyframes float { 0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)} }
+    .logo { height: 50px; width: auto; }
+    
+    /* Markdown content styling */
+    .markdown-content h1 {
+      font-size: 1.875rem;
+      font-weight: 800;
+      color: #3e2c1d;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid #ffd24d;
+      padding-bottom: 0.75rem;
+    }
+    .markdown-content h2 {
+      font-size: 1.875rem;
+      font-weight: 800;
+      color: #523a26;
+      margin-top: 2.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .markdown-content h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #654830;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .markdown-content p {
+      color: #374151;
+      margin-bottom: 1rem;
+      line-height: 1.625;
+    }
+    .markdown-content strong {
+      font-weight: 700;
+      color: #3e2c1d;
+    }
+    .markdown-content em {
+      font-style: italic;
+      color: #523a26;
+    }
+    .markdown-content ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .markdown-content li {
+      color: #374151;
+      position: relative;
+      margin-bottom: 0.5rem;
+    }
+    .markdown-content li::before {
+      content: "🌾";
+      position: absolute;
+      left: -1.5rem;
+      top: 0;
+    }
+    .markdown-content hr {
+      border: 0;
+      height: 2px;
+      background-color: #d8c1a8;
+      margin: 2.5rem 0;
+      border-radius: 2px;
+    }
+    .markdown-content code {
+      background-color: #eadfd3;
+      color: #523a26;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.875rem;
+    }
+    .markdown-content blockquote {
+      border-left: 4px solid #fbbf24;
+      padding-left: 1rem;
+      font-style: italic;
+      color: #654830;
+      background-color: #f6efe9;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      margin: 1rem 0;
+      border-radius: 0 0.25rem 0.25rem 0;
+    }
+    
+    /* Custom styling for patch notes */
+    .patch-header {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    }
+    
+    .back-button:hover {
+      transform: translateX(-2px);
+    }
+  </style>
+</head>
+<body class="bg-wood-50 text-stone-700">
+
+  <!-- 顶部：木板导航 -->
+  <header class="sticky top-0 z-50">
+    <div class="bg-wood-400 shadow-ui text-white">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <!-- 鹅头像 -->
+          <img alt="Goosebox Logo" class="logo" loading="lazy" src="assets/logo_beta.png"/>
+          <div class="leading-tight">
+            <div class="font-extrabold text-lg">Goosebox</div>
+            <div class="text-white/80 text-xs">Patch Notes</div>
+          </div>
+        </div>
+
+        <!-- 返回按钮 -->
+        <nav class="flex items-center gap-4">
+          <a href="index.html" 
+             class="back-button inline-flex items-center gap-2 px-4 py-2 rounded-ui bg-white/20 backdrop-blur-sm text-white font-medium hover:bg-white/30 transition-all duration-300 border border-white/30">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+            </svg>
+            <span>Back to Home</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Patch Notes Header -->
+  <section class="patch-header text-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_rgba(255,255,255,0.3)_0%,_transparent_50%)] animate-pulse"></div>
+    </div>
+    
+    <div class="relative max-w-4xl mx-auto px-4 py-12 text-center">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500 text-white shadow-lg font-bold mb-4">
+        <span class="text-sm font-extrabold tracking-wide">📋 LATEST UPDATE</span>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-extrabold drop-shadow-lg mb-4">
+        Patch Notes
+      </h1>
+      <p class="text-xl text-white/95 drop-shadow">Stay updated with the latest changes and improvements to GooseBox!</p>
+    </div>
+  </section>
+
+  <!-- Patch Notes Content -->
+  <section class="py-12">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="bg-white rounded-ui border border-wood-200 shadow-ui overflow-hidden">
+        <!-- Loading state -->
+        <div id="loading" class="p-8 text-center">
+          <div class="inline-flex items-center gap-3 text-wood-600">
+            <div class="w-6 h-6 border-2 border-hay-400 border-t-transparent rounded-full animate-spin"></div>
+            <span>Loading patch notes...</span>
+          </div>
+        </div>
+        
+        <!-- Error state -->
+        <div id="error" class="p-8 text-center hidden">
+          <div class="text-red-600 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 mx-auto mb-2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+            </svg>
+            <h3 class="text-lg font-semibold">Failed to load patch notes</h3>
+          </div>
+          <p class="text-stone-600 mb-4">There was an error loading the patch notes. Please try again later.</p>
+          <button onclick="loadPatchNotes()" class="px-6 py-2 bg-hay-400 text-wood-900 font-semibold rounded-ui hover:bg-hay-300 transition-colors">
+            Try Again
+          </button>
+        </div>
+        
+        <!-- Content -->
+        <div id="content" class="p-8 markdown-content hidden"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-wood-200">
+    <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col items-center gap-4">
+      <!-- 社交按钮 -->
+      <div class="flex items-center gap-4">
+        <!-- X -->
+        <a href="https://x.com/GooseBoxGame" target="_blank" rel="noopener noreferrer"
+           aria-label="Goosebox on X"
+           class="inline-flex items-center gap-2 px-4 py-2 rounded-[14px] bg-wood-100 border border-wood-200 text-wood-900 shadow-ui hover:bg-wood-200">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1227" class="w-5 h-5" fill="currentColor">
+            <path d="M714 519l452-519H1002L652 408 357 0H0l469 638L0 1227h198l375-431 311 431h357L714 519zM593 742l-86-118-308 353h180l214-235zm263 170L742 694l-84 92 220 305h170L856 912zM326 142l610 910h-171L261 142h65z"/>
+          </svg>
+          <span>X</span>
+        </a>
+        <!-- Telegram -->
+        <a href="https://t.me/GooseBoxTG" target="_blank" rel="noopener noreferrer"
+           aria-label="Goosebox on Telegram"
+           class="inline-flex items-center gap-2 px-4 py-2 rounded-[14px] bg-wood-100 border border-wood-200 text-wood-900 shadow-ui hover:bg-wood-200">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" class="w-5 h-5" fill="currentColor">
+            <path d="M120 0a120 120 0 10120 120A120 120 0 00120 0zm58.1 75.5L147 179.8c-2 9.2-7.5 11.4-15.2 7.1l-42-31  -20.2 19.4c-2.2 2.2-4 4-8.2 4l2.9-41.2 74.9-67.5c3.3-2.9-.7-4.6-5.1-1.7l-92.5 58.2-39.8-12.4c-8.6-2.7-8.8-8.6 1.8-12.7l155.8-60.1c7.2-2.6 13.5 1.7 11.1 12.1z"/>
+          </svg>
+          <span>Telegram</span>
+        </a>
+      </div>
+
+      <p class="text-stone-400">© 2025 Goosebox</p>
+    </div>
+  </footer>
+
+  <script>
+    // Function to load and parse markdown
+    async function loadPatchNotes() {
+      const loadingEl = document.getElementById('loading');
+      const errorEl = document.getElementById('error');
+      const contentEl = document.getElementById('content');
+      
+      // Show loading state
+      loadingEl.classList.remove('hidden');
+      errorEl.classList.add('hidden');
+      contentEl.classList.add('hidden');
+      
+      try {
+        // Fetch the markdown file
+        const response = await fetch('./patch-notes.md');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const markdown = await response.text();
+        
+        // Configure marked options for better rendering
+        marked.setOptions({
+          breaks: true,
+          gfm: true
+        });
+        
+        // Parse markdown to HTML
+        const html = marked.parse(markdown);
+        
+        // Display content
+        contentEl.innerHTML = html;
+        
+        // Hide loading and show content
+        loadingEl.classList.add('hidden');
+        contentEl.classList.remove('hidden');
+        
+      } catch (error) {
+        console.error('Error loading patch notes:', error);
+        
+        // Hide loading and show error
+        loadingEl.classList.add('hidden');
+        errorEl.classList.remove('hidden');
+      }
+    }
+    
+    // Load patch notes when page loads
+    document.addEventListener('DOMContentLoaded', loadPatchNotes);
+  </script>
+
+</body>
+</html>
