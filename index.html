@@ -112,9 +112,6 @@
   </header>
 
 
-
-        <!-- Lucky Draw Promo - TEMPORARILY DISABLED -->
-        <!--
         <section id="lucky-draw" class="bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 text-white relative overflow-hidden spn-event-section">
           <div class="absolute inset-0 opacity-10">
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_rgba(255,255,255,0.3)_0%,_transparent_50%)] animate-pulse"></div>
@@ -172,7 +169,7 @@
             </div>
           </div>
         </section>
-        -->
+        
 
   <!-- Hero -->
   <section id="home" class="grain">
@@ -323,7 +320,7 @@
       }
       updateLanguage(currentLang);
       renderLanguageSelector();
-      // initLuckyTimer(); // Disabled - Lucky Draw section is commented out
+      initLuckyTimer();
     }
 
     function updateLanguage(lang) {
@@ -445,7 +442,6 @@
   </script>
 
 
-  <!-- Lucky Draw timer script - DISABLED since section is commented out
   <script>
     // Lucky Draw timer: countdown to Sep 15, 2025 23:59:59 UTC
     const LUCKY_END = Date.UTC(2025, 8, 15, 23, 59, 59); // September 15, 2025
@@ -501,7 +497,6 @@
       `;
     }
   </script>
-  -->
 
 </body>
 </html>
