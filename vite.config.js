@@ -8,6 +8,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         faucet: resolve(__dirname, 'faucet.html'),
+        patchNotes: resolve(__dirname, 'patch-notes.html'),
       },
     },
   },
