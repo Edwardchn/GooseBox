@@ -710,7 +710,7 @@
                 if (!currentTwitterInfo) {
                     // 直接执行Twitter连接逻辑
                     try {
-                        const currentToken = await Storage.getItem('faucetAuthToken') || authToken;
+                        const currentToken = authToken || await Storage.getItem('faucetAuthToken');
                         if (!currentToken) {
                             showStatusI18n('faucetStatus', 'faucet.messages.authRequired', 'error');
                             return;
@@ -743,7 +743,7 @@
                                 showStatusI18n('faucetStatus', 'faucet.messages.reAuthenticating', 'info');
                                 await autoStartAuthFlow();
                                 
-                                const newToken = await Storage.getItem('faucetAuthToken') || authToken;
+                                const newToken = authToken || await Storage.getItem('faucetAuthToken');
                                 if (newToken) {
                                     window.location.href = `${API_BASE}/twitter`;
                                 } else {
@@ -777,7 +777,7 @@
 
                 showStatusI18n('faucetStatus', 'faucet.messages.submittingClaim', 'info');
 
-                const token = await Storage.getItem('faucetAuthToken') || authToken;
+                const token = authToken || await Storage.getItem('faucetAuthToken');
                 if (!token) {
                     throw new Error('请先登录');
                 }
@@ -937,19 +937,59 @@
                     // 在调用绑定 API 前，按钮状态由其他逻辑控制
 
                 try {
-                    const currentToken = await Storage.getItem('faucetAuthToken') || authToken;
-
-                    alert(currentToken);
-                    if (!currentToken) {
-                        const errorMsg = '未找到认证 Token，请先完成钱包连接和签名认证';
-
-
-                        if (callbackDetails) {
-                            callbackDetails.textContent = '认证失败：需要先完成钱包连接和签名';
-                        }
+                      // 优先使用内存中的 authToken，如果没有再从存储中读取
+                      let currentToken = authToken || await Storage.getItem('faucetAuthToken');
+                      
+                      console.log('🔍 Twitter回调 Token 检查:');
+                      console.log('- 内存中的 authToken:', authToken);
+                      console.log('- 存储中的 token:', await Storage.getItem('faucetAuthToken'));
+                      console.log('- 最终使用的 currentToken:', currentToken);
+                      console.log('- 钱包连接状态:', window.appKit?.getIsConnectedState());
+                      console.log('- 钱包地址:', walletAddress);
+                      
+                      if (!currentToken) {
+                        console.log('❌ 未找到认证 Token，检查钱包连接状态...');
                         
-                        showStatusI18n('faucetStatus', 'faucet.messages.authRequired', 'warning');
-                        return;
+                        // 检查钱包是否已连接
+                        if (window.appKit?.getIsConnectedState() && walletAddress) {
+                            console.log('🔄 钱包已连接但无 token，尝试重新认证...');
+                            
+                            if (callbackDetails) {
+                                callbackDetails.textContent = '检测到钱包已连接，正在重新认证...';
+                            }
+                            
+                            try {
+                                // 尝试重新认证
+                                await autoStartAuthFlow();
+                                
+                                // 重新获取 token
+                                currentToken = authToken || await Storage.getItem('faucetAuthToken');
+                                
+                                if (currentToken) {
+                                    console.log('✅ 重新认证成功，继续 Twitter 绑定');
+                                    // 继续执行后续逻辑，不要 return
+                                } else {
+                                    throw new Error('重新认证失败');
+                                }
+                            } catch (error) {
+                                console.error('❌ 重新认证失败:', error);
+                                if (callbackDetails) {
+                                    callbackDetails.textContent = '重新认证失败：' + error.message;
+                                }
+                                showStatusI18n('faucetStatus', 'faucet.messages.authFailed', 'error');
+                                return;
+                            }
+                        } else {
+                            console.log('❌ 钱包未连接，需要用户手动连接');
+                            const errorMsg = '未找到认证 Token，请先完成钱包连接和签名认证';
+
+                            if (callbackDetails) {
+                                callbackDetails.textContent = '认证失败：需要先完成钱包连接和签名';
+                            }
+                            
+                            showStatusI18n('faucetStatus', 'faucet.messages.authRequired', 'warning');
+                            return;
+                        }
                     }
 
 
@@ -1363,7 +1403,7 @@
             // 创建新的检查Promise
             faucetStatusPromise = (async () => {
                 try {
-                    const token = await Storage.getItem('faucetAuthToken') || authToken;
+                    const token = authToken || await Storage.getItem('faucetAuthToken');
                     if (!token) {
                         return; 
                     }
