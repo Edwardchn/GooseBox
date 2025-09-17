@@ -1094,35 +1094,18 @@
         }
 
         function isTokenExpired(token) {
-            // 检查 token 是否存在
-            if (!token || typeof token !== 'string') {
-                console.log('Token 不存在或不是字符串:', token);
-                return true;
-            }
-            
-            // 检查是否是 JWT 格式（包含两个点）
-            const parts = token.split('.');
-            if (parts.length !== 3) {
-                // 不是 JWT 格式，假设永不过期（由服务器端验证）
-                console.log('Token 不是 JWT 格式，假设永不过期:', token.substring(0, 20) + '...');
-                return false;
-            }
-            
             try {
-                const payload = JSON.parse(atob(parts[1]));
+                const payload = JSON.parse(atob(token.split('.')[1]));
                 const currentTime = Math.floor(Date.now() / 1000);
 
                 if (payload.exp && payload.exp < currentTime) {
-                    console.log('Token 已过期:', new Date(payload.exp * 1000));
                     return true;
                 }
                 
-                console.log('Token 未过期，有效期至:', new Date(payload.exp * 1000));
                 return false;
             } catch (error) {
-                // JWT 解析失败，假设永不过期（由服务器端验证）
-                console.log('JWT 解析失败，假设永不过期:', error.message);
-                return false;
+
+                return true;
             }
         }
         
@@ -1202,13 +1185,8 @@
                         await clearLocalAuth();
                     }
                 } catch (verifyError) {
-                    // 只有在明确需要重新认证时才清除
-                    if (verifyError.message?.includes('401') || 
-                        verifyError.message?.includes('Authentication required') ||
-                        verifyError.message?.includes('Unauthorized')) {
-                        await clearLocalAuth();
-                    }
-                    // 其他网络错误不清除认证，可能是临时网络问题
+
+                    await clearLocalAuth();
                 }
             }
             
@@ -1575,13 +1553,8 @@
                         }
                     }
                 } catch (verifyError) {
-                    // 只有在明确需要重新认证时才清除
-                    if (verifyError.message?.includes('401') || 
-                        verifyError.message?.includes('Authentication required') ||
-                        verifyError.message?.includes('Unauthorized')) {
-                        await clearLocalAuth();
-                    }
-                    // 其他网络错误不清除认证，可能是临时网络问题
+
+                    await clearLocalAuth();
                 }
             }
             
