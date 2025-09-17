@@ -883,17 +883,17 @@
                     const currentToken = localStorage.getItem('faucetAuthToken') || authToken;
 
 
-                    if (!currentToken) {
-                        const errorMsg = '未找到认证 Token，请先完成钱包连接和签名认证';
+                    // if (!currentToken) {
+                    //     const errorMsg = '未找到认证 Token，请先完成钱包连接和签名认证';
 
 
-                        if (callbackDetails) {
-                            callbackDetails.textContent = '认证失败：需要先完成钱包连接和签名';
-                        }
+                    //     if (callbackDetails) {
+                    //         callbackDetails.textContent = '认证失败：需要先完成钱包连接和签名';
+                    //     }
                         
-                        showStatusI18n('faucetStatus', 'faucet.messages.authRequired', 'warning');
-                        return;
-                    }
+                    //     showStatusI18n('faucetStatus', 'faucet.messages.authRequired', 'warning');
+                    //     return;
+                    // }
 
 
 
