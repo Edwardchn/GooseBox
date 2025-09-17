@@ -11,6 +11,9 @@
     
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     
+    <!-- LocalForage for IndexedDB storage -->
+    <script src="https://cdn.jsdelivr.net/npm/localforage@1.10.0/dist/localforage.min.js"></script>
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" />
     
     <script>
@@ -163,6 +166,7 @@
                         <span id="claimCountdown" class="hidden"></span>
                     </button>
                 </div>
+                
             </div>
 
 
@@ -194,11 +198,61 @@
 
     <script src="./js/languages.js?v=2025.01.27.2"></script>
     
-
     
-
     
     <script>
+        // 配置 LocalForage
+        localforage.config({
+            driver: [localforage.INDEXEDDB, localforage.WEBSQL, localforage.LOCALSTORAGE],
+            name: 'GooseBox',
+            version: 1.0,
+            storeName: 'goosebox_storage',
+            description: 'GooseBox application storage'
+        });
+
+        // 初始化 IndexedDB 连接
+        localforage.ready().catch(err => {
+            console.error('IndexedDB 存储初始化失败:', err);
+        });
+
+        // 存储工具函数
+        const Storage = {
+            async getItem(key) {
+                try {
+                    return await localforage.getItem(key);
+                } catch (error) {
+                    console.error('Storage getItem error:', error);
+                    return null;
+                }
+            },
+            
+            async setItem(key, value) {
+                try {
+                    return await localforage.setItem(key, value);
+                } catch (error) {
+                    console.error('Storage setItem error:', error);
+                    return false;
+                }
+            },
+            
+            async removeItem(key) {
+                try {
+                    return await localforage.removeItem(key);
+                } catch (error) {
+                    console.error('Storage removeItem error:', error);
+                    return false;
+                }
+            },
+            
+            async clear() {
+                try {
+                    return await localforage.clear();
+                } catch (error) {
+                    console.error('Storage clear error:', error);
+                    return false;
+                }
+            }
+        };
 
         let walletAddress = null;
         let authToken = null;
@@ -230,8 +284,8 @@
 
         const API_BASE = 'https://api.gbox.game/api/faucet-auth';
 
-        function initLanguage() {
-            const savedLang = localStorage.getItem('goosebox_lang');
+        async function initLanguage() {
+            const savedLang = await Storage.getItem('goosebox_lang');
             const config = getLanguageConfig();
             if (savedLang && config[savedLang]) {
                 currentLang = savedLang;
@@ -378,7 +432,7 @@
             const config = getLanguageConfig();
             container.innerHTML = Object.entries(config).map(([code, lang]) => `
                 <button class="w-full text-left px-4 py-2 hover:bg-wood-50 text-wood-900 transition-colors duration-150 ${code === currentLang ? 'bg-wood-100 text-wood-900 font-medium' : 'hover:text-wood-700'} flex items-center gap-3 rounded-md" 
-                        onclick="switchLanguage('${code}')">
+                        onclick="switchLanguage('${code}').catch(console.error)">
                     <span class="fi fi-${lang.flag} text-lg flex-shrink-0"></span>
                     <span class="truncate">${lang.name}</span>
                     ${code === currentLang ? '<span class="ml-auto text-wood-700 text-sm">✓</span>' : ''}
@@ -387,11 +441,11 @@
         }
 
         
-        function switchLanguage(lang) {
+        async function switchLanguage(lang) {
             const config = getLanguageConfig();
             if (config[lang]) {
                 currentLang = lang;
-                localStorage.setItem('goosebox_lang', lang);
+                await Storage.setItem('goosebox_lang', lang);
                 updateLanguage(lang);
                 renderLanguageSelector();
                 
@@ -639,6 +693,7 @@
 
 
 
+
         document.getElementById('claimTokens')?.addEventListener('click', async () => {
             try {
                 // 如果没有认证，点击按钮应该连接钱包
@@ -655,11 +710,11 @@
                 if (!currentTwitterInfo) {
                     // 直接执行Twitter连接逻辑
                     try {
-                        const currentToken = localStorage.getItem('faucetAuthToken') || authToken;
-                        // if (!currentToken) {
-                        //     showStatusI18n('faucetStatus', 'faucet.messages.authRequired', 'error');
-                        //     return;
-                        // }
+                        const currentToken = await Storage.getItem('faucetAuthToken') || authToken;
+                        if (!currentToken) {
+                            showStatusI18n('faucetStatus', 'faucet.messages.authRequired', 'error');
+                            return;
+                        }
 
                         showStatusI18n('faucetStatus', 'faucet.messages.preparingTwitterConnection', 'info');
 
@@ -676,8 +731,8 @@
                             data.message?.includes('Please login with your wallet first');
 
                         if (needsReauth) {
-                            localStorage.removeItem('faucetAuthToken');
-                            localStorage.removeItem('faucetUser');
+                            await Storage.removeItem('faucetAuthToken');
+                            await Storage.removeItem('faucetUser');
                             authToken = null;
                             
                             if (!window.appKit?.getIsConnectedState()) {
@@ -688,7 +743,7 @@
                                 showStatusI18n('faucetStatus', 'faucet.messages.reAuthenticating', 'info');
                                 await autoStartAuthFlow();
                                 
-                                const newToken = localStorage.getItem('faucetAuthToken') || authToken;
+                                const newToken = await Storage.getItem('faucetAuthToken') || authToken;
                                 if (newToken) {
                                     window.location.href = `${API_BASE}/twitter`;
                                 } else {
@@ -722,7 +777,7 @@
 
                 showStatusI18n('faucetStatus', 'faucet.messages.submittingClaim', 'info');
 
-                const token = localStorage.getItem('faucetAuthToken') || authToken;
+                const token = await Storage.getItem('faucetAuthToken') || authToken;
                 if (!token) {
                     throw new Error('请先登录');
                 }
@@ -882,7 +937,8 @@
                     // 在调用绑定 API 前，按钮状态由其他逻辑控制
 
                 try {
-                    const currentToken = localStorage.getItem('faucetAuthToken') || authToken;
+                    const currentToken = await Storage.getItem('faucetAuthToken') || authToken;
+
 
                     if (!currentToken) {
                         const errorMsg = '未找到认证 Token，请先完成钱包连接和签名认证';
@@ -973,18 +1029,18 @@
         }
 
         async function checkLocalAuth() {
-            const savedToken = localStorage.getItem('faucetAuthToken');
-            const savedUser = localStorage.getItem('faucetUser');
+            const savedToken = await Storage.getItem('faucetAuthToken');
+            const savedUser = await Storage.getItem('faucetUser');
 
             if (savedToken && savedUser) {
                 try {
                     authToken = savedToken;
-                    const user = JSON.parse(savedUser);
+                    const user = typeof savedUser === 'string' ? JSON.parse(savedUser) : savedUser;
 
                     if (isTokenExpired(savedToken)) {
 
-                        localStorage.removeItem('faucetAuthToken');
-                        localStorage.removeItem('faucetUser');
+                        await Storage.removeItem('faucetAuthToken');
+                        await Storage.removeItem('faucetUser');
                         return false;
                     }
 
@@ -997,17 +1053,17 @@
                     return true;
                 } catch (error) {
 
-                    localStorage.removeItem('faucetAuthToken');
-                    localStorage.removeItem('faucetUser');
+                    await Storage.removeItem('faucetAuthToken');
+                    await Storage.removeItem('faucetUser');
                     return false;
                 }
             }
             return false;
         }
 
-        function clearLocalAuth() {
-            localStorage.removeItem('faucetAuthToken');
-            localStorage.removeItem('faucetUser');
+        async function clearLocalAuth() {
+            await Storage.removeItem('faucetAuthToken');
+            await Storage.removeItem('faucetUser');
             authToken = null;
             
             // 重置认证相关状态
@@ -1053,9 +1109,9 @@
             }
         }
         
-        function autoClearAuth() {
+        async function autoClearAuth() {
             try {
-                clearLocalAuth();
+                await clearLocalAuth();
                 
                 showStatusI18n('walletStatus', 'faucet.messages.walletDisconnected', 'info');
                             // 清空其他状态而不是显示空框
@@ -1126,11 +1182,11 @@
                         return;
                     } else {
 
-                        clearLocalAuth();
+                        await clearLocalAuth();
                     }
                 } catch (verifyError) {
 
-                    clearLocalAuth();
+                    await clearLocalAuth();
                 }
             }
             
@@ -1208,8 +1264,8 @@
                     authToken = loginData.data.token;
                     const user = loginData.data.user;
                     
-                    localStorage.setItem('faucetAuthToken', authToken);
-                    localStorage.setItem('faucetUser', JSON.stringify(user));
+                    await Storage.setItem('faucetAuthToken', authToken);
+                    await Storage.setItem('faucetUser', user);
 
 
                     showStatus('walletStatus', `Wallet Connected: ${formatAddress(user.walletAddress)}`, 'success');
@@ -1297,7 +1353,7 @@
             // 创建新的检查Promise
             faucetStatusPromise = (async () => {
                 try {
-                    const token = localStorage.getItem('faucetAuthToken') || authToken;
+                    const token = await Storage.getItem('faucetAuthToken') || authToken;
                     if (!token) {
                         return; 
                     }
@@ -1424,7 +1480,7 @@
                     'info'
                 );
             
-                clearLocalAuth();
+                await clearLocalAuth();
                 
                 // 重置认证状态
                 authPromise = null;
@@ -1460,7 +1516,7 @@
                     // 先检查 token 是否过期
                     if (isTokenExpired(authToken)) {
 
-                        clearLocalAuth();
+                        await clearLocalAuth();
                     } else {
                         const response = await fetch(`${API_BASE}/me`, {
                             method: 'GET',
@@ -1489,16 +1545,16 @@
                                 return;
                             } else {
 
-                                clearLocalAuth();
+                                await clearLocalAuth();
                             }
                         } else {
 
-                            clearLocalAuth();
+                            await clearLocalAuth();
                         }
                     }
                 } catch (verifyError) {
 
-                    clearLocalAuth();
+                    await clearLocalAuth();
                 }
             }
             
@@ -1546,7 +1602,7 @@
             }
         }
 
-        function onWalletDisconnected() {
+        async function onWalletDisconnected() {
 
             
             // 检查是否是页面初始化期间的状态变化，如果是则不清除认证
@@ -1573,7 +1629,7 @@
                 showStatusI18n('walletStatus', 'faucet.messages.walletDisconnectedAppKit', 'info');
                 checkClaimButtonState();
                 
-                autoClearAuth();
+                await autoClearAuth();
             } else {
 
                 updateWalletButtonVisibility(false);
@@ -1672,7 +1728,7 @@
             // 页面刷新后保持之前的连接状态，不强制断开
 
             
-            initLanguage();
+            await initLanguage();
             
             // 在AppKit事件处理之前先检查本地认证
             const authRestored = await checkLocalAuth();
@@ -1710,7 +1766,7 @@
                         
                         // 如果地址不匹配，清除旧认证
                         if (authRestored && walletAddress && walletAddress.toLowerCase() !== connectedAddress.toLowerCase()) {
-                            clearLocalAuth();
+                            await clearLocalAuth();
                         }
                         
                         // 只有在本地没有认证或认证无效时，才设置需要重新认证的标记
@@ -1740,7 +1796,6 @@
             const hasCallback = checkTwitterCallbackInURL();
             
             if (hasCallback) {
-
                 handleTwitterCallback();
             } else {
 
