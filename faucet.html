@@ -201,7 +201,6 @@
     
     
     <script>
-        // 配置 LocalForage
         localforage.config({
             driver: [localforage.INDEXEDDB, localforage.WEBSQL, localforage.LOCALSTORAGE],
             name: 'GooseBox',
@@ -210,12 +209,10 @@
             description: 'GooseBox application storage'
         });
 
-        // 初始化 IndexedDB 连接
         localforage.ready().catch(err => {
             console.error('IndexedDB 存储初始化失败:', err);
         });
 
-        // 存储工具函数
         const Storage = {
             async getItem(key) {
                 try {
@@ -266,12 +263,11 @@
         let isCheckingFaucetStatus = false;
         let faucetStatusPromise = null;
         let lastFaucetCheckTime = 0;
-        const FAUCET_CHECK_COOLDOWN = 2000; // 2秒冷却期
+        const FAUCET_CHECK_COOLDOWN = 2000;
         
-        // 防止重复认证的状态管理
         let isAuthenticating = false;
         let lastAuthTime = 0;
-        const AUTH_COOLDOWN = 5000; // 5秒认证冷却期
+        const AUTH_COOLDOWN = 5000;
         let authPromise = null;
 
         const currentStatusStates = {
@@ -279,7 +275,6 @@
             faucetStatus: { type: null, messageKey: null, params: null, isCustom: false }
         };
 
-        // 存储当前 Twitter 连接状态信息
         let currentTwitterInfo = null;
 
         const API_BASE = 'https://api.gbox.game/api/faucet-auth';
@@ -373,7 +368,6 @@
                 }
             } else if (currentTwitterInfo) {
                 buttonTextElement.textContent = 'Claim Now';
-                // 只有在Twitter已连接且不在冷却期间才显示reCAPTCHA
                 if (recaptchaContainer) {
                     recaptchaContainer.style.display = currentCooldownTime > 0 ? 'none' : 'block';
                 }
@@ -397,12 +391,10 @@
                     updateWalletStatusDisplay();
                 }
             });
-            // 更新按钮文本和状态
             updateClaimButtonText();
             checkClaimButtonState();
         }
 
-        // 更新钱包按钮可见性
         function updateWalletButtonVisibility(isConnected) {
             const connectBtn = document.getElementById('open-connect-modal');
             const connectMobileBtn = document.getElementById('open-connect-modal-mobile');
@@ -410,13 +402,11 @@
             const disconnectMobileBtn = document.getElementById('disconnect-mobile');
             
             if (isConnected) {
-                // 钱包已连接：隐藏连接按钮，显示断开按钮
                 if (connectBtn) connectBtn.style.display = 'none';
                 if (connectMobileBtn) connectMobileBtn.style.display = 'none';
                 if (disconnectBtn) disconnectBtn.style.display = 'inline-block';
                 if (disconnectMobileBtn) disconnectMobileBtn.style.display = 'inline-block';
             } else {
-                // 钱包未连接：显示连接按钮，隐藏断开按钮
                 if (connectBtn) connectBtn.style.display = 'inline-block';
                 if (connectMobileBtn) connectMobileBtn.style.display = 'inline-block';
                 if (disconnectBtn) disconnectBtn.style.display = 'none';
@@ -489,17 +479,13 @@
 
             if (noCooldown) {
                 if (!hasAuth) {
-                    // 没有认证，按钮应该可用让用户连接钱包
                     document.getElementById('claimTokens').disabled = false;
                 } else if (hasTwitter) {
-                    // 已认证且Twitter已连接，需要reCAPTCHA才能领取代币
                     document.getElementById('claimTokens').disabled = !hasRecaptcha;
                 } else {
-                    // 已认证但Twitter未连接，按钮应该可用让用户连接Twitter
                     document.getElementById('claimTokens').disabled = false;
                 }
             } else {
-                // 冷却期内，禁用按钮
                 document.getElementById('claimTokens').disabled = true;
             }
         }
@@ -650,7 +636,6 @@
                 buttonTextElement.style.display = 'none';
                 countdownElement.style.display = 'inline';
                 
-                // 冷却期间隐藏reCAPTCHA
                 if (recaptchaContainer) {
                     recaptchaContainer.style.display = 'none';
                 }
@@ -662,7 +647,6 @@
                 buttonTextElement.style.display = 'inline';
                 countdownElement.style.display = 'none';
                 
-                // 冷却结束后，根据当前状态重新显示reCAPTCHA
                 updateClaimButtonText();
             }
         }
@@ -677,7 +661,6 @@
             buttonTextElement.style.display = 'inline';
             countdownElement.style.display = 'none';
 
-            // 更新按钮文本
             updateClaimButtonText();
 
             checkClaimButtonState();
@@ -689,16 +672,13 @@
             button.disabled = true;
         }
 
-        // Twitter连接功能已整合到主按钮中
 
 
 
 
         document.getElementById('claimTokens')?.addEventListener('click', async () => {
             try {
-                // 如果没有认证，点击按钮应该连接钱包
                 if (!authToken) {
-                    // 触发钱包连接
                     const connectBtn = document.getElementById('open-connect-modal');
                     if (connectBtn) {
                         connectBtn.click();
@@ -706,9 +686,7 @@
                     return;
                 }
                 
-                // 如果Twitter未连接，点击按钮应该连接Twitter
                 if (!currentTwitterInfo) {
-                    // 直接执行Twitter连接逻辑
                     try {
                         const currentToken = authToken || await Storage.getItem('faucetAuthToken');
                         if (!currentToken) {
@@ -924,7 +902,6 @@
 
             if (state && code) {
 
-                
                 const callbackStatus = document.getElementById('twitterCallbackStatus');
                 const callbackDetails = document.getElementById('twitterCallbackDetails');
                 if (callbackStatus && callbackDetails) {
@@ -934,7 +911,6 @@
                 
                 showStatusI18n('faucetStatus', 'faucet.messages.bindingTwitterAccount', 'info');
 
-                    // 在调用绑定 API 前，按钮状态由其他逻辑控制
 
                 try {
                       let currentToken = authToken || await Storage.getItem('faucetAuthToken');
@@ -947,10 +923,9 @@
                             }
                             
                             try {
-                                // 尝试重新认证
+                                
                                 await autoStartAuthFlow();
                                 
-                                // 重新获取 token
                                 currentToken = authToken || await Storage.getItem('faucetAuthToken');
                                 
                                 if (currentToken) {
@@ -999,12 +974,9 @@
                             callbackDetails.textContent = '绑定成功！';
                         }
                         
-                        // 存储 Twitter 信息以便语言切换时更新
                         currentTwitterInfo = { username: twitter.username };
-                        
                         showFaucetClaimSection();
                         
-                        // 更新按钮文本
                         updateClaimButtonText();
                         
                         try {
@@ -1021,20 +993,16 @@
                     }
 
                 } catch (error) {
-                    // 清除 Twitter 信息
-                    currentTwitterInfo = null;
                     
-                    // 更新按钮文本
+                    currentTwitterInfo = null;
                     updateClaimButtonText();
                     
                     if (callbackDetails) {
                         callbackDetails.textContent = `绑定失败：${error.message}`;
                     }
                     
-                    // 确保错误信息不为空
                     const errorMessage = error.message || error.toString() || 'Unknown error';
                     
-                    // 存储错误信息以便语言切换时更新
                     currentStatusStates.faucetStatus = {
                         type: 'error',
                         messageKey: 'faucet.messages.twitterBindingFailed',
@@ -1069,7 +1037,6 @@
 
                     walletAddress = user.walletAddress;
 
-
                     const walletConnectedMsg = getLanguageData(currentLang).faucet?.messages?.walletConnected || '钱包已连接';
                     showStatus('walletStatus', `${walletConnectedMsg}: ${formatAddress(user.walletAddress)}`, 'success');
 
@@ -1089,16 +1056,14 @@
             await Storage.removeItem('faucetUser');
             authToken = null;
             
-            // 重置认证相关状态
             authPromise = null;
             lastAuthTime = 0;
             currentNonce = null;
             currentMessage = null;
             
-            // 清除初始化标记
             window.initialAuthProcessed = false;
             window.needsReauth = false;
-            window.localAuthChecked = true; // 保持true，避免重复检查
+            window.localAuthChecked = true;
             
             document.getElementById('claimTokens').disabled = true;
             
@@ -1240,10 +1205,9 @@
                     currentNonce = data.data.nonce;
                     currentMessage = data.data.message;
                     
-                    // 等待钱包提供者可用，最多等待5秒
                     let provider = null;
                     let attempts = 0;
-                    const maxAttempts = 50; // 5秒，每次等待100ms
+                    const maxAttempts = 50;
                     
                     while (!provider && attempts < maxAttempts) {
                         provider = window.getProvider();
@@ -1308,7 +1272,7 @@
                     }
                     throw error;
                 } finally {
-                    // 延迟清除 Promise 引用
+
                     setTimeout(() => {
                         authPromise = null;
                     }, 1000);
@@ -1320,23 +1284,13 @@
 
         
         async function autoCheckTwitterStatus() {
-
             await autoCheckFaucetStatus();
-        }
-
-        function hideTwitterSection() {
-            // Twitter连接部分已移除，这个函数现在不需要做任何事情
-        }
-
-        function showTwitterSection() {
-            // Twitter连接部分已移除，这个函数现在不需要做任何事情
         }
 
         function hideFaucetClaimSection() {
             const faucetSection = document.getElementById('faucetClaimSection');
             if (faucetSection) {
                 faucetSection.style.display = 'none';
-                // 同时清空 faucetStatus 内容，避免显示空状态框
                 const faucetStatus = document.getElementById('faucetStatus');
                 if (faucetStatus) {
                     faucetStatus.innerHTML = '';
@@ -1354,22 +1308,17 @@
         async function autoCheckFaucetStatus() {
             const currentTime = Date.now();
             
-            // 检查冷却期
             if (currentTime - lastFaucetCheckTime < FAUCET_CHECK_COOLDOWN) {
 
                 return;
             }
             
-            // 如果已经有正在进行的请求，返回同一个 Promise
             if (faucetStatusPromise) {
-
                 return faucetStatusPromise;
             }
             
-            // 更新最后检查时间
             lastFaucetCheckTime = currentTime;
             
-            // 创建新的检查Promise
             faucetStatusPromise = (async () => {
                 try {
                     const token = authToken || await Storage.getItem('faucetAuthToken');
@@ -1394,21 +1343,17 @@
 
                     const { user, ip, twitter } = data.data;
 
-                    // 处理 Twitter 状态信息
+
                     if (twitter && twitter.isBound) {
                         showFaucetClaimSection();
-                        
-                        // 存储 Twitter 信息以便语言切换时更新
                         currentTwitterInfo = { username: twitter.username };
                     } else {
-                        currentTwitterInfo = null; // 清除 Twitter 信息
+                        currentTwitterInfo = null;
                         showFaucetClaimSection();
                     }
                     
-                    // 更新按钮文本
                     updateClaimButtonText();
 
-                    // 处理冷却时间
                     let maxCooldownTime = 0;
                     if (user.remainingTime && user.remainingTime > 0) {
                         maxCooldownTime = Math.max(maxCooldownTime, user.remainingTime);
@@ -1427,10 +1372,9 @@
                 } catch (error) {
 
                 } finally {
-                    // 延迟清除 Promise 引用，避免紧密的重复调用
                     setTimeout(() => {
                         faucetStatusPromise = null;
-                    }, 500); // 500ms 后清除，给并发调用留缓冲时间
+                    }, 500);
                 }
             })();
             
@@ -1440,8 +1384,6 @@
      
         async function onWalletConnected(address) {
 
-            
-            // 如果本地认证还没检查完成，等待一下
             if (!window.localAuthChecked) {
 
                 await new Promise(resolve => {
@@ -1457,7 +1399,7 @@
                 });
             }
             
-            // 如果页面初始化时已经处理过认证，且地址匹配，跳过
+            
             if (window.initialAuthProcessed && walletAddress === address && authToken) {
 
                 updateWalletButtonVisibility(true);
@@ -1465,16 +1407,14 @@
                 return;
             }
             
-            // 防止重复调用 - 如果钱包地址相同且有有效认证，跳过
+            
             if (walletAddress === address && authToken) {
-
-                // 仍然需要更新按钮状态
                 updateWalletButtonVisibility(true);
                 checkClaimButtonState();
                 return;
             }
             
-            // 如果在初始化期间且本地有认证数据，延迟处理避免冲突
+            
             if (!window.appKitInitialized && authToken) {
 
                 setTimeout(() => {
@@ -1501,13 +1441,11 @@
             
                 await clearLocalAuth();
                 
-                // 重置认证状态
                 authPromise = null;
                 lastAuthTime = 0;
                 
                 showFaucetClaimSection();
                 
-                // 更新按钮文本
                 updateClaimButtonText();
                 
                 walletAddress = address;
@@ -1515,7 +1453,6 @@
                 showStatus('walletStatus', `${newAccountMsg}: ${formatAddress(address)}`, 'info');
                 checkClaimButtonState();
                 
-                // 延迟启动认证流程，避免立即触发
                 setTimeout(async () => {
                     try {
                         await autoStartAuthFlow();
@@ -1527,14 +1464,11 @@
                 return;
             }
 
-            // 如果钱包地址相同且有认证，验证认证是否有效
             if (authToken && walletAddress === address) {
 
                 
                 try {
-                    // 先检查 token 是否过期
                     if (isTokenExpired(authToken)) {
-                        console.log('当前 token 已过期，清除认证');
                         await clearLocalAuth();
                     } else {
                         const response = await fetch(`${API_BASE}/me`, {
@@ -1577,21 +1511,17 @@
                 }
             }
             
-            // 更新钱包地址
             walletAddress = address;
             
-            // 只有在真正需要认证时才开始认证流程
             if (!authToken || window.needsReauth) {
 
                 
                 const walletConnectedMsg = getLanguageData(currentLang).faucet?.messages?.walletConnected || '钱包已连接';
                 showStatus('walletStatus', `${walletConnectedMsg}: ${formatAddress(address)}`, 'info');
                 
-                // 更新按钮可见性
                 updateWalletButtonVisibility(true);
                 checkClaimButtonState();
                 
-                // 延迟启动认证流程，避免在AppKit初始化时的多次调用
 
                 setTimeout(async () => {
 
@@ -1603,7 +1533,6 @@
                     }
                 }, 500);
                 
-                // 清除标记
                 window.needsReauth = false;
             } else {
 
@@ -1612,7 +1541,6 @@
                 updateWalletButtonVisibility(true);
                 checkClaimButtonState();
                 
-                // 检查状态
                 try {
                     await autoCheckFaucetStatus();
                 } catch (error) {
@@ -1624,7 +1552,6 @@
         async function onWalletDisconnected() {
 
             
-            // 检查是否是页面初始化期间的状态变化，如果是则不清除认证
             const isInitializing = !window.appKitInitialized;
             
             if (isInitializing) {
@@ -1632,17 +1559,14 @@
                 return;
             }
             
-            // 如果之前有连接的钱包地址，才是真正的断开连接
             if (walletAddress) {
 
                 walletAddress = null;
                 
-                // 清除初始化标记
                 window.initialAuthProcessed = false;
                 window.needsReauth = false;
-                window.localAuthChecked = true; // 保持true，避免重复检查
+                window.localAuthChecked = true;
                 
-                // 更新按钮可见性
                 updateWalletButtonVisibility(false);
                 
                 showStatusI18n('walletStatus', 'faucet.messages.walletDisconnectedAppKit', 'info');
@@ -1711,7 +1635,6 @@
             return false;
         }
 
-        // 等待 AppKit 初始化的函数
         async function waitForAppKitInit() {
             return new Promise((resolve) => {
                 const checkAppKit = () => {
@@ -1741,28 +1664,22 @@
                 return; 
             }
             
-            // 等待 AppKit 初始化完成
             await waitForAppKitInit();
             
-            // 页面刷新后保持之前的连接状态，不强制断开
 
             
             await initLanguage();
             
-            // 在AppKit事件处理之前先检查本地认证
             const authRestored = await checkLocalAuth();
             
-            // 设置一个标记，表示本地认证检查已完成
             window.localAuthChecked = true;
             
-            // 检查当前 AppKit 连接状态
             const isConnected = window.appKit.getIsConnectedState();
             if (isConnected) {
                 const accountState = window.appKitStore.accountState;
                 if (accountState && accountState.address) {
                     const connectedAddress = accountState.address;
                     
-                    // 如果本地有认证且地址匹配，直接使用
                     if (authRestored && walletAddress && walletAddress.toLowerCase() === connectedAddress.toLowerCase()) {
 
                         walletAddress = connectedAddress;
@@ -1770,7 +1687,6 @@
                         showStatus('walletStatus', `Wallet Connected: ${formatAddress(connectedAddress)}`, 'success');
                         checkClaimButtonState();
                         
-                        // 标记页面初始化时已经处理过认证，避免 onWalletConnected 重复处理
                         window.initialAuthProcessed = true;
                         
                         try {
@@ -1783,12 +1699,10 @@
                         walletAddress = connectedAddress;
                         updateWalletButtonVisibility(true);
                         
-                        // 如果地址不匹配，清除旧认证
                         if (authRestored && walletAddress && walletAddress.toLowerCase() !== connectedAddress.toLowerCase()) {
                             await clearLocalAuth();
                         }
                         
-                        // 只有在本地没有认证或认证无效时，才设置需要重新认证的标记
                         if (!authRestored || !authToken) {
 
                             window.needsReauth = true;
@@ -1805,7 +1719,6 @@
                 if (!authRestored) {
                     showStatusI18n('walletStatus', 'faucet.messages.waitingWalletConnection', 'info');
                     showFaucetClaimSection();
-                    // 更新按钮文本和状态
                     updateClaimButtonText();
                     checkClaimButtonState();
                 }
@@ -1820,7 +1733,6 @@
 
             }
             
-            // 标记AppKit初始化完成
             window.appKitInitialized = true;
 
 
