@@ -688,10 +688,10 @@
                     // 直接执行Twitter连接逻辑
                     try {
                         const currentToken = localStorage.getItem('faucetAuthToken') || authToken;
-                        // if (!currentToken) {
-                        //     showStatusI18n('faucetStatus', 'faucet.messages.authRequired', 'error');
-                        //     return;
-                        // }
+                        if (!currentToken) {
+                            showStatusI18n('faucetStatus', 'faucet.messages.authRequired', 'error');
+                            return;
+                        }
 
                         showStatusI18n('faucetStatus', 'faucet.messages.preparingTwitterConnection', 'info');
 
