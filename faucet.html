@@ -166,15 +166,6 @@
                     </button>
                 </div>
                 
-                <!-- 测试 IndexedDB 存储的按钮 -->
-                <div class="flex justify-center gap-2 mb-4">
-                    <button id="testStorage" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
-                        测试 IndexedDB 存储
-                    </button>
-                    <button id="clearStorage" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors">
-                        清空存储
-                    </button>
-                </div>
             </div>
 
 
@@ -253,21 +244,16 @@
             description: 'GooseBox application storage'
         });
 
-        // 测试 IndexedDB 连接
-        localforage.ready().then(() => {
-            console.log('✅ IndexedDB 存储已准备就绪');
-            console.log('当前使用的驱动:', localforage.driver());
-        }).catch(err => {
-            console.error('❌ IndexedDB 存储初始化失败:', err);
+        // 初始化 IndexedDB 连接
+        localforage.ready().catch(err => {
+            console.error('IndexedDB 存储初始化失败:', err);
         });
 
         // 存储工具函数
         const Storage = {
             async getItem(key) {
                 try {
-                    const value = await localforage.getItem(key);
-                    console.log(`📖 从 IndexedDB 读取: ${key}`, value);
-                    return value;
+                    return await localforage.getItem(key);
                 } catch (error) {
                     console.error('Storage getItem error:', error);
                     return null;
@@ -276,9 +262,7 @@
             
             async setItem(key, value) {
                 try {
-                    const result = await localforage.setItem(key, value);
-                    console.log(`💾 保存到 IndexedDB: ${key}`, value);
-                    return result;
+                    return await localforage.setItem(key, value);
                 } catch (error) {
                     console.error('Storage setItem error:', error);
                     return false;
@@ -287,9 +271,7 @@
             
             async removeItem(key) {
                 try {
-                    const result = await localforage.removeItem(key);
-                    console.log(`🗑️ 从 IndexedDB 删除: ${key}`);
-                    return result;
+                    return await localforage.removeItem(key);
                 } catch (error) {
                     console.error('Storage removeItem error:', error);
                     return false;
@@ -298,9 +280,7 @@
             
             async clear() {
                 try {
-                    const result = await localforage.clear();
-                    console.log('🧹 清空 IndexedDB 存储');
-                    return result;
+                    return await localforage.clear();
                 } catch (error) {
                     console.error('Storage clear error:', error);
                     return false;
@@ -747,41 +727,6 @@
 
 
 
-        // 测试存储功能
-        document.getElementById('testStorage')?.addEventListener('click', async () => {
-            try {
-                console.log('🧪 开始测试 IndexedDB 存储...');
-                
-                // 测试保存数据
-                await Storage.setItem('test_key', 'test_value');
-                await Storage.setItem('test_object', { name: 'GooseBox', version: '1.0' });
-                
-                // 测试读取数据
-                const value = await Storage.getItem('test_key');
-                const obj = await Storage.getItem('test_object');
-                
-                console.log('✅ 存储测试成功!');
-                console.log('读取的字符串值:', value);
-                console.log('读取的对象值:', obj);
-                
-                alert('IndexedDB 存储测试成功！请查看控制台输出。');
-            } catch (error) {
-                console.error('❌ 存储测试失败:', error);
-                alert('IndexedDB 存储测试失败！请查看控制台错误信息。');
-            }
-        });
-
-        document.getElementById('clearStorage')?.addEventListener('click', async () => {
-            try {
-                console.log('🧹 清空所有存储...');
-                await Storage.clear();
-                console.log('✅ 存储已清空');
-                alert('所有存储已清空！');
-            } catch (error) {
-                console.error('❌ 清空存储失败:', error);
-                alert('清空存储失败！请查看控制台错误信息。');
-            }
-        });
 
         document.getElementById('claimTokens')?.addEventListener('click', async () => {
             try {
