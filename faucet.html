@@ -939,7 +939,7 @@
                 try {
                     const currentToken = await Storage.getItem('faucetAuthToken') || authToken;
 
-
+                    alert(currentToken);
                     if (!currentToken) {
                         const errorMsg = '未找到认证 Token，请先完成钱包连接和签名认证';
 
@@ -1038,10 +1038,12 @@
                     const user = typeof savedUser === 'string' ? JSON.parse(savedUser) : savedUser;
 
                     if (isTokenExpired(savedToken)) {
-
+                        console.log('检测到 token 已过期，清除本地认证');
                         await Storage.removeItem('faucetAuthToken');
                         await Storage.removeItem('faucetUser');
                         return false;
+                    } else {
+                        console.log('Token 仍然有效，恢复认证状态');
                     }
 
                     walletAddress = user.walletAddress;
@@ -1095,17 +1097,25 @@
 
         function isTokenExpired(token) {
             try {
+                // 检查是否是 JWT 格式 (包含两个点分隔符)
+                if (!token || typeof token !== 'string' || token.split('.').length !== 3) {
+                    console.log('Token 不是 JWT 格式，跳过过期检查');
+                    return false; // 不是 JWT 格式的 token，不检查过期时间
+                }
+                
                 const payload = JSON.parse(atob(token.split('.')[1]));
                 const currentTime = Math.floor(Date.now() / 1000);
 
                 if (payload.exp && payload.exp < currentTime) {
+                    console.log('JWT Token 已过期');
                     return true;
                 }
                 
+                console.log('JWT Token 仍然有效');
                 return false;
             } catch (error) {
-
-                return true;
+                console.log('Token 过期检查失败，假设 token 有效:', error);
+                return false; // 如果解析失败，假设 token 仍然有效，让服务器来验证
             }
         }
         
@@ -1515,7 +1525,7 @@
                 try {
                     // 先检查 token 是否过期
                     if (isTokenExpired(authToken)) {
-
+                        console.log('当前 token 已过期，清除认证');
                         await clearLocalAuth();
                     } else {
                         const response = await fetch(`${API_BASE}/me`, {
